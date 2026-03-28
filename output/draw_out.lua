@@ -12,18 +12,22 @@ function _draw()
 	elseif menu==2 then
 		
 		camera(p.x-60,p.y-60)
+
 		
 		map(0,0,0,0,8,8)
 
+		
 		p:draw()
 
 		
 		for enemy in all(enemies) do 
 			enemy:draw(enemy)
 		end
+
 		
 		camera()
 
+		
 		if end_screen then
 			rectfill(40,40,100,100,5)
 			print("end!", 60, 50, 0)
@@ -31,6 +35,7 @@ function _draw()
 			print(menu_pre(2).."back to title")
 		end
 
+		
 		local secs = time
 		local mins = flr(time / 60)
 		local nice_secs = time % 60
@@ -38,9 +43,7 @@ function _draw()
 		print("player health: "..plyr.h)
 
 		
-		plyr:draw()
 	end
-
 
 	
 	if counters.trans_cnt != -1 then
@@ -60,6 +63,7 @@ function _draw()
 		i+=1
 	end
 end
+
 
 function menu_pre(idx)
 	return menu_idx==idx and "\f7\#0" or "\f0"

@@ -1,5 +1,4 @@
 
-
 enemy = class:new({
     x = -1,
     y = -1,
@@ -8,6 +7,17 @@ enemy = class:new({
     clr = 12, 
     name = "enemy",
     projs = {},
+
+    update_projs=function(self)
+        for p in all(self.projs) do
+            p:update(self)
+        end
+	end,
+	draw_projs=function(_ENV)
+        for p in all(projs) do
+            p:draw()
+        end
+    end,
 
     
     update=function (_ENV)
