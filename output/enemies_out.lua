@@ -1,5 +1,20 @@
 
-enemy = {
+global = _ENV
+
+class = setmetatable({
+    
+    new=function (_ENV, tbl)
+        tbl = tbl or {} 
+        setmetatable(tbl, {
+            __index=_ENV
+        })
+        return tbl
+    end,
+}, {__index=_ENV})
+
+
+
+enemy = class:new({
     x = 64,
     y = 64,
     spd = 1, 
@@ -9,35 +24,34 @@ enemy = {
     
 
     
-    new=function (self, tbl)
-        tbl = tbl or {} 
-        setmetatable(tbl, {
-            __index=self
-        })
-        return tbl
-    end,
-
-    update=function (self)
+    update=function (_ENV)
         
-        self.x = (self.x - self.rad > 127) and 0 or (self.x + self.spd)
-        self.y = (self.y - self.rad > 127) and 0 or (self.y + self.spd)
+        x = (x - rad > 127) and 0 or (x + spd)
+        y = (y - rad > 127) and 0 or (y + spd)
     end,
 
-    draw= function (self)
+    draw= function (_ENV)
         circfill(
-            self.x,
-            self.y,
-            self.rad,
-            self.clr
+            x,
+            y,
+            rad,
+            clr
         )
     end
-}
+})
+
+
 
 beer = enemy:new({
     x=40,
     spd = 1,
     clr = 10,
     rad = 3,
+})
+
+gingerBeer = beer:new({
+    x = 70,
+    clr = 4
 })
 
 wine = enemy:new({

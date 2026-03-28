@@ -1,6 +1,6 @@
 function _init()
     -- all enemies
-    enemies={enemy, beer, wine}
+    enemies={enemy, beer, wine, gingerBeer}
 	global_cnt = 0
 
 	-- See README for counter 
