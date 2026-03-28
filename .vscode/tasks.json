@@ -11,6 +11,7 @@
                 "update.lua", "update_out.lua",
                 "draw.lua", "draw_out.lua",
                 "player.lua", "player_out.lua",
+                "collisions.lua", "collisions_out.lua"
             ],
             "group": {
                 "kind": "build",
