@@ -37,5 +37,6 @@ function init_game()
 	items = {}
 	projs = {}
 	-- Add a new item to roster
+
 	add(items, create_item(0))
 end

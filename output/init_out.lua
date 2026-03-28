@@ -16,8 +16,11 @@ function _init()
 	
 	menu = 1
 
+	control_menu = true
+
 	
 	menu_idx = 1
+
 
 	end_screen = false
 
@@ -29,9 +32,11 @@ function _init()
 end
 
 function init_game()
+	control_menu = false
 	p = create_player()
 	items = {}
 	projs = {}
 	
+
 	add(items, create_item(0))
 end
