@@ -18,6 +18,10 @@ function _init()
 	
 	menu_idx = 1
 
+	
+	menu = 2
+	init_game()
+
 end
 
 function init_game()

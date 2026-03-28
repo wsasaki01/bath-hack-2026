@@ -18,6 +18,10 @@ function _init()
 	-- Main menu selected option index
 	menu_idx = 1
 
+	-- DEBUG: Launch to game
+	menu = 2
+	init_game()
+
 end
 
 function init_game()

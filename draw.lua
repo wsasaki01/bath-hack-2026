@@ -21,4 +21,8 @@ function _draw()
 		local x = (30-counters.trans_cnt)/30 * 256
 		rectfill(x-128, 0, x, 128, 0)
 	end
+
+	-- DEBUG: CPU and Mem usage
+	print("\#0cpu "..tostr(flr(stat(1)*100)).."%",1,1,7)
+	print("\#0mem "..tostr(stat(0)/1024).."MB")
 end
