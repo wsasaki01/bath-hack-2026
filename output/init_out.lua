@@ -1,4 +1,6 @@
 function _init()
+
+	printh("hello")
 	global_cnt = 0
 
 	
