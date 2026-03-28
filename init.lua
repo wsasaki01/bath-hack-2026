@@ -1,5 +1,8 @@
 function _init()
 	printh("**********************")
+	poke(0x5f2e,1)
+	pal({[0]=7,6,0,-4,15,4,-12,-16,14,8,-8,-15,-9,-6,-5,-13},1)
+
 
 	-- Global counter, increments every frame
 	global_cnt = 0
@@ -21,6 +24,14 @@ function _init()
 	-- Is the player currently controlling the menu?
 	control_menu = true
 
+	-- Random people data for title screen
+	people = {}
+	for i=1,30 do
+		add(people, {x=rnd(100)-15,y=70+rnd(15),r=8+rnd(6)})
+	end
+
+	vape = {}
+
 	-- Main menu selected option index
 	menu_idx = 1
 	menu_idx_min = 1	-- Minimum and maximum indices
@@ -29,11 +40,11 @@ function _init()
 	-- Is the "end" screen being shown on top of gameplay?
 	end_screen = false
 
-	--[[]]
+	--[[
 	-- DEBUG: Launch to game
 	menu = 2
 	init_game()
-
+	]]
 end
 
 function init_game()

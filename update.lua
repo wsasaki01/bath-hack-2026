@@ -30,6 +30,24 @@ function _update()
 
 	-- Title Screen
 	if menu==1 then
+		-- Generate vape clouds at intervals
+		if global_cnt % 150 == 0 then
+			local main_x=rnd(75)
+			for i=1,4 do
+				add(vape, {
+					x=main_x+rnd(10), y=100+rnd(10), a=10+rnd(2),
+					r=5+rnd(5), cnt=0
+				})
+			end
+		end
+
+		for v in all(vape) do
+			v.x += 0.5
+			v.a *= 0.86
+			v.y -= v.a+rnd(0.2)
+			v.cnt += 1
+			if (v.x>150) del(vape, v)
+		end
 	-- Game
 	elseif menu==2 then
 		-- Game end screen
