@@ -16,7 +16,7 @@ function _update()
 		end
 
 		if btnp(4) then
-			if (menu_idx==1) menu=2
+			if (menu_idx==1) menu=2 
 		end
 	end
 end

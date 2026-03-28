@@ -3,10 +3,12 @@ function _init()
 
 	-- See README for counter 
     counters = {}
-    cname = split"trans_cnt,complete_cnt,tutorial_cnt,parallax_cnt,puzzle_intro_cnt,wave_cnt"
+    cname = split"trans_cnt"
     for c in all(cname) do
         counters[c] = -1
     end
+
+	trans = 0
 
 	-- Which part of the game are you in?
 	-- 1(main menu) 2(game)
