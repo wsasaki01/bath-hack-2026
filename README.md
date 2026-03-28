@@ -28,3 +28,4 @@ This means there are some steps you need to follow to create new organisation `.
 4. Add this line to `bh26.p8`.
     1. `#include ./output/new_out.lua`
 
+Do NOT do any art, SFX or music in `fake.p8` - all of this should be in `bh26.p8.`
