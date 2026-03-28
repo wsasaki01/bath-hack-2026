@@ -1,22 +1,17 @@
-function create_player()
-	return {
-		x=0,y=0,
-		move = function(self)
-			if btn(0) then
-				self.x -= 1
-			end
-			if btn(1) then
-				self.x += 1
-			end
-			if btn(2) then
-				self.y -= 1
-			end
-			if btn(3) then
-				self.y += 1
-			end
-		end,
-		draw = function(self)
-			spr(1, self.x, self.y)
-		end
-	}
-end
+-- player class
+playerClass = class:new({
+	x = 64,
+	y = 64,
+	h = 100,
+	clr = 11,
+	draw= function (_ENV)
+        circfill(
+            x,
+            y,
+            1,
+            clr
+        )
+    end
+})
+
+plyr = playerClass:new({})
