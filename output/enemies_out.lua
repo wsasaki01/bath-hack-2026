@@ -4,9 +4,18 @@ enemy = {
     y = 64,
     spd = 1, 
     rad = 2, 
-    clr = 4, 
+    clr = 12, 
     
     
+
+    
+    new=function (self, tbl)
+        tbl = tbl or {} 
+        setmetatable(tbl, {
+            __index=self
+        })
+        return tbl
+    end,
 
     update=function (self)
         
@@ -24,8 +33,15 @@ enemy = {
     end
 }
 
-enemy2 = {
-    x=32,
-    clr = 10, 
-}
-setmetatable(enemy2, {__index=enemy})
+beer = enemy:new({
+    x=40,
+    spd = 1,
+    clr = 10,
+    rad = 3,
+})
+
+wine = enemy:new({
+    x = 20,
+    spd = 3,
+    clr = 2,
+})

@@ -4,9 +4,18 @@ enemy = {
     y = 64,
     spd = 1, -- speed
     rad = 2, -- circle radius
-    clr = 4, -- colour
+    clr = 12, -- colour
     -- todo
     -- type (beer vs cocktail)
+
+    -- constructor for enemy class
+    new=function (self, tbl)
+        tbl = tbl or {} -- incase the table is empty
+        setmetatable(tbl, {
+            __index=self
+        })
+        return tbl
+    end,
 
     update=function (self)
         -- if offscreen, reset positions, else add speed
@@ -24,8 +33,15 @@ enemy = {
     end
 }
 
-enemy2 = {
-    x=32,
-    clr = 10, -- colour
-}
-setmetatable(enemy2, {__index=enemy})
+beer = enemy:new({
+    x=40,
+    spd = 1,
+    clr = 10,
+    rad = 3,
+})
+
+wine = enemy:new({
+    x = 20,
+    spd = 3,
+    clr = 2,
+})
