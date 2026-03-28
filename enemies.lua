@@ -12,24 +12,27 @@ enemy = class:new({
         -- comparing enemy position to current player position
         local px = global.plyr.x
         local py = global.plyr.y
-        
         local dx = px - x 
         local dy = py - y 
 
         -- calculate eucliean distance
         local d = sqrt((dx*dx), (dy*dy))
+
         -- normalise distance vectors
         dx /= d
         dy /= d
         
         printh("class " ..tostr(name).. " x: "..x.. " y: "..y.." || dx: "..dx.." dy: "..dy)
 
-        -- if offscreen, reset positions, else add speed
+        -- move by 1 unit
         x += dx * spd
         y += dy * spd
         
+        -- if enemy at player position, health decreases
+        -- replace w goated collisions later
         if x == px or y == py then global.plyr.h -= 10 end
-
+        
+        -- if offscreen, reset positions
         if x > 127 or x < 0 then
             x = global.maxD + flr(rnd(128))
         end

@@ -1,4 +1,4 @@
--- player class
+-- player class placeholder - can replace
 playerClass = class:new({
 	x = 64,
 	y = 64,
