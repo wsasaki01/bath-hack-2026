@@ -41,10 +41,10 @@ function init_game()
 
 	enemies = {}
 	add(enemies, {
-		x=60,y=60, projs={},
+		x=60,y=60,col_r=6,projs={},
 		update_projs=function(self)
 			for p in all(self.projs) do
-				p:update(self.x+4, self.y+4)
+				p:update(self)
 			end
 		end,
 		draw_projs=function(self)

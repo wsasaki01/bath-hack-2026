@@ -66,3 +66,10 @@ end
 function collide(x1,y1,w1,h1,x2,y2,w2,h2)
  return abs(x2+w2/2-x1-w1/2)<=w1/2+w2/2 and abs(y2+h2/2-y1-h1/2)<=h1/2+h2/2
 end
+
+function collide_2(a, b)
+	printh(((a.x - b.x)^2 + (a.y - b.y)^2).." <= "..a.col_r + b.col_r)
+    
+    return ((a.x - b.x)^2 + (a.y - b.y)^2) <= a.col_r + b.col_r
+    
+end

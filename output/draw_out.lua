@@ -19,7 +19,7 @@ function _draw()
 		p:draw()
 
 		for e in all(enemies) do
-			spr(2, e.x, e.y)
+			spr(2, e.x-4, e.y-4)
 			e:draw_projs()
 		end
 

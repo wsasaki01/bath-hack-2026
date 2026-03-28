@@ -8,14 +8,16 @@ function create_proj(x, y, type)
 	
 	if type==0 then
 		proj = {
-			x=x, y=y,
+			x=x, y=y, col_r=6,
 			draw = function(self)
 				circfill(self.x, self.y, self.size, 0)
 			end,
-			update = function(self, tx, ty)
-				dir = atan2(tx-self.x, ty-self.y)
+			update = function(self, parent_enemy)
+				dir = atan2(parent_enemy.x-self.x, parent_enemy.y-self.y)
 				self.x += cos(dir)
 				self.y += sin(dir)
+
+				if (collide_2(self, parent_enemy)) del(parent_enemy.projs, self)
 
 				
 			end,
@@ -38,7 +40,9 @@ item_parent = {
 					near_e = e
 				end
 			end
-			add(near_e.projs, create_proj(p.x, p.y, self.type))
+			if near_e != 0 then
+				add(near_e.projs, create_proj(p.x, p.y, self.type))
+			end
 		end
 	end
 }

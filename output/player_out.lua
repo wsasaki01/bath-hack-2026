@@ -17,7 +17,7 @@ function create_player()
 			end
 		end,
 		draw = function(self)
-			spr(1, self.x, self.y)
+			spr(1, self.x-4, self.y-4)
 		end
 	}
 end
