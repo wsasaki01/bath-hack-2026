@@ -10,15 +10,8 @@ function enemies_setup()
         x = -1,
         y = -1,
         collide_r = 2,  -- circle radius for projectiles
-        
-        aabb = {
-            {x, y, 1},         -- top left, colour
-            {x + 8, y, 1},     -- top right
-            {x, y + 8, 1},     -- bottom left
-            {x + 8, y + 8, 1}, -- bottom right
-        },
 
-        dmg = 10,   -- strength of attack
+        dmg = 1,   -- strength of attack
         spd = 20,    -- speed
 
         projs = {}, -- projectiles currently moving towards enemy
@@ -48,26 +41,16 @@ function enemies_setup()
             x += cos(d) * spd
             y += sin(d) * spd
             
-            -- if enemy at player position, health decreases
-            -- replace w goated collisions later
-            if x == px or y == py then 
-                global.plyr:losehp(dmg)
+            -- check for player collision
+            if global.collide_3(x, y, collide_r, px, py, collide_r) then
+                return dmg
             end
-            
-            -- if offscreen, reset positions
-            if x > 127 or x < 0 then
-                x = global.maxD + flr(rnd(128))
-            end
-            if y > 127 or y < 0 then
-                y = global.maxD + flr(rnd(128))
-            end
+            return 0
         end,
 
         draw = function(_ENV)
             spr(sprt, x-4, y-4)
-
-            -- drawing bounding box boundaries
-            pset(x,y)
+            circ(x, y, collide_r, 14)
         end
     })
 
@@ -76,7 +59,6 @@ function enemies_setup()
     beer = enemy:new({
         spd = 0.5,
         clr = 10,
-        rad = 3,
         name = "beer"
     })
 
