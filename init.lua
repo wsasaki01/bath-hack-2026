@@ -52,7 +52,7 @@ function init_game()
 	types = {wine, beer, ginger_beer}
 
 	-- Spawn (for now) 2 enemies
-	for i=1,2 do 
+	for i=1,1 do 
 		e_type = 1 + flr(rnd(3))
 
 		-- enemies start close to any corner of the screen

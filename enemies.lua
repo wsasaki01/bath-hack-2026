@@ -5,7 +5,7 @@ function enemies_setup()
     enemy = class:new({
         x = -1,
         y = -1,
-        spd = 1,        -- speed
+        spd = 20,        -- speed
         collide_r = 2,  -- circle radius
         clr = 12,       -- colour
         name = "enemy",
@@ -28,21 +28,13 @@ function enemies_setup()
             -- comparing enemy position to current player position
             local px = global.plyr.x
             local py = global.plyr.y
-            local dx = px - x 
-            local dy = py - y 
 
-            -- calculate eucliean distance
-            local d = sqrt((dx^2), (dy^2))
-
-            -- normalise distance vectors
-            dx /= d
-            dy /= d
+            -- find direction to player
+            local d = atan2(px - x , py - y)
             
-            --printh("class " ..tostr(name).. " x: "..x.. " y: "..y.." || dx: "..dx.." dy: "..dy)
-
             -- move by 1 unit
-            x += dx * spd
-            y += dy * spd
+            x += cos(d) * spd
+            y += sin(d) * spd
             
             -- if enemy at player position, health decreases
             -- replace w goated collisions later

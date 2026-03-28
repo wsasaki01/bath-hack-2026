@@ -10,17 +10,18 @@ function create_proj(start_x, start_y, type)
 	if type==0 then
 		return proj_parent:new({
 			x=start_x, y=start_y, collide_r=6,
+			speed=1, dir=0,
 			draw = function(_ENV)
 				--circfill(x, y, size, 0)
 				spr(17, x, y)
 			end,
 			update = function(self, parent_enemy)
 				-- Get direction to parent
-				dir = atan2(parent_enemy.x-self.x, parent_enemy.y-self.y)
+				self.dir = atan2(parent_enemy.x-self.x, parent_enemy.y-self.y)
 
 				-- Move in that direction
-				self.x += cos(dir)
-				self.y += sin(dir)
+				self.x += cos(self.dir) * self.speed
+				self.y += sin(self.dir) * self.speed
 
 				-- Destroy self if colliding with enemy
 				-- TODO: decrease parent's health
