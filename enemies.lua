@@ -1,3 +1,4 @@
+-- TODO: projectiles base class
 -- enemy base class object
 enemy = class:new({
     x = -1,
@@ -6,6 +7,7 @@ enemy = class:new({
     rad = 2, -- circle radius
     clr = 12, -- colour
     name = "enemy",
+    projs = {},
 
     -- move towards player x, y 
     update=function (_ENV)

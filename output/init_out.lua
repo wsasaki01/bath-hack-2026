@@ -1,6 +1,6 @@
 function _init()
     
-	enemies = {}
+	enemiesSpr = {}
 	types = {wine, beer, gingerBeer}
 
 	for i=1,2 do 
@@ -14,7 +14,7 @@ function _init()
 		printh("eX: "..eX)
 		printh("eY: "..eY)
 
-		add(enemies, types[eType]:new{
+		add(enemiesSpr, types[eType]:new{
 			x = eX,
 			y = eY,
 		})

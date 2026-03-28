@@ -12,7 +12,7 @@ function _draw()
 
 		
 		-- testing enemy colour
-		for enemy in all(enemies) do 
+		for enemy in all(enemiesSpr) do 
 			enemy:draw(enemy)
 		end
 		plyr:draw()

@@ -1,4 +1,5 @@
 
+
 enemy = class:new({
     x = -1,
     y = -1,
@@ -6,18 +7,19 @@ enemy = class:new({
     rad = 2, 
     clr = 12, 
     name = "enemy",
+    projs = {},
 
     
     update=function (_ENV)
         
         local px = global.plyr.x
         local py = global.plyr.y
-        
         local dx = px - x 
         local dy = py - y 
 
         
         local d = sqrt((dx*dx), (dy*dy))
+
         
         dx /= d
         dy /= d
@@ -28,8 +30,11 @@ enemy = class:new({
         x += dx * spd
         y += dy * spd
         
+        
+        
         if x == px or y == py then global.plyr.h -= 10 end
-
+        
+        
         if x > 127 or x < 0 then
             x = global.maxD + flr(rnd(128))
         end
