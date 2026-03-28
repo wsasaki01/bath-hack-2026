@@ -1,4 +1,5 @@
 function _init()
+	printh("**********************")
 	global_cnt = 0
 
 	
@@ -18,6 +19,7 @@ function _init()
 	
 	menu_idx = 1
 
+	--[[]]
 	
 	menu = 2
 	init_game()
@@ -25,6 +27,9 @@ function _init()
 end
 
 function init_game()
+	p = create_player()
+	items = {}
+	add(items, create_item(0))
 	projs = {}
-	add(projs, create_proj(10, 50, 0))
+	
 end

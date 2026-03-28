@@ -25,10 +25,16 @@ function _update()
 		end
 	
 	elseif menu==2 then
+		for i in all(items) do
+			i:cooldown()
+		end
+
 		
 		for pr in all(projs) do
 			pr:update()
 		end
+
+		p:move()
 	end
 
 	

@@ -11,10 +11,20 @@ function _draw()
 	
 	elseif menu==2 then
 		
+		camera(p.x-60,p.y-60)
+
+		
+		map(0,0,0,0,8,8)
+
+		
 		for pr in all(projs) do
 			pr:draw()
 		end
+
+		p:draw()
 	end
+
+	camera()
 
 	
 	if counters.trans_cnt != -1 then
@@ -25,4 +35,5 @@ function _draw()
 	
 	print("\#0cpu "..tostr(flr(stat(1)*100)).."%",1,1,7)
 	print("\#0mem "..tostr(stat(0)/1024).."MB")
+	print("\#0"..tostr(#projs).." projs")
 end

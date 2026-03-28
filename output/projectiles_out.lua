@@ -17,10 +17,24 @@ function create_proj(x, y, type)
 				if (self.x > 128) self.x = 0
 
 				
-				
 			end,
 		}
 	end
 
 	return setmetatable(proj, {__index=proj_parent})
+end
+
+item_parent = {
+	
+	n = 60, type=0,
+	cooldown = function(self)
+		if (global_cnt % self.n == 0) add(projs, create_proj(p.x, p.y, self.type))
+	end
+}
+
+function create_item(type)
+	local item = {t=0}
+	if (type == 0) item.n = 60
+
+	return setmetatable(item, {__index=item_parent})
 end

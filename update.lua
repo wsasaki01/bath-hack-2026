@@ -25,10 +25,16 @@ function _update()
 		end
 	-- Game
 	elseif menu==2 then
+		for i in all(items) do
+			i:cooldown()
+		end
+
 		-- Projectile processing
 		for pr in all(projs) do
 			pr:update()
 		end
+
+		p:move()
 	end
 
 	-- Change to different menu modes in the middle of transitions (15th frame out of 30)

@@ -10,11 +10,21 @@ function _draw()
 
 	-- Game
 	elseif menu==2 then
+		-- Centre camera on player
+		camera(p.x-60,p.y-60)
+
+		-- Draw map
+		map(0,0,0,0,8,8)
+
 		-- Projectile drawing
 		for pr in all(projs) do
 			pr:draw()
 		end
+
+		p:draw()
 	end
+
+	camera()
 
 	-- Menu transition
 	if counters.trans_cnt != -1 then
