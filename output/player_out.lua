@@ -1,6 +1,7 @@
 function create_player()
 	return {
-		x=0,y=0,
+		x=50,y=50,
+		
 		move = function(self)
 			if btn(0) then
 				self.x -= 1
