@@ -14,6 +14,9 @@ function create_player()
 			if btn(3) then
 				self.y += 1
 			end
+		end,
+		draw = function(self)
+			spr(1, self.x, self.y)
 		end
 	}
 end
