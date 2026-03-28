@@ -1,4 +1,6 @@
 function _init()
+    
+    enemies={enemy, enemy2}
 	global_cnt = 0
 
 	
