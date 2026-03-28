@@ -6,5 +6,9 @@ function _update()
 		elseif btnp(3) and menu_idx != 2 then
 			menu_idx += 1
 		end
+
+		if btnp(4) then
+			if (menu_idx==1) menu=2
+		end
 	end
 end

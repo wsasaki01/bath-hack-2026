@@ -29,3 +29,14 @@ This means there are some steps you need to follow to create new organisation `.
     1. `#include ./output/new_out.lua`
 
 Do NOT do any art, SFX or music in `fake.p8` - all of this should be in `bh26.p8.`
+
+## Counters
+
+Counters will automatically start decrementing when they're set to anything other than `-1` - use them for anything that requires timing.
+
+- Create a new counter by adding to the comma-separated list in `init.lua` called `cname`.
+- Use them later with `counters.my_counter_name`.
+    - Set to any value other than `-1` to start the counter.
+    - It will decrement on every frame.
+    - Can be used for animations, anything that requires a delay, etc.
+
