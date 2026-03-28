@@ -19,3 +19,8 @@ function _init()
 	menu_idx = 1
 
 end
+
+function init_game()
+	projs = {}
+	add(projs, create_proj(10, 50, 0))
+end

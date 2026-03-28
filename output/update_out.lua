@@ -23,12 +23,18 @@ function _update()
 				if (menu_idx==1) counters.trans_cnt = 30
 			end
 		end
+	
+	elseif menu==2 then
+		
+		for pr in all(projs) do
+			pr:update()
+		end
 	end
 
 	
 	
 	if counters.trans_cnt == 15 then
 		
-		if (menu==1) menu=2
+		if (menu==1) menu=2 init_game()
 	end
 end

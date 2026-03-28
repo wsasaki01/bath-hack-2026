@@ -1,0 +1,26 @@
+-- Parent class
+proj_parent = {
+	size=10,
+}
+
+function create_proj(x, y, type)
+	local proj = {}
+	if type == 0 then
+		proj = {
+			x=x, y=y,
+			draw = function(self)
+				circfill(self.x, self.y, self.size, 0)
+			end,
+			update = function(self)
+				self.x += 1
+				-- Loop around the screen
+				if (self.x > 128) self.x = 0
+
+				-- Cause damage on collision
+				
+			end,
+		}
+	end
+
+	return setmetatable(proj, {__index=proj_parent})
+end

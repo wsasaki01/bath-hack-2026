@@ -23,12 +23,23 @@ function _update()
 				if (menu_idx==1) counters.trans_cnt = 30
 			end
 		end
+	-- Game
+	elseif menu==2 then
+		-- Projectile processing
+		for pr in all(projs) do
+			pr:update()
+		end
 	end
 
 	-- Change to different menu modes in the middle of transitions (15th frame out of 30)
 	-- (when screen is fully covered by transition)
 	if counters.trans_cnt == 15 then
 		-- Main menu -> gameplay
-		if (menu==1) menu=2
+		if (menu==1) menu=2 init_game()
 	end
+end
+
+-- check collision between two rectangles
+function collide(x1,y1,w1,h1,x2,y2,w2,h2)
+ return abs(x2+w2/2-x1-w1/2)<=w1/2+w2/2 and abs(y2+h2/2-y1-h1/2)<=h1/2+h2/2
 end

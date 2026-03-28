@@ -5,6 +5,7 @@ __lua__
 #include ./output/update_out.lua
 #include ./output/draw_out.lua
 #include ./output/player_out.lua
+#include ./output/projectiles_out.lua
 
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
