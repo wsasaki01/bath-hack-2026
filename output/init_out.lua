@@ -1,3 +1,7 @@
 function _init()
-	p = create_player()
+	
+	
+	menu = 1
+	menu_idx = 1
+	
 end
