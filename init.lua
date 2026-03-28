@@ -16,8 +16,13 @@ function _init()
 	-- 1(main menu) 2(game)
 	menu = 1
 
+	control_menu = true
+
 	-- Main menu selected option index
 	menu_idx = 1
+
+
+	end_screen = false
 
 	--[[]]
 	-- DEBUG: Launch to game
@@ -27,6 +32,7 @@ function _init()
 end
 
 function init_game()
+	control_menu = false
 	p = create_player()
 	items = {}
 	projs = {}

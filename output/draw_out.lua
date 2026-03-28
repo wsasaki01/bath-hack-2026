@@ -25,6 +25,14 @@ function _draw()
 
 		
 		camera()
+
+		if end_screen then
+			rectfill(40,40,100,100,5)
+			print("end!", 40, 40)
+			print("replay")
+			print("back to title")
+		end
+
 		local secs = time
 		local mins = flr(time / 60)
 		local nice_secs = time % 60

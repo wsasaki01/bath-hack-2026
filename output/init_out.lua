@@ -19,6 +19,8 @@ function _init()
 	
 	menu_idx = 1
 
+	end_screen = false
+
 	--[[]]
 	
 	menu = 2

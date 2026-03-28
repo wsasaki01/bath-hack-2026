@@ -9,8 +9,7 @@ function _update()
 
 	block = counters.trans_cnt != -1
 
-	-- Title Screen
-	if menu==1 then
+	if control_menu and not block then
 		if not block then
 			-- Moving "cursor"
 			if btnp(2) and menu_idx != 1 then
@@ -23,20 +22,34 @@ function _update()
 				if (menu_idx==1) counters.trans_cnt = 30
 			end
 		end
+	end
+
+	-- Title Screen
+	if menu==1 then
 	-- Game
 	elseif menu==2 then
-		time = flr(t())
+		if end_screen then
+			q=1
+		else
+			time = flr(t())
 
-		for i in all(items) do
-			i:cooldown()
+			-- Stop game after time is up
+			if time > 2 then
+				end_screen = true
+				menu_idx = 0
+			end
+
+			for i in all(items) do
+				i:cooldown()
+			end
+
+			-- Projectile processing
+			for pr in all(projs) do
+				pr:update()
+			end
+
+			p:move()
 		end
-
-		-- Projectile processing
-		for pr in all(projs) do
-			pr:update()
-		end
-
-		p:move()
 	end
 
 	-- Change to different menu modes in the middle of transitions (15th frame out of 30)
