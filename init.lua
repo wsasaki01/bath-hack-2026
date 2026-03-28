@@ -1,8 +1,26 @@
 function _init()
 	printh("**********************")
 
-	-- all enemies
-	enemies={enemy, beer, wine, gingerBeer}
+    -- all enemies
+	enemies = {}
+	types = {wine, beer, gingerBeer}
+
+	for i=1,2 do 
+		eType = 1 + flr(rnd(3))
+
+		-- enemies start close to any corner of the screen
+		-- maximum distance = how far from corners of screen
+		maxD = 20 
+		eX = maxD + flr(rnd(128))
+		eY = maxD + flr(rnd(128))
+		printh("eX: "..eX)
+		printh("eY: "..eY)
+
+		add(enemies, types[eType]:new{
+			x = eX,
+			y = eY,
+		})
+	end
 
 	-- Global counter, increments every frame
 	global_cnt = 0
@@ -48,7 +66,7 @@ function init_game()
 	menu_idx_max = 2
 
 	-- Create player
-	p = create_player()
+	p = playerClass:new()
 
 	-- Setup enemies
 	-- TODO: Needs to be updated with dt's stuff
@@ -56,16 +74,7 @@ function init_game()
 	add(enemies, {
 		x=60,y=60,collide_r=6,
 		projs={},
-		update_projs=function(self)
-			for p in all(self.projs) do
-				p:update(self)
-			end
-		end,
-		draw_projs=function(self)
-			for p in all(self.projs) do
-				p:draw()
-			end
-		end
+		
 	})
 
 	-- Add a new item to roster

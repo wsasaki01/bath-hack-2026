@@ -1,5 +1,5 @@
 function _update()
-	for enemy in all(enemies) do
+	for enemy in all(enemiesSpr) do
         enemy:update()
     end
 	

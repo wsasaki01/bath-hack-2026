@@ -12,17 +12,15 @@ function _draw()
 	elseif menu==2 then
 		
 		camera(p.x-60,p.y-60)
-
 		
 		map(0,0,0,0,8,8)
 
 		p:draw()
 
-		for e in all(enemies) do
-			spr(2, e.x-4, e.y-4)
-			e:draw_projs()
+		
+		for enemy in all(enemies) do 
+			enemy:draw(enemy)
 		end
-
 		
 		camera()
 
@@ -37,11 +35,10 @@ function _draw()
 		local mins = flr(time / 60)
 		local nice_secs = time % 60
 		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,0,7)
+		print("player health: "..plyr.h)
+
 		
-		
-		for enemy in all(enemies) do 
-			enemy:draw()
-		end
+		plyr:draw()
 	end
 
 

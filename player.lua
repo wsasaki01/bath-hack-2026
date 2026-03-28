@@ -1,8 +1,10 @@
-function create_player()
-	return {
-		x=50,y=50,
-		-- TODO: diagonal shit
-		move = function(self)
+-- TODO: diagonal shit
+playerClass = class:new({
+	x = 64,
+	y = 64,
+	h = 100,
+	clr = 11,
+	move = function(self)
 			if btn(0) then
 				self.x -= 1
 			end
@@ -16,8 +18,9 @@ function create_player()
 				self.y += 1
 			end
 		end,
-		draw = function(self)
-			spr(1, self.x-4, self.y-4)
-		end
-	}
-end
+	draw= function (_ENV)
+        spr(1, self.x-4, self.y-4)
+    end
+})
+
+plyr = playerClass:new({})
