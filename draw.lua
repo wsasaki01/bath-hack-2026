@@ -16,8 +16,10 @@ function _draw()
 		-- Draw map
 		map(0,0,0,0,8,8)
 
+		-- Draw player
 		p:draw()
 
+		-- Draw enemies and their projectiles
 		for e in all(enemies) do
 			spr(2, e.x-4, e.y-4)
 			e:draw_projs()
@@ -26,6 +28,7 @@ function _draw()
 		-- Reset camera (draw all UI after this)
 		camera()
 
+		-- End screen
 		if end_screen then
 			rectfill(40,40,100,100,5)
 			print("end!", 60, 50, 0)
@@ -33,12 +36,12 @@ function _draw()
 			print(menu_pre(2).."back to title")
 		end
 
+		-- Timer
 		local secs = time
 		local mins = flr(time / 60)
 		local nice_secs = time % 60
 		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,0,7)
 	end
-
 
 	-- Menu transition
 	if counters.trans_cnt != -1 then
@@ -59,6 +62,7 @@ function _draw()
 	end
 end
 
+-- Control code prefix for selected menu item
 function menu_pre(idx)
 	return menu_idx==idx and "\f7\#0" or "\f0"
 end
