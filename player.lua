@@ -4,22 +4,22 @@ playerClass = class:new({
 	y = 64,
 	h = 100,
 	clr = 11,
-	move = function(self)
+	move = function(_ENV)
 			if btn(0) then
-				self.x -= 1
+				x -= 1
 			end
 			if btn(1) then
-				self.x += 1
+				x += 1
 			end
 			if btn(2) then
-				self.y -= 1
+				y -= 1
 			end
 			if btn(3) then
-				self.y += 1
+				y += 1
 			end
 		end,
 	draw= function (_ENV)
-        spr(1, self.x-4, self.y-4)
+        spr(1, x-4, y-4)
     end
 })
 

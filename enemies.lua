@@ -5,9 +5,9 @@ function enemies_setup()
     enemy = class:new({
         x = -1,
         y = -1,
-        spd = 1, -- speed
-        rad = 2, -- circle radius
-        clr = 12, -- colour
+        spd = 1,        -- speed
+        collide_r = 2,  -- circle radius
+        clr = 12,       -- colour
         name = "enemy",
         projs = {},
 
@@ -38,7 +38,7 @@ function enemies_setup()
             dx /= d
             dy /= d
             
-            printh("class " ..tostr(name).. " x: "..x.. " y: "..y.." || dx: "..dx.." dy: "..dy)
+            --printh("class " ..tostr(name).. " x: "..x.. " y: "..y.." || dx: "..dx.." dy: "..dy)
 
             -- move by 1 unit
             x += dx * spd
