@@ -36,9 +36,12 @@ function _update()
 		if end_screen then
 			-- Placeholder
 			q=1
-
 		-- Normal gameplay
-		else
+		elseif not pause then
+			if btnp(5) then
+				plyr.xp += 10
+			end
+
 			-- Record current time
 			time = flr(t())
 
@@ -62,6 +65,7 @@ function _update()
 
 			-- Player movement
 			plyr:move()
+			plyr:score_update()
 		end
 	end
 

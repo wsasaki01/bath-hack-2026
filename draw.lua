@@ -1,6 +1,6 @@
 function _draw()
 	-- Draw background
-	cls(7)
+	cls(0)
 	
 	-- Title Screen
 	if menu==1 then
@@ -28,8 +28,17 @@ function _draw()
 		-- Reset camera (draw all UI after this)
 		camera()
 
+		rectfill(0,120,128,128,6)	-- Main XP bar
+		rectfill(107,109,128,128)	-- Level background
+		print("LEVEL",108,109,1)
+		print("\^t\^w"..(plyr.level<10 and "0" or "")..plyr.level,111,116)
+		rectfill(1,121,106,126,7)	-- Collected XP
+		rectfill(1,121,1+105*plyr.xp/100,126,12)	-- Collected XP
+
+		if selecting_item then
+			rectfill(10,10,118,118)
 		-- End screen
-		if end_screen then
+		elseif end_screen then
 			rectfill(40,40,100,100,5)
 			print("end!", 60, 50, 0)
 			print(menu_pre(1).."replay", 45, 60)
@@ -56,6 +65,7 @@ function _draw()
 	debugs = {
 		"cpu "..tostr(flr(stat(1)*100)).."%",
 		"mem "..tostr(stat(0)/1024).."MB",
+		tostr(pause)
 	}
 
 	local i=0

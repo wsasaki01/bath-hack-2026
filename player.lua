@@ -4,6 +4,19 @@ playerClass = class:new({
 	h = 100,
 	clr = 11,
 	dir = 0,
+	xp = 0,
+	level = 1,
+	score_update = function(_ENV)
+		if xp>9 then
+			level += 1
+			xp = level % 100
+			global.selecting_item = true
+			global.pause = true
+			global.control_menu = true
+			global.menu_idx_min = 1
+			global.menu_idx_max = 3
+		end
+	end,
 	move = function(_ENV)
 		local hor,ver=0,0
 		if btn(0) then hor -= 1 end

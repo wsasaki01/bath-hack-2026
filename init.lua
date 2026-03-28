@@ -1,5 +1,8 @@
 function _init()
 	printh("**********************")
+	
+	poke(0x5f2e,1)
+	pal({[0]=7,6,0,-4,15,4,-12,-16,14,8,-8,-15,-9,-6,-5,-13},1)
 
 	-- Global counter, increments every frame
 	global_cnt = 0
@@ -68,8 +71,15 @@ function init_game()
 			y = eY,
 		})
 	end
+	enemies = {}
 
 	-- Add a new item to roster
 	items = {}
 	add(items, create_item(1))
+
+	-- Selecting an item on level up
+	selecting_item = false
+
+	-- Pause while selecting item
+	pause = false
 end

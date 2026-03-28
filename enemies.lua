@@ -10,6 +10,7 @@ function enemies_setup()
         clr = 12,       -- colour
         name = "enemy",
         projs = {},
+        reward = 10,
 
         update_projs = function(self)
             for p in all(self.projs) do
