@@ -19,10 +19,9 @@ function _draw()
 		-- Draw player
 		p:draw()
 
-		-- Draw enemies and their projectiles
-		for e in all(enemies) do
-			spr(2, e.x-4, e.y-4)
-			e:draw_projs()
+		-- testing enemy colour
+		for enemy in all(enemies) do 
+			enemy:draw(enemy)
 		end
 
 		-- Reset camera (draw all UI after this)
@@ -41,6 +40,9 @@ function _draw()
 		local mins = flr(time / 60)
 		local nice_secs = time % 60
 		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,0,7)
+		print("player health: "..plyr.h)
+
+		
 	end
 
 	-- Menu transition

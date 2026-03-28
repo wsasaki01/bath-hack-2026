@@ -1,7 +1,28 @@
 function _init()
 	printh("**********************")
+
     
-  enemies={enemy, beer, wine, gingerBeer}
+	enemies = {}
+	types = {wine, beer, gingerBeer}
+
+	for i=1,2 do 
+		eType = 1 + flr(rnd(3))
+
+		
+		
+		maxD = 20 
+		eX = maxD + flr(rnd(128))
+		eY = maxD + flr(rnd(128))
+		printh("eX: "..eX)
+		printh("eY: "..eY)
+
+		add(enemies, types[eType]:new{
+			x = eX,
+			y = eY,
+		})
+	end
+
+	
 	global_cnt = 0
 
 	
@@ -18,13 +39,15 @@ function _init()
 	
 	menu = 1
 
+	
 	control_menu = true
 
 	
 	menu_idx = 1
-	menu_idx_min = 1
-	menu_idx_max = 2
+	menu_idx_min = 1	
+	menu_idx_max = 2	
 
+	
 	end_screen = false
 
 	--[[]]
@@ -35,25 +58,23 @@ function _init()
 end
 
 function init_game()
+	
 	control_menu = false
+
+	
 	menu_idx_min = 1
 	menu_idx_max = 2
 
-	p = create_player()
+	
+	p = playerClass:new()
 
+	
+	
 	enemies = {}
 	add(enemies, {
-		x=60,y=60,col_r=6,projs={},
-		update_projs=function(self)
-			for p in all(self.projs) do
-				p:update(self)
-			end
-		end,
-		draw_projs=function(self)
-			for p in all(self.projs) do
-				p:draw()
-			end
-		end
+		x=60,y=60,collide_r=6,
+		projs={},
+		
 	})
 
 	

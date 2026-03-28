@@ -1,33 +1,56 @@
 
-global = _ENV
-
-class = setmetatable({
-    
-    new=function (_ENV, tbl)
-        tbl = tbl or {} 
-        setmetatable(tbl, {
-            __index=_ENV
-        })
-        return tbl
-    end,
-}, {__index=_ENV})
-
-
-
 enemy = class:new({
-    x = 64,
-    y = 64,
+    x = -1,
+    y = -1,
     spd = 1, 
     rad = 2, 
     clr = 12, 
-    
-    
+    name = "enemy",
+    projs = {},
+
+    update_projs=function(self)
+        for p in all(self.projs) do
+            p:update(self)
+        end
+	end,
+	draw_projs=function(_ENV)
+        for p in all(projs) do
+            p:draw()
+        end
+    end,
 
     
     update=function (_ENV)
         
-        x = (x - rad > 127) and 0 or (x + spd)
-        y = (y - rad > 127) and 0 or (y + spd)
+        local px = global.plyr.x
+        local py = global.plyr.y
+        local dx = px - x 
+        local dy = py - y 
+
+        
+        local d = sqrt((dx*dx), (dy*dy))
+
+        
+        dx /= d
+        dy /= d
+        
+        printh("class " ..tostr(name).. " x: "..x.. " y: "..y.." || dx: "..dx.." dy: "..dy)
+
+        
+        x += dx * spd
+        y += dy * spd
+        
+        
+        
+        if x == px or y == py then global.plyr.h -= 10 end
+        
+        
+        if x > 127 or x < 0 then
+            x = global.maxD + flr(rnd(128))
+        end
+        if y > 127 or y < 0 then
+            y = global.maxD + flr(rnd(128))
+        end
     end,
 
     draw= function (_ENV)
@@ -43,19 +66,19 @@ enemy = class:new({
 
 
 beer = enemy:new({
-    x=40,
-    spd = 1,
+    spd = 0.5,
     clr = 10,
     rad = 3,
+    name = "beer"
 })
 
 gingerBeer = beer:new({
-    x = 70,
-    clr = 4
+    clr = 4,
+    name = "ginger beer"
 })
 
 wine = enemy:new({
-    x = 20,
-    spd = 3,
+    spd = 0.25,
     clr = 2,
+    name = "wine"
 })

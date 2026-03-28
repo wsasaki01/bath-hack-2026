@@ -16,16 +16,18 @@ function _draw()
 		
 		map(0,0,0,0,8,8)
 
+		
 		p:draw()
 
-		for e in all(enemies) do
-			spr(2, e.x-4, e.y-4)
-			e:draw_projs()
+		
+		for enemy in all(enemies) do 
+			enemy:draw(enemy)
 		end
 
 		
 		camera()
 
+		
 		if end_screen then
 			rectfill(40,40,100,100,5)
 			print("end!", 60, 50, 0)
@@ -33,17 +35,15 @@ function _draw()
 			print(menu_pre(2).."back to title")
 		end
 
+		
 		local secs = time
 		local mins = flr(time / 60)
 		local nice_secs = time % 60
 		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,0,7)
-		
-		
-		for enemy in all(enemies) do 
-			enemy:draw()
-		end
-	end
+		print("player health: "..plyr.h)
 
+		
+	end
 
 	
 	if counters.trans_cnt != -1 then
@@ -63,6 +63,7 @@ function _draw()
 		i+=1
 	end
 end
+
 
 function menu_pre(idx)
 	return menu_idx==idx and "\f7\#0" or "\f0"

@@ -1,7 +1,10 @@
 function _update()
+	
+	
 	for enemy in all(enemies) do
         enemy:update()
     end
+	
 	
 	global_cnt += 1
 	if (global_cnt > 30000) global_cnt = 0
@@ -11,20 +14,23 @@ function _update()
         if (counters[n]!= -1) counters[n]-=1
     end
 
+	
 	block = counters.trans_cnt != -1
 
+	
 	if control_menu and not block then
-		if not block then
-			
-			if btnp(2) and menu_idx != menu_idx_min then
-				menu_idx -= 1
-			elseif btnp(3) and menu_idx != menu_idx_max then
-				menu_idx += 1
-			end
+		
+		if btnp(2) and menu_idx != menu_idx_min then
+			menu_idx -= 1
+		elseif btnp(3) and menu_idx != menu_idx_max then
+			menu_idx += 1
+		end
 
-			if btnp(4) then 
-				counters.trans_cnt = 30
-			end
+		
+		if btnp(4) then
+			
+			
+			counters.trans_cnt = 30
 		end
 	end
 
@@ -32,26 +38,34 @@ function _update()
 	if menu==1 then
 	
 	elseif menu==2 then
+		
 		if end_screen then
+			
 			q=1
+
+		
 		else
+			
 			time = flr(t())
 
 			
 			if time > 300 then
-				end_screen = true
-				control_menu = true
-				menu_idx = 1
+				end_screen = true		
+				control_menu = true		
+				menu_idx = 1			
 			end
 
+			
 			for i in all(items) do
 				i:cooldown()
 			end
 
+			
 			for e in all(enemies) do
 				e:update_projs()
 			end
 
+			
 			p:move()
 		end
 	end
@@ -67,13 +81,7 @@ function _update()
 end
 
 
-function collide(x1,y1,w1,h1,x2,y2,w2,h2)
- return abs(x2+w2/2-x1-w1/2)<=w1/2+w2/2 and abs(y2+h2/2-y1-h1/2)<=h1/2+h2/2
-end
 
 function collide_2(a, b)
-	printh(((a.x - b.x)^2 + (a.y - b.y)^2).." <= "..a.col_r + b.col_r)
-    
-    return ((a.x - b.x)^2 + (a.y - b.y)^2) <= a.col_r + b.col_r
-    
+    return ((a.x - b.x)^2 + (a.y - b.y)^2) <= a.collide_r + b.collide_r
 end
