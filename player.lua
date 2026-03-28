@@ -1,6 +1,7 @@
 function create_player()
 	return {
-		x=0,y=0,
+		x=50,y=50,
+		-- TODO: diagonal shit
 		move = function(self)
 			if btn(0) then
 				self.x -= 1
@@ -16,7 +17,7 @@ function create_player()
 			end
 		end,
 		draw = function(self)
-			spr(1, self.x, self.y)
+			spr(1, self.x-4, self.y-4)
 		end
 	}
 end

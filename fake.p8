@@ -6,6 +6,7 @@ __lua__
 #include draw.lua
 #include helpers.lua
 #include player.lua
+#include projectiles.lua
 #include enemies.lua
 
 __gfx__
