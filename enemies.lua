@@ -3,13 +3,25 @@ function enemies_setup()
 
     -- enemy base class object
     enemy = class:new({
+        name = "enemy",
+        clr = 12,   -- colour
+        sprt = 10,  -- sprite index
+
         x = -1,
         y = -1,
-        spd = 1,        -- speed
-        collide_r = 2,  -- circle radius
-        clr = 12,       -- colour
-        name = "enemy",
-        projs = {},
+        collide_r = 2,  -- circle radius for projectiles
+        
+        aabb = {
+            {x, y, 1},         -- top left, colour
+            {x + 8, y, 1},     -- top right
+            {x, y + 8, 1},     -- bottom left
+            {x + 8, y + 8, 1}, -- bottom right
+        },
+
+        dmg = 10,   -- strength of attack
+        spd = 1,    -- speed
+
+        projs = {}, -- projectiles currently moving towards enemy
 
         update_projs = function(self)
             for p in all(self.projs) do
@@ -46,7 +58,9 @@ function enemies_setup()
             
             -- if enemy at player position, health decreases
             -- replace w goated collisions later
-            if x == px or y == py then global.plyr.hp -= 10 end
+            if x == px or y == py then 
+                global.plyr:losehp(dmg)
+            end
             
             -- if offscreen, reset positions
             if x > 127 or x < 0 then
@@ -57,9 +71,11 @@ function enemies_setup()
             end
         end,
 
-        -- TODO: different draw for different enemies
         draw = function(_ENV)
-            spr(2, x-4, y-4)
+            spr(sprt, x-4, y-4)
+
+            -- drawing bounding box boundaries
+            pset(x,y)
         end
     })
 
