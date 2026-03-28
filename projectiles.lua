@@ -8,15 +8,13 @@ proj_parent = class:new({
 function create_proj(start_x, start_y, type, start_dir)
 	local proj = {}
 
-	if type==0 then
+	-- Types 0 and 1 are the same, but with slightly different direction management
+	if type<=1 then
 		proj = proj_parent:new({
 			x=start_x, y=start_y,
-			draw = function(_ENV)
-				spr(17, x, y)
-			end,
+			
 			update = function(self, parent_enemy)
-				-- Get direction to parent
-				self.dir = atan2(parent_enemy.x-self.x, parent_enemy.y-self.y)
+				self:update_dir(parent_enemy)
 
 				-- Move in that direction
 				self.x += cos(self.dir) * self.speed
@@ -26,39 +24,43 @@ function create_proj(start_x, start_y, type, start_dir)
 				-- TODO: decrease parent's health
 				if (collide_2(self, parent_enemy)) del(parent_enemy.projs, self)
 			end,
-		})
-	elseif type==1 then
-		proj = proj_parent:new({
-			dir=start_dir,
-			alive_cnt=0,
+
+			-- Get direction to parent
+			update_dir = function(self, parent_enemy)
+				self.dir = atan2(parent_enemy.x-self.x, parent_enemy.y-self.y)
+			end,
+
 			draw = function(_ENV)
 				spr(17, x, y)
 			end,
-			update = function(self, parent_enemy)
+		})
+	
+		if type==1 then
+			proj.dir = start_dir	-- Direction needs to change slowly over time
+			proj.alive_cnt = 0		-- New direction function only used for first 30 frames
+			proj.update_dir = function(self, parent_enemy)
 				self.alive_cnt += 1
-
-				-- Get direction to parent
 				local d = atan2(parent_enemy.x-self.x, parent_enemy.y-self.y)
 				if self.alive_cnt < 30 then
+					-- SLOWLY change direction towards enemy,
+					-- so bullets kinda fan out of player
 					local diff = d - self.dir
 					if diff < 0.5 then	self.dir += diff * 0.05
 					else				self.dir -= (1-diff) * 0.05
 					end
 				else
+					-- After 30 secs, change back to normal direction management
 					self.dir = d
 				end
+			end
 
-				-- Move in that direction
-				self.x += cos(self.dir) * self.speed
-				self.y += sin(self.dir) * self.speed
-
-				-- Destroy self if colliding with enemy
-				-- TODO: decrease parent's health
-				if (collide_2(self, parent_enemy)) del(parent_enemy.projs, self)
-			end,
-		})
+			proj.draw = function(_ENV)
+				spr(17, x, y)
+			end
+		end
 	end
 
+	-- All projectiles start from player character
 	proj.x=start_x
 	proj.y=start_y
 
@@ -89,7 +91,7 @@ item_parent = class:new({
 					add(proj_list, create_proj(px, py, 0))
 				elseif type==1 then
 					for i=-1,1 do
-						add(proj_list, create_proj(px, py, 1, global.plyr.dir+i*0.5))
+						add(proj_list, create_proj(px, py, 1, global.plyr.dir-0.5+i*0.45))
 					end
 				end
 
