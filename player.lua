@@ -1,4 +1,3 @@
--- TODO: diagonal shit
 playerClass = class:new({
 	x = 64,
 	y = 64,
@@ -33,42 +32,21 @@ playerClass = class:new({
 		end
 	end,
 
+	dir = 0,
 	move = function(_ENV)
-		local btns = 0
-		newx = x
-		newy = y
-	
-		if btn(0) then
-			btns += 1
-			newx -= 1
-		end
-		if btn(1) then
-			btns += 1
-			newx += 1
-		end
-		if btn(2) then
-			btns += 1
-			newy -= 1
-		end
-		if btn(3) then
-			btns += 1
-			newy += 1
-		end
+		local hor,ver=0,0
+		if btn(0) then hor -= 1 end
+		if btn(1) then hor += 1 end
+		if btn(2) then ver -= 1 end
+		if btn(3) then ver += 1 end
 
-		-- normalise diagonals
-		if btns >= 2 then
-			newx = newx * 0.7
-			newy = newy * 0.7
-		end
-
-		-- make player move
-		if btns > 0 then
-			x = flr(newx)
-			y = flr(newy)
+		dir=atan2(hor, ver)
+		if hor!=0 or ver!=0 then
+			x+=cos(dir)
+			y+=sin(dir)
 		end
 	end,
-
-	draw= function (_ENV)
+	draw = function (_ENV)
         spr(1, x-4, y-4)
     end
 })
