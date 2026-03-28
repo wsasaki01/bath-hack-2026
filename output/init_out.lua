@@ -20,7 +20,8 @@ function _init()
 
 	
 	menu_idx = 1
-
+	menu_idx_min = 1
+	menu_idx_max = 2
 
 	end_screen = false
 
@@ -33,6 +34,9 @@ end
 
 function init_game()
 	control_menu = false
+	menu_idx_min = 1
+	menu_idx_max = 2
+
 	p = create_player()
 	items = {}
 	projs = {}

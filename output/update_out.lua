@@ -12,14 +12,14 @@ function _update()
 	if control_menu and not block then
 		if not block then
 			
-			if btnp(2) and menu_idx != 1 then
+			if btnp(2) and menu_idx != menu_idx_min then
 				menu_idx -= 1
-			elseif btnp(3) and menu_idx != 2 then
+			elseif btnp(3) and menu_idx != menu_idx_max then
 				menu_idx += 1
 			end
 
 			if btnp(4) then 
-				if (menu_idx==1) counters.trans_cnt = 30
+				counters.trans_cnt = 30
 			end
 		end
 	end
@@ -33,13 +33,12 @@ function _update()
 		else
 			time = flr(t())
 
-			--[[
 			
-			if time > 2 then
+			if time > 0 then
 				end_screen = true
-				menu_idx = 0
+				control_menu = true
+				menu_idx = 1
 			end
-			]]
 
 			for i in all(items) do
 				i:cooldown()
@@ -59,6 +58,8 @@ function _update()
 	if counters.trans_cnt == 15 then
 		
 		if (menu==1) menu=2 init_game()
+		
+		if (menu==2) menu=1
 	end
 end
 
