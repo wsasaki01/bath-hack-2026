@@ -16,12 +16,12 @@ function _draw()
 		-- Draw map
 		map(0,0,0,0,8,8)
 
-		-- Projectile drawing
-		for pr in all(projs) do
-			pr:draw()
-		end
-
 		p:draw()
+
+		for e in all(enemies) do
+			spr(2, e.x, e.y)
+			e:draw_projs()
+		end
 
 		-- Reset camera (draw all UI after this)
 		camera()

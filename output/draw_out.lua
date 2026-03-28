@@ -16,12 +16,12 @@ function _draw()
 		
 		map(0,0,0,0,8,8)
 
-		
-		for pr in all(projs) do
-			pr:draw()
-		end
-
 		p:draw()
+
+		for e in all(enemies) do
+			spr(2, e.x, e.y)
+			e:draw_projs()
+		end
 
 		
 		camera()

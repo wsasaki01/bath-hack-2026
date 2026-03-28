@@ -34,7 +34,7 @@ function _update()
 			time = flr(t())
 
 			-- Stop game after time is up
-			if time > 0 then
+			if time > 300 then
 				end_screen = true
 				control_menu = true
 				menu_idx = 1
@@ -44,9 +44,8 @@ function _update()
 				i:cooldown()
 			end
 
-			-- Projectile processing
-			for pr in all(projs) do
-				pr:update()
+			for e in all(enemies) do
+				e:update_projs()
 			end
 
 			p:move()

@@ -38,9 +38,23 @@ function init_game()
 	menu_idx_max = 2
 
 	p = create_player()
-	items = {}
-	projs = {}
-	
 
+	enemies = {}
+	add(enemies, {
+		x=60,y=60, projs={},
+		update_projs=function(self)
+			for p in all(self.projs) do
+				p:update(self.x+4, self.y+4)
+			end
+		end,
+		draw_projs=function(self)
+			for p in all(self.projs) do
+				p:draw()
+			end
+		end
+	})
+
+	
+	items = {}
 	add(items, create_item(0))
 end
