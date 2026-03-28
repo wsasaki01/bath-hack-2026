@@ -16,7 +16,11 @@ function _update()
 		end
 
 		if btnp(4) then
-			if (menu_idx==1) menu=2 
+			if (menu_idx==1) counters.trans_cnt = 30
 		end
+	end
+
+	if counters.trans_cnt == 15 then
+		if (menu==1) menu=2
 	end
 end

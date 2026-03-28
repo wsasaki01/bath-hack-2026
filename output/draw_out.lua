@@ -10,4 +10,9 @@ function _draw()
 	elseif menu==2 then
 		print("gaming omg")
 	end
+
+	if counters.trans_cnt != -1 then
+		local x = (30-counters.trans_cnt)/30 * 256
+		rectfill(x-128, 0, x, 128, 0)
+	end
 end

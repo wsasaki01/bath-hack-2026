@@ -8,8 +8,6 @@ function _init()
         counters[c] = -1
     end
 
-	trans = 0
-
 	
 	
 	menu = 1
