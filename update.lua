@@ -1,6 +1,6 @@
 function _update()
 	global_cnt += 1
-	if (global_cnt > 36000) global_cnt = 0
+	if (global_cnt > 30000) global_cnt = 0
 
     -- Decrement all counters
     for n in all(cname) do
@@ -33,11 +33,13 @@ function _update()
 		else
 			time = flr(t())
 
+			--[[
 			-- Stop game after time is up
 			if time > 2 then
 				end_screen = true
 				menu_idx = 0
 			end
+			]]
 
 			for i in all(items) do
 				i:cooldown()
