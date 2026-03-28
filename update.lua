@@ -1,10 +1,4 @@
-function _update()
-	-- Update enemies
-	-- TODO: dt's stuff
-	for enemy in all(enemies) do
-        enemy:update()
-    end
-	
+function _update()	
 	-- Increment and reset global counter at limit
 	global_cnt += 1
 	if (global_cnt > 30000) global_cnt = 0
@@ -62,11 +56,12 @@ function _update()
 
 			-- Move all projectiles towards enemies
 			for e in all(enemies) do
-				e:update_projs()
+				e:update()			-- Move enemy and destroy if dead
+				e:update_projs()	-- Move all projectiles honed on this enemy
 			end
 
 			-- Player movement
-			p:move()
+			plyr:move()
 		end
 	end
 

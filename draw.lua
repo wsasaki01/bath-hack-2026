@@ -11,17 +11,18 @@ function _draw()
 	-- Game
 	elseif menu==2 then
 		-- Centre camera on player
-		camera(p.x-60,p.y-60)
+		camera(plyr.x-60,plyr.y-60)
 
 		-- Draw map
 		map(0,0,0,0,8,8)
 
 		-- Draw player
-		p:draw()
+		plyr:draw()
 
-		-- testing enemy colour
+		-- Drawing enemies
 		for enemy in all(enemies) do 
-			enemy:draw(enemy)
+			enemy:draw()		-- Draw enemies
+			enemy:draw_projs()	-- Draw projectiles honing in on that enemy
 		end
 
 		-- Reset camera (draw all UI after this)
