@@ -9,7 +9,7 @@ function create_proj(x, y, type)
 	
 	if type==0 then
 		proj = {
-			x=x, y=y, col_r=6,
+			x=x, y=y, collide_r=6,
 			draw = function(self)
 				circfill(self.x, self.y, self.size, 0)
 			end,
