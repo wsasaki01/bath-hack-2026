@@ -1,6 +1,6 @@
 
 proj_parent = {
-	size=10,
+	size=4,
 }
 
 function create_proj(x, y, type)

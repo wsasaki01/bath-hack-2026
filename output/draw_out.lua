@@ -33,7 +33,14 @@ function _draw()
 	end
 
 	
-	print("\#0cpu "..tostr(flr(stat(1)*100)).."%",1,1,7)
-	print("\#0mem "..tostr(stat(0)/1024).."MB")
-	print("\#0"..tostr(#projs).." projs")
+	debugs = {
+		"cpu "..tostr(flr(stat(1)*100)).."%",
+		"mem "..tostr(stat(0)/1024).."MB",
+	}
+
+	local i=0
+	for d in all(debugs) do
+		print("\#0"..d,1,1+i*6,7)
+		i+=1
+	end
 end

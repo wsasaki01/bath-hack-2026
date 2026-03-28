@@ -29,7 +29,7 @@ end
 function init_game()
 	p = create_player()
 	items = {}
-	add(items, create_item(0))
 	projs = {}
 	
+	add(items, create_item(0))
 end

@@ -29,7 +29,7 @@ end
 function init_game()
 	p = create_player()
 	items = {}
-	add(items, create_item(0))
 	projs = {}
-	--add(projs, create_proj(10, 50, 0))
+	-- Add a new item to roster
+	add(items, create_item(0))
 end
