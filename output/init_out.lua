@@ -1,5 +1,7 @@
 function _init()
 	printh("**********************")
+    
+  enemies={enemy, beer, wine, gingerBeer}
 	global_cnt = 0
 
 	

@@ -1,7 +1,7 @@
 function _draw()
 	
 	cls(7)
-
+	
 	
 	if menu==1 then
 		print("bh26 game !!!!\n", 20, 50, 0)
@@ -37,6 +37,11 @@ function _draw()
 		local mins = flr(time / 60)
 		local nice_secs = time % 60
 		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,0,7)
+		
+		
+		for enemy in all(enemies) do 
+			enemy:draw()
+		end
 	end
 
 

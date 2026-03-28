@@ -1,5 +1,7 @@
 function _init()
 	printh("**********************")
+  -- all enemies
+  enemies={enemy, beer, wine, gingerBeer}
 	global_cnt = 0
 
 	-- Block all inputs (used during transitions, etc.)

@@ -4,8 +4,10 @@ __lua__
 #include init.lua
 #include update.lua
 #include draw.lua
+#include helpers.lua
 #include player.lua
 #include projectiles.lua
+#include enemies.lua
 
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

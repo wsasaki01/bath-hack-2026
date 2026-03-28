@@ -1,4 +1,8 @@
 function _update()
+	for enemy in all(enemies) do
+        enemy:update()
+    end
+	
 	global_cnt += 1
 	if (global_cnt > 30000) global_cnt = 0
 

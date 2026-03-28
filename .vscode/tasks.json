@@ -12,6 +12,8 @@
                 "draw.lua", "draw_out.lua",
                 "player.lua", "player_out.lua",
                 "projectiles.lua", "projectiles_out.lua",
+                "enemies.lua", "enemies_out.lua",
+                "helpers.lua", "helpers_out.lua",
             ],
             "group": {
                 "kind": "build",

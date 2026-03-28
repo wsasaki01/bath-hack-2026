@@ -1,7 +1,7 @@
 function _draw()
 	-- Draw background
 	cls(7)
-
+	
 	-- Title Screen
 	if menu==1 then
 		print("bh26 game !!!!\n", 20, 50, 0)
