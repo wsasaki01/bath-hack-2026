@@ -2,8 +2,19 @@
 playerClass = class:new({
 	x = 64,
 	y = 64,
-	h = 100,
-	clr = 11,
+	clr = 11, -- colour of sprite
+
+	hp = 100,
+	xp = 0,
+
+	spd = 1, -- player movement speed
+	def = 1, -- how fast hp decreases
+	str = 1, -- raw dmg multiplier
+	luck = 1, -- i would love luck mechanics
+
+	atk = 10, -- raw dmg
+	atkspd = 1,
+
 	move = function(_ENV)
 			if btn(0) then
 				x -= 1

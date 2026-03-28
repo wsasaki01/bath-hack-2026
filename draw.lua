@@ -41,9 +41,10 @@ function _draw()
 		local mins = flr(time / 60)
 		local nice_secs = time % 60
 		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,0,7)
-		print("player health: "..plyr.h)
 
-		
+		-- debug display player health
+		print("player health: "..plyr.hp, 7, 120, 4)
+
 	end
 
 	-- Menu transition

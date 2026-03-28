@@ -46,7 +46,7 @@ function enemies_setup()
             
             -- if enemy at player position, health decreases
             -- replace w goated collisions later
-            if x == px or y == py then global.plyr.h -= 10 end
+            if x == px or y == py then global.plyr.hp -= 10 end
             
             -- if offscreen, reset positions
             if x > 127 or x < 0 then
