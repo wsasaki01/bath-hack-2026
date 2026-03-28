@@ -5,8 +5,8 @@ function _draw()
 	
 	if menu==1 then
 		print("bh26 game !!!!\n", 20, 50, 0)
-		print((menu_idx==1 and "\f7\#0" or "").."start game", 20, 60, 0)
-		print((menu_idx==2 and "\f7\#0" or "").."second thing idk", 20, 70, 0)
+		print(menu_pre(1).."start game", 20, 60)
+		print(menu_pre(2).."second thing idk", 20, 70)
 
 	
 	elseif menu==2 then
@@ -16,21 +16,21 @@ function _draw()
 		
 		map(0,0,0,0,8,8)
 
-		
-		for pr in all(projs) do
-			pr:draw()
-		end
-
 		p:draw()
+
+		for e in all(enemies) do
+			spr(2, e.x-4, e.y-4)
+			e:draw_projs()
+		end
 
 		
 		camera()
 
 		if end_screen then
 			rectfill(40,40,100,100,5)
-			print("end!", 40, 40)
-			print("replay")
-			print("back to title")
+			print("end!", 60, 50, 0)
+			print(menu_pre(1).."replay", 45, 60)
+			print(menu_pre(2).."back to title")
 		end
 
 		local secs = time
@@ -57,4 +57,8 @@ function _draw()
 		print("\#0"..d,1,1+i*6,7)
 		i+=1
 	end
+end
+
+function menu_pre(idx)
+	return menu_idx==idx and "\f7\#0" or "\f0"
 end

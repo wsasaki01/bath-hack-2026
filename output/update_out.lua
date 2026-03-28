@@ -12,14 +12,14 @@ function _update()
 	if control_menu and not block then
 		if not block then
 			
-			if btnp(2) and menu_idx != 1 then
+			if btnp(2) and menu_idx != menu_idx_min then
 				menu_idx -= 1
-			elseif btnp(3) and menu_idx != 2 then
+			elseif btnp(3) and menu_idx != menu_idx_max then
 				menu_idx += 1
 			end
 
 			if btnp(4) then 
-				if (menu_idx==1) counters.trans_cnt = 30
+				counters.trans_cnt = 30
 			end
 		end
 	end
@@ -33,21 +33,19 @@ function _update()
 		else
 			time = flr(t())
 
-			--[[
 			
-			if time > 2 then
+			if time > 300 then
 				end_screen = true
-				menu_idx = 0
+				control_menu = true
+				menu_idx = 1
 			end
-			]]
 
 			for i in all(items) do
 				i:cooldown()
 			end
 
-			
-			for pr in all(projs) do
-				pr:update()
+			for e in all(enemies) do
+				e:update_projs()
 			end
 
 			p:move()
@@ -59,10 +57,19 @@ function _update()
 	if counters.trans_cnt == 15 then
 		
 		if (menu==1) menu=2 init_game()
+		
+		if (menu==2) menu=1
 	end
 end
 
 
 function collide(x1,y1,w1,h1,x2,y2,w2,h2)
  return abs(x2+w2/2-x1-w1/2)<=w1/2+w2/2 and abs(y2+h2/2-y1-h1/2)<=h1/2+h2/2
+end
+
+function collide_2(a, b)
+	printh(((a.x - b.x)^2 + (a.y - b.y)^2).." <= "..a.col_r + b.col_r)
+    
+    return ((a.x - b.x)^2 + (a.y - b.y)^2) <= a.col_r + b.col_r
+    
 end

@@ -20,7 +20,8 @@ function _init()
 
 	
 	menu_idx = 1
-
+	menu_idx_min = 1
+	menu_idx_max = 2
 
 	end_screen = false
 
@@ -33,10 +34,27 @@ end
 
 function init_game()
 	control_menu = false
-	p = create_player()
-	items = {}
-	projs = {}
-	
+	menu_idx_min = 1
+	menu_idx_max = 2
 
+	p = create_player()
+
+	enemies = {}
+	add(enemies, {
+		x=60,y=60,col_r=6,projs={},
+		update_projs=function(self)
+			for p in all(self.projs) do
+				p:update(self)
+			end
+		end,
+		draw_projs=function(self)
+			for p in all(self.projs) do
+				p:draw()
+			end
+		end
+	})
+
+	
+	items = {}
 	add(items, create_item(0))
 end
