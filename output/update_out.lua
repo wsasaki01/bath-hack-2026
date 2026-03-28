@@ -25,6 +25,8 @@ function _update()
 		end
 	
 	elseif menu==2 then
+		time = flr(t())
+
 		for i in all(items) do
 			i:cooldown()
 		end

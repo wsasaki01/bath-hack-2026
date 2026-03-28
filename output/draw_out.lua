@@ -22,9 +22,15 @@ function _draw()
 		end
 
 		p:draw()
+
+		
+		camera()
+		local secs = time
+		local mins = flr(time / 60)
+		local nice_secs = time % 60
+		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,0,7)
 	end
 
-	camera()
 
 	
 	if counters.trans_cnt != -1 then
