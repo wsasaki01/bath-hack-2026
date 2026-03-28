@@ -1,11 +1,6 @@
 function _draw()
 	-- Draw background
-	cls()
-
-	-- testing enemy colour
-	for enemy in all(enemies) do 
-		enemy:draw()
-	end
+	cls(7)
 	
 	-- Title Screen
 	if menu==1 then
@@ -14,5 +9,10 @@ function _draw()
 		print((menu_idx==2 and "\f7\#0" or "").."second thing idk", 20, 70, 0)
 	elseif menu==2 then
 		print("gaming omg")
+		
+		-- testing enemy colour
+		for enemy in all(enemies) do 
+			enemy:draw()
+		end
 	end
 end
