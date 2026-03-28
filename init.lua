@@ -71,5 +71,5 @@ function init_game()
 
 	-- Add a new item to roster
 	items = {}
-	add(items, create_item(0))
+	add(items, create_item(1))
 end
