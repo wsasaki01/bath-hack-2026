@@ -1,6 +1,6 @@
 function _init()
     
-    enemies={enemy, enemy2}
+    enemies={enemy, beer, wine, gingerBeer}
 	global_cnt = 0
 
 	
