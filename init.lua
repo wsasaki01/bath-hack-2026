@@ -1,6 +1,9 @@
 function _init()
 	global_cnt = 0
 
+	-- Block all inputs (used during transitions, etc.)
+	block = false
+
 	-- See README for counter 
     counters = {}
     cname = split"trans_cnt"

@@ -2,6 +2,9 @@ function _init()
 	global_cnt = 0
 
 	
+	block = false
+
+	
     counters = {}
     cname = split"trans_cnt"
     for c in all(cname) do
