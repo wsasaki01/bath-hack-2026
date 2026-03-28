@@ -2,6 +2,7 @@ playerClass = class:new({
 	x = 64,
 	y = 64,
 	clr = 11, -- colour of sprite
+	dir = 0,
 	
 	aabb = {
 		{x, y, 1},         -- top left, colour
@@ -22,17 +23,6 @@ playerClass = class:new({
 	atk = 10, -- raw dmg
 	atkspd = 1,
 
-	losehp = function(self, dmg)
-		if self.iframe < 0 then
-			-- lose health based on base defense stat
-			self.hp -= (dmg * def)
-			self.iframe = 3 
-		else
-			self.iframe -= 1
-		end
-	end,
-
-	dir = 0,
 	move = function(_ENV)
 		local hor,ver=0,0
 		if btn(0) then hor -= 1 end
@@ -46,9 +36,21 @@ playerClass = class:new({
 			y+=sin(dir)
 		end
 	end,
+
 	draw = function (_ENV)
         spr(1, x-4, y-4)
-    end
+    end,
+
+	losehp = function(self, dmg)
+		-- called when enemy overlaps with player
+		if self.iframe < 0 then
+			-- lose health based on base defense stat
+			self.hp -= (dmg * def)
+			self.iframe = 3 
+		else
+			self.iframe -= 1
+		end
+	end,
 })
 
 plyr = playerClass:new({})
