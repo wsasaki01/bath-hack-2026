@@ -340,18 +340,23 @@ proj_manager = class:new({
 				local proj_list = {}
 
 				if self.id==1 then
+					sfx(7)
 					add(proj_list, create_proj(px, py, 1))
 				elseif self.id==2 then
 					for i=-1,1 do
+						sfx(7)
 						add(proj_list, create_proj(px, py, 2, global.plyr.dir-0.5+i*0.45))
 					end
 				elseif self.id==6 then
 					for i=-1,0 do
+						sfx(7)
 						add(proj_list, create_proj(px, py, 6, global.plyr.dir-0.5+i*0.45))
 					end
 				elseif self.id==7 then
+					sfx(7)
 					add(proj_list, create_proj(px, py, 7))
 				elseif self.id==8 then
+					sfx(7)
 					add(proj_list, create_proj(px, py, 8))
 				end
 
@@ -385,7 +390,6 @@ end
 
 -- Create an item (either projectile or screen type)
 function create_item(type, id)
-	sfx(7)
 
 	if type=="proj" then
 		local item = proj_manager:new({id=id, data=item_data[id]})
@@ -397,6 +401,7 @@ function create_item(type, id)
 		return item 
 
 	elseif type=="screen" then
+		sfx(7)
 		local item = screen_manager:new({id=id, data=item_data[id]})
 		if id == 3 then
 			i = create_screen(3)

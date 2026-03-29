@@ -68,6 +68,7 @@ end
 
 function init_game()
 	music(0)
+	end_screen=false
 
 	-- Disable menu
 	control_menu = false
@@ -79,6 +80,7 @@ function init_game()
 	time = 0
 
 	-- Create player
+	player_setup()
 	plyr = plyr2:new()
 
 	-- Setup enemies
@@ -88,8 +90,8 @@ function init_game()
 
 	-- Add a new item to roster
 	items = {}
-	add(items, create_item("proj", 8))
-	item_data[8].equipped = true
+	add(items, create_item("proj", 1))
+	item_data[1].equipped = true
 
 	screen_list = {}	-- Screen effects
 	screen_damage_mtrx = {}
@@ -100,7 +102,7 @@ function init_game()
 		end
 		add(screen_damage_mtrx, row)
 	end
-	add(items, create_item("screen", 9))
+	--add(items, create_item("screen", 9))
 
 	-- Selecting an item on level up
 	selecting_item = false

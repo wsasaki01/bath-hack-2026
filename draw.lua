@@ -115,7 +115,7 @@ function _draw()
 		if (ic<335) print(sub(top_line2,0,335-ic),13,20,2)
 
 		if (ic<295) sspr(8,8,8,8,65,54,16,16)
-		if (ic==260) sh_str=0.5
+		if (ic==260) sh_str=0.5 sfx(6) 
 		if (ic<260) shake(0,0) print("exam",83,60,9)
 
 		if ic<210 then
@@ -196,16 +196,16 @@ function _draw()
 		-- End screen
 		elseif end_screen then
 			rectfill(40,40,100,100,5)
-			print("end!", 60, 50, 0)
-			print(menu_pre(1).."replay", 45, 60)
-			print(menu_pre(2).."back to title")
+			print("yOU SURVIVED!", 42, 45, 0)
+			print(""..plyr.xp.."XP")
+			print("🅾️back to\ntitle",45,70)
 		end
 
 		-- Timer
 		local secs = time
 		local mins = flr(time / 60)
 		local nice_secs = time % 60
-		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,0,7)
+		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,3,7)
 
 		-- DEBUG: screen damage matrix
 		--[[
