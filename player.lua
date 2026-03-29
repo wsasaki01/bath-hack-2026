@@ -7,8 +7,8 @@ end
 
 function player_setup()
 	playerClass = class:new({
-		x = 64,
-		y = 64,
+		x = 127,
+		y = 127,
 		clrs = {},
 
 		collide_r = 8,
@@ -31,7 +31,7 @@ function player_setup()
 		hp = 100,
 		iframe = -1, -- frames invincible from dmg
 
-		spd = 1, -- player movement speed (should be > enemy speed)
+		spd = 1.7, -- player movement speed (should be > enemy speed)
 		def = 1, -- how fast hp decreases
 		str = 1, -- raw dmg multiplier
 		luck = 1, -- i would love luck mechanics
