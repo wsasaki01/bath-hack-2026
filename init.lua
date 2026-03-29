@@ -52,11 +52,13 @@ function init_game()
 
 	-- Setup enemies
 	enemies_setup()
-	enemy_limit = 5
+	enemy_limit = 15
 	enemy_respawn_gap = 20
 
 	-- Add a new item to roster
 	items = {}
+	add(items, create_item(1))
+	item_data[1].equipped = true
 
 	-- Selecting an item on level up
 	selecting_item = false

@@ -20,10 +20,13 @@ function create_proj(start_x, start_y, type, start_dir)
 				self.x += cos(self.dir) * self.speed
 				self.y += sin(self.dir) * self.speed
 
+				printh(cos(self.dir) * self.speed)
+				printh(sin(self.dir) * self.speed)
+
 				-- Destroy self if colliding with enemy
 				-- TODO: decrease parent's health
 				if collide_2(self, parent_enemy) then
-					parent_enemy.health -= self.damage
+					--parent_enemy.health -= self.damage
 					del(parent_enemy.projs, self)
 				end
 			end,
@@ -38,6 +41,7 @@ function create_proj(start_x, start_y, type, start_dir)
 			end,
 		})
 	
+		-- TODO: figure out why type 1 projectile is so broken
 		if type==2 then
 			proj.dir = start_dir	-- Direction needs to change slowly over time
 			proj.alive_cnt = 0		-- New direction function only used for first 30 frames
@@ -78,16 +82,17 @@ item_parent = class:new({
 			local near_d = 10000
 			for e in all(global.enemies) do
 				-- Find enemy which is closest
-				local dist = sqrt((px-e.x)^2, (py-e.y)^2)
+				local dist = sqrt((px-e.x)^2 + (py-e.y)^2)
 				if dist < near_d then
 					near_e = e
+					near_d = dist
 				end
 			end
 			if near_e != 0 then
 				local proj_list = {}
 
 				if type==1 then
-					add(proj_list, create_proj(px, py, 0))
+					add(proj_list, create_proj(px, py, 1))
 				elseif type==2 then
 					for i=-1,1 do
 						add(proj_list, create_proj(px, py, 2, global.plyr.dir-0.5+i*0.45))

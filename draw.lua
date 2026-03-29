@@ -77,7 +77,7 @@ function _draw()
 	end
 
 	-- DEBUG: CPU and Mem usage
-	--[[
+	--[[]]
 	debugs = {
 		"cpu "..tostr(flr(stat(1)*100)).."%",
 		"mem "..tostr(stat(0)/1024).."MB",
@@ -88,7 +88,7 @@ function _draw()
 		print("\#0"..d,1,1+i*6,7)
 		i+=1
 	end
-	]]
+	
 end
 
 -- Control code prefix for selected menu item

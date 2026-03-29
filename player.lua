@@ -7,7 +7,7 @@ playerClass = class:new({
 	xp = 0,
 	level = 1,
 	score_update = function(_ENV)
-		if xp>9 then
+		if xp>100 then
 			level += 1
 			xp = level % 100
 			global.selecting_item = true
