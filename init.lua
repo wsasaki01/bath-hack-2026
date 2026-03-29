@@ -64,7 +64,6 @@ function _init()
 	menu = 2
 	counters.intro_cnt = 5
 	]]
-
 end
 
 function init_game()
@@ -78,6 +77,7 @@ function init_game()
 	time = 0
 
 	-- Create player
+	player_setup()
 	plyr = plyr2:new()
 
 	-- Setup enemies

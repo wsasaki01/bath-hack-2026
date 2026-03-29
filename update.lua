@@ -31,17 +31,17 @@ function _update()
 		-- Selecting options
 		if btnp(4) then
 			-- Level up menu
-			if menu==2 then
+			if menu==3 then
 				local item_id=random_items[menu_idx].id
 				add(items, create_item(item_id))
 				item_data[item_id].equipped = true
-				global.selecting_item = false
-				global.pause = false
-				global.control_menu = false
+				selecting_item = false
+				pause = false
+				control_menu = false
 			else
 				-- Begin transition
 				counters.trans = 30
-      end
+      		end
 		end
 	end
 
@@ -81,7 +81,8 @@ function _update()
 		end
 	-- Intro cutscene
 	elseif menu==2 then
-		if (counters.intro_cnt==1) counters.trans_cnt=30
+		if (counters.intro > 300) counters.intro=5
+		if (counters.intro==1) counters.trans=30
 	-- Game
 	elseif menu==3 then
 		-- Game end screen
@@ -165,6 +166,8 @@ end
 
 function collide_3(x1, y1, r1, x2, y2, r2)
     return ((x1 - x2)^2 + (y1 - y2)^2) <= (r1 + r2)
+end
+
 function tend(x,t,r)
     local o = x+(t-x)*r
     return abs(t-o)<1 and t or o
