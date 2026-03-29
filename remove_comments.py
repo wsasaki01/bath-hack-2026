@@ -4,7 +4,7 @@ import os, shutil
 
 
 def remove_comments(file_path, output_path):
-    with open(file_path, "r", encoding="utf-8") as file:
+    with open(file_path, "r") as file:
         code = file.read()
 
     # Regex to remove single-line and multi-line comments
@@ -22,7 +22,7 @@ def remove_comments(file_path, output_path):
     # .* matches the rest of the line after --, up to end of line
     no_comments = re.sub(r"(?<!\[)--[^\[].*", "", no_comments)
 
-    with open(output_path, "w", encoding="utf-8") as output_file:
+    with open(output_path, "w") as output_file:
         output_file.write(no_comments)
 
 
