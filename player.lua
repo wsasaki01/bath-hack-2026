@@ -13,9 +13,9 @@ playerClass = class:new({
 	dir = 0,
 		
 	anims = {
-		{36, 38, 36, 40}, -- walk up
-		{0, 32, 0, 34}, -- walk down
-		{42, 44, 42, 46}, -- walk sideways (flip for left / right)
+		{036, 038, 036, 040}, -- walk up
+		{000, 032, 000, 034}, -- walk down
+		{042, 044, 042, 046}, -- walk sideways (flip for left / right)
 	},
 
 	idle = true,
@@ -45,7 +45,7 @@ playerClass = class:new({
 	update = function(_ENV)
 		if iframe >= 0 then iframe -= 1 end
 		if not idle and tick <= 0 then 
-			anim_frame = (anim_frame + 1) % 3 
+			anim_frame = anim_frame < 4 and anim_frame + 1 or 1
 			tick = 4 -- 4 frames until next animation is seen
 		else
 			tick -= 1
@@ -82,7 +82,6 @@ playerClass = class:new({
 			a = anims[anim_i]
         	spr(a[anim_frame], x-8, y-8, 2, 2) -- drawing so bounding box is centred
 		end
-		circ(x, y, collide_r, 8)
     end,
 })
 
