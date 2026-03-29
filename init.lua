@@ -14,10 +14,8 @@ function _init()
 	block = false
 
 	-- See README for counter info
-    counters = {
-		"anim_timer"
-	}
-    cname = split"trans_cnt"
+    counters = {}
+    cname = split"trans,enemy_respawn"
     for c in all(cname) do
         counters[c] = -1
     end
@@ -57,27 +55,46 @@ function init_game()
 
 	-- Setup enemies
 	enemies_setup()
-	types = {wine, beer, ginger_beer}
-
-	-- Spawn (for now) 2 enemies
-	for i=1,1 do 
-		e_type = 1 + flr(rnd(3))
-
-		-- enemies start close to any corner of the screen
-		-- maximum distance = how far from corners of screen
-		maxD = 20 
-		eX = maxD + flr(rnd(128))
-		eY = maxD + flr(rnd(128))
-		printh("eX: "..eX)
-		printh("eY: "..eY)
-
-		add(enemies, types[e_type]:new{
-			x = eX,
-			y = eY,
-		})
-	end
+	enemy_limit = 1
+	enemy_respawn_gap = 20
 
 	-- Add a new item to roster
 	items = {}
-	add(items, create_item(1))
+	item_data[1].equipped = true
+
+	screen_list = {}	-- Screen effects
+	screen_damage_mtrx = {}
+	for i=1,16 do
+		local row={}
+		for j=1,16 do
+			add(row, 0)
+		end
+		add(screen_damage_mtrx, row)
+	end
+	add(items, create_item("screen", 3))
+
+	-- Selecting an item on level up
+	selecting_item = false
+	random_items = {}
+
+	-- Pause while selecting item
+	pause = false
 end
+
+item_data = {
+	{
+		name="dart", id=1, equipped=false,
+		desc="hOMES IN ON\nNEARBY ENEMIES.",
+		sprx=0, spry=32, spr=64
+	},
+	{
+		name="egg", id=2,equipped=false,
+		desc="eGG YOUR\nOPPONENTS!.",
+		sprx=8, spry=32, spr=65
+	},
+	{
+		name="cs stench", id=3,equipped=false,
+		desc="eVER HEARD OF\nDEODORANT??",
+		sprx=16, spry=32, spr=66
+	},
+}

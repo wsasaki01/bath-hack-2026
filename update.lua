@@ -10,7 +10,7 @@ function _update()
     end
 
 	-- If in transition, block all player input
-	block = counters.trans_cnt != -1
+	block = counters.trans != -1
 
 	-- If menu is active and not blocked,
 	if control_menu and not block then
@@ -23,9 +23,18 @@ function _update()
 
 		-- Selecting options
 		if btnp(4) then
-			-- Begin transition
-			-- Needs to be more complex if there are any items added that don't transition
-			counters.trans_cnt = 30
+			-- Level up menu
+			if menu==2 then
+				local item_id=random_items[menu_idx].id
+				add(items, create_item(item_id))
+				item_data[item_id].equipped = true
+				global.selecting_item = false
+				global.pause = false
+				global.control_menu = false
+			else
+				-- Begin transition
+				counters.trans = 30
+			end
 		end
 	end
 
@@ -37,9 +46,22 @@ function _update()
 		if end_screen then
 			-- Placeholder
 			q=1
-
 		-- Normal gameplay
-		else
+		elseif not pause then
+			-- DEBUG: Increase XP
+			if btnp(5) then
+				plyr.xp += 10
+			end
+
+			-- Empty screen damage matrix
+			for i=1,16 do
+				for j=1,16 do
+					screen_damage_mtrx[i][j] = 0
+				end
+			end
+
+			if (#enemies != enemy_limit and counters.enemy_respawn == -1) spawn_enemy()
+
 			-- Record current time
 			time = flr(t())
 
@@ -52,7 +74,18 @@ function _update()
 
 			-- Cooldown all items, and shoot if cooldown is up
 			for i in all(items) do
-				i:cooldown()
+				if i.type=="proj" then
+					i:cooldown()
+				end
+			end
+
+			-- Player movement
+			plyr:update()
+			plyr:score_update()
+
+			-- Screen item updates
+			for screen in all(screen_list) do
+				screen:update()
 			end
 
 			-- Move all projectiles towards enemies
@@ -62,15 +95,13 @@ function _update()
 				e:update_projs()	-- Move all projectiles honed on this enemy
 			end
 
-			-- Player movement
-			plyr:update()
 			plyr:update_hp(total_dmg)
 		end
 	end
 
 	-- Change to different menu modes in the middle of transitions (15th frame out of 30)
 	-- (when screen is fully covered by transition)
-	if counters.trans_cnt == 15 then
+	if counters.trans == 15 then
 		-- Main menu -> gameplay
 		if (menu==1) menu=2 init_game()
 		-- Gameplay -> main menu
