@@ -67,6 +67,8 @@ function _init()
 end
 
 function init_game()
+	music(0)
+
 	-- Disable menu
 	control_menu = false
 
@@ -77,7 +79,6 @@ function init_game()
 	time = 0
 
 	-- Create player
-	player_setup()
 	plyr = plyr2:new()
 
 	-- Setup enemies

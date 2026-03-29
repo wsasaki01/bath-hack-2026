@@ -82,6 +82,7 @@ function enemies_setup()
 
         take_damage = function(self, dmg)
             if dmg!=0 then
+                sfx(5)
                 self.health -= dmg
                 self.took_dmg = true
                 self:check_death()

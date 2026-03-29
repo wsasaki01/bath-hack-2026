@@ -385,6 +385,7 @@ end
 
 -- Create an item (either projectile or screen type)
 function create_item(type, id)
+	sfx(7)
 
 	if type=="proj" then
 		local item = proj_manager:new({id=id, data=item_data[id]})
