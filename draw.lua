@@ -89,9 +89,9 @@ function _draw()
 		--print(menu_pre(1).."start game", 20, 60)
 		--print(menu_pre(2).."second thing idk", 20, 70)
 
-	-- Game
+	-- Intro
 	elseif menu==2 then
-		local ic = counters.intro_cnt
+		local ic = counters.intro
 		cls(0)
 		rect(9,40,117,72,2)	-- outline
 		local j=0
@@ -138,7 +138,7 @@ function _draw()
 			fillp()
 		end
 
-
+	-- Game
 	elseif menu==3 then
 		-- Centre camera on player
 		camera(plyr.x-60,plyr.y-60)
@@ -221,13 +221,15 @@ function _draw()
 
 	end
 
+	printh(menu)
+
 	-- Menu transition
-	if counters.trans_cnt != -1 then
-		if menu==1 or (menu==2 and counters.trans_cnt<=15) then
-			circfill(97,60,(30-counters.trans_cnt)/27*200,0)
+	if counters.trans != -1 then
+		if menu==1 or (menu==2 and counters.trans<=15) then
+			circfill(97,60,(30-counters.trans)/27*200,0)
 		else
 			printh("drawing")
-			local x = (30-counters.trans_cnt)/30 * 256
+			local x = (30-counters.trans)/30 * 256
 			rectfill(x-128, 0, x, 128, 2)
 		end
 	end
