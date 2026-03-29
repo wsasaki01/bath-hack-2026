@@ -79,7 +79,7 @@ screen_parent = class:new({
 function create_screen(id)
 	local screen = {}
 
-	-- ID 3: Forcefield
+	-- ID 3: Stench
 	if id==3 then
 		screen = screen_parent:new({
 			x=0,y=0,damage=1,rad=30,
@@ -117,6 +117,66 @@ function create_screen(id)
 				fillp(▒)
 				circfill(x,y,rad,12)
 				fillp()
+			end,
+		})
+	elseif id==4 then
+		screen = screen_parent:new({
+			x=0,y=0,damage=1000,
+			points={}, fired_cnt=-1,
+			dx1=1,dx2=1,dy1=1,dy2=1,
+			
+			update = function(_ENV)
+				if (fired_cnt!=-1) fired_cnt-=1
+				x=global.plyr.x
+				y=global.plyr.y
+				local pd = global.plyr.dir
+
+				-- Fires every 20 seconds
+				if global.global_cnt % 20==0 then
+					fired_cnt = 10
+					x1,x2=1,1
+					y1,y2=1,1
+					if pd < 0.25 then
+						x1,x2=9,16
+						y1,y2=1,8
+					elseif pd < 0.5 then
+						x1,x2=1,8
+						y1,y2=1,8
+					elseif pd < 0.75 then
+						x1,x2=1,8
+						y1,y2=9,16
+					else
+						x1,x2=9,16
+						y1,y2=9,16
+					end
+
+					for i=x1,x2 do
+						for j=y1,y2 do
+							global.screen_damage_mtrx[i][j] += damage
+						end
+					end
+
+					dx1=x1*8-8+4 dx2=x2*8-8-4
+					dy1=y1*8-8+4 dy2=y2*8-8-4
+				end
+			end,
+
+			draw = function(_ENV)
+				if fired_cnt!=-1 then
+					cx,cy=camera()
+					line(dx1,dy1,dx1+5,dy1)	-- TL right
+					line(dx1,dy1,dx1,dy1+5)	-- TL down
+
+					line(dx1,dy2,dx1,dy2-5)	-- BL up
+					line(dx1,dy2,dx1+5,dy2)	-- BL right
+
+					line(dx2,dy1,dx2-5,dy1)	-- TR left
+					line(dx2,dy1,dx2,dy1+5)	-- TR down
+
+					line(dx2,dy2,dx2,dy2-5)	-- BR up
+					line(dx2,dy2,dx2-5,dy2)	-- BR left
+					camera(cx,cy)
+				end
 			end,
 		})
 	end
@@ -188,6 +248,9 @@ function create_item(type, id)
 		if id == 3 then
 			i = create_screen(3)
 			i:set_radius(17)
+			add(screen_list, i)
+		elseif id==4 then
+			i = create_screen(4)
 			add(screen_list, i)
 		end
 		return item

@@ -87,8 +87,8 @@ function init_game()
 
 	-- Add a new item to roster
 	items = {}
-	add(items, create_item("proj", 2))
-	item_data[2].equipped = true
+	--add(items, create_item("proj", 2))
+	--item_data[2].equipped = true
 
 	screen_list = {}	-- Screen effects
 	screen_damage_mtrx = {}
@@ -99,7 +99,7 @@ function init_game()
 		end
 		add(screen_damage_mtrx, row)
 	end
-	--add(items, create_item("screen", 3))
+	add(items, create_item("screen", 4))
 
 	-- Selecting an item on level up
 	selecting_item = false
@@ -126,7 +126,7 @@ item_data = {
 		sprx=0, spry=48, spr=96
 	},
 	{
-		name="camera flash", id=3,equipped=false,
+		name="camera flash", id=4,equipped=false,
 		desc="fLASHBANG WITH\nPHOTOGRAPHY!",
 		sprx=8, spry=48, spr=97
 	},
