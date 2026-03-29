@@ -29,7 +29,7 @@ function _update()
 
 		-- Selecting options
 		if btnp(4) then
-			if menu==2 then
+			if menu==1 then
 				-- Begin transition
 				counters.trans_cnt = 30
 			end
@@ -71,8 +71,11 @@ function _update()
 			v.cnt += 1
 			if (v.x>150) del(vape, v)
 		end
-	-- Game
+	-- Intro cutscene
 	elseif menu==2 then
+		if (counters.intro_cnt==1) counters.trans_cnt=30
+	-- Game
+	elseif menu==3 then
 		-- Game end screen
 		if end_screen then
 			-- Placeholder
@@ -109,10 +112,17 @@ function _update()
 	-- Change to different menu modes in the middle of transitions (15th frame out of 30)
 	-- (when screen is fully covered by transition)
 	if counters.trans_cnt == 15 then
-		-- Main menu -> gameplay
-		if (menu==1) menu=2 init_game()
+		-- Character select -> intro cutscene
+		if menu==1 then
+			menu=2 counters.intro_cnt = 360
+		-- Intro cutscene -> gameplay
+		elseif menu==2 then
+			printh("yes!")
+			menu=3 init_game()
 		-- Gameplay -> main menu
-		if (menu==2) menu=1
+		elseif menu==3 then
+			menu=1
+		end
 	end
 end
 
@@ -125,4 +135,11 @@ end
 function tend(x,t,r)
     local o = x+(t-x)*r
     return abs(t-o)<1 and t or o
+end
+
+function shake(cx,cy)
+-- apply screen shake
+ camera((cx+20-rnd(40))*sh_str, (cy+20-rnd(40))*sh_str)
+ sh_str *= 0.75
+ if (sh_str < 0.05) sh_str = 0
 end

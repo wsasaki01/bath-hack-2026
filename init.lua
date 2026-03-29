@@ -7,18 +7,21 @@ function _init()
 	-- Global counter, increments every frame
 	global_cnt = 0
 
+	-- Screen shaker
+	sh_str = 0
+
 	-- Block all inputs (used during transitions, etc.)
 	block = false
 
 	-- See README for counter info
     counters = {}
-    cname = split"trans_cnt"
+    cname = split"trans_cnt,intro_cnt"
     for c in all(cname) do
         counters[c] = -1
     end
 
 	-- Which part of the game are you in?
-	-- 0(title) 1(character select) 2(game)
+	-- 0(title) 1(character select) 2(intro cutscene) 3(game)
 	menu = 0
 
 	-- Is the player currently controlling the menu?
@@ -49,9 +52,16 @@ function _init()
 
 	--[[
 	-- DEBUG: Launch to game
-	menu = 2
+	menu = 3
 	init_game()
 	]]
+
+	--[[]]
+	-- DEBUG: Launch to intro cutscene
+	menu = 2
+	counters.intro_cnt = 5
+	
+
 end
 
 function init_game()
@@ -61,6 +71,8 @@ function init_game()
 	-- Setup menu for end screen
 	menu_idx_min = 1
 	menu_idx_max = 2
+
+	time = 0
 
 	-- Create player
 	plyr = playerClass:new()

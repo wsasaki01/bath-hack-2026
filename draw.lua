@@ -91,6 +91,55 @@ function _draw()
 
 	-- Game
 	elseif menu==2 then
+		local ic = counters.intro_cnt
+		cls(0)
+		rect(9,40,117,72,2)	-- outline
+		local j=0
+		local days={"mon", "tue", "wed", "thu", "fri", "sat"}
+		for i=13,119,18 do
+			j+=1
+			if j%2==0 then
+				rectfill(i-3,41,i+13,71,1)
+			end
+			if j<=3 then
+				sspr(0,24,8,8,i-3,56,16,16)
+			end
+			print(days[j], i, 44,2)
+		end
+		line(9,52,117,52,2)
+
+		top_line1 = "my friends are celebrating"
+		top_line2 = "the end of exam season..."
+
+		print(sub(top_line1,0,360-ic),12,13,2)
+		if (ic<335) print(sub(top_line2,0,335-ic),13,20,2)
+
+		if (ic<295) sspr(8,8,8,8,65,54,16,16)
+		if (ic==260) sh_str=0.5
+		if (ic<260) shake(0,0) print("exam",83,60,9)
+
+		if ic<210 then
+			print("but i still have an exam",19+rnd(2),90+rnd(2),2)
+			print("tomorrow!!!!!!!",32+rnd(2),100+rnd(2))
+		end
+
+		if ic<140 then
+			fillp(ic<135 and █ or ▒)
+			rectfill(0,0,128,128,0)
+			fillp()
+		end
+
+		if (ic<110) print(sub("i must not get",0,110-ic),30,55,2)
+		if (ic<85) print(sub("drunk tonight...",0,85-ic),35,62)
+
+		if ic<20 then
+			fillp(ic<5 and █ or ▒)
+			rectfill(0,0,128,128,0)
+			fillp()
+		end
+
+
+	elseif menu==3 then
 		-- Centre camera on player
 		camera(plyr.x-60,plyr.y-60)
 
@@ -129,15 +178,21 @@ function _draw()
 
 	-- Menu transition
 	if counters.trans_cnt != -1 then
-		local x = (30-counters.trans_cnt)/30 * 256
-		rectfill(x-128, 0, x, 128, 0)
+		if menu==1 then
+			circfill(97,60,(30-counters.trans_cnt)/27*200,0)
+		else
+			printh("drawing")
+			local x = (30-counters.trans_cnt)/30 * 256
+			rectfill(x-128, 0, x, 128, 2)
+		end
 	end
 
 	-- DEBUG: CPU and Mem usage
-	--[[
+	--[[]]
 	debugs = {
 		"cpu "..tostr(flr(stat(1)*100)).."%",
 		"mem "..tostr(stat(0)/1024).."MB",
+		counters.intro_cnt
 	}
 
 	local i=0
@@ -145,7 +200,7 @@ function _draw()
 		print("\#0"..d,1,1+i*6,7)
 		i+=1
 	end
-	]]
+	
 end
 
 -- Control code prefix for selected menu item
