@@ -59,10 +59,6 @@ function enemies_setup()
             -- move by 1 unit
             self.x += cos(d) * self.spd
             self.y += sin(d) * self.spd
-            
-            -- if enemy at player position, health decreases
-            -- replace w goated collisions later
-            if self.x == px or self.y == py then global.plyr.h -= 10 end
 
             -- Transform enemy coords to screen space
             -- Then div by 8 to place into one of 256 "bins" in screen_damage_matrix
