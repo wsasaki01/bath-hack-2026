@@ -10,29 +10,61 @@ function _init()
 	-- Global counter, increments every frame
 	global_cnt = 0
 
+	-- Screen shaker
+	sh_str = 0
+
 	-- Block all inputs (used during transitions, etc.)
 	block = false
 
 	-- See README for counter info
     counters = {}
-    cname = split"trans,enemy_respawn"
+    cname = split"trans,intro,enemy_respawn"
     for c in all(cname) do
         counters[c] = -1
     end
 
 	-- Which part of the game are you in?
-	-- 1(main menu) 2(game)
-	menu = 1
+	-- 0(title) 1(character select) 2(intro cutscene) 3(game)
+	menu = 0
 
 	-- Is the player currently controlling the menu?
-	control_menu = true
+	control_menu = false
+	vertical = true
+
+	-- Data for title screen
+	people = {}
+	for i=1,30 do
+		add(people, {x=rnd(100)-15,y=70+rnd(15),r=8+rnd(6)})
+	end
+	vape = {}
+	pub_lights = {}
+	for i=1,10 do
+		add(pub_lights, {x=rnd(110)+10, y=rnd(30)+40, r=rnd(10), c=rnd(1)<0.5 and 12 or 13})
+	end
+	black_tly=31 black_tlyt=31
+	black_tlh=3 black_tlht=3
+	start_tly=12 start_tlyt=12
 
 	-- Main menu selected option index
+	menu_idx = 1
+	menu_idx_min = 1	-- Minimum and maximum indices
+	menu_idx_max = 2	-- Changes depending on which menu is being used
+
+	-- Is the "end" screen being shown on top of gameplay?
+	end_screen = false
+
+	--[[
+	]]
 	
 	-- DEBUG: Launch to game
-	menu = 2
+	menu = 3
 	init_game()
 
+	--[[
+	-- DEBUG: Launch to intro cutscene
+	menu = 2
+	counters.intro_cnt = 5
+	]]
 end
 
 function init_game()
@@ -43,17 +75,21 @@ function init_game()
 	menu_idx_min = 1
 	menu_idx_max = 2
 
+	time = 0
+
 	-- Create player
+	player_setup()
 	plyr = plyr2:new()
 
 	-- Setup enemies
 	enemies_setup()
-	enemy_limit = 1
+	enemy_limit = 10
 	enemy_respawn_gap = 20
 
 	-- Add a new item to roster
 	items = {}
-	item_data[1].equipped = true
+	--add(items, create_item("proj", 2))
+	--item_data[2].equipped = true
 
 	screen_list = {}	-- Screen effects
 	screen_damage_mtrx = {}
@@ -64,7 +100,7 @@ function init_game()
 		end
 		add(screen_damage_mtrx, row)
 	end
-	add(items, create_item("screen", 3))
+	add(items, create_item("screen", 5))
 
 	-- Selecting an item on level up
 	selecting_item = false
@@ -82,12 +118,27 @@ item_data = {
 	},
 	{
 		name="egg", id=2,equipped=false,
-		desc="eGG YOUR\nOPPONENTS!.",
+		desc="eGG YOUR\nOPPONENTS!",
 		sprx=8, spry=32, spr=65
 	},
 	{
 		name="cs stench", id=3,equipped=false,
 		desc="eVER HEARD OF\nDEODORANT??",
-		sprx=16, spry=32, spr=66
+		sprx=0, spry=48, spr=96
+	},
+	{
+		name="camera flash", id=4,equipped=false,
+		desc="fLASHBANG WITH\nPHOTOGRAPHY!",
+		sprx=8, spry=48, spr=97
+	},
+	{
+		name="cursor", id=5,equipped=false,
+		desc="cs STUDENTS RISE\nUP!!!!!!",
+		sprx=16, spry=48, spr=98
+	},
+	{
+		name="pencil", id=6,equipped=false,
+		desc="yOUR TRUSTY EXAM\nPENCIL",
+		sprx=16, spry=32, spr=98
 	},
 }

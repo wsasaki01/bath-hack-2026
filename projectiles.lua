@@ -9,9 +9,9 @@ function create_proj(start_x, start_y, type, start_dir)
 	local proj = {}
 
 	-- Types 1 and 2 are the same, but with slightly different direction management
-	if type<=2 then
+	if is_in(type, {1,2,6}) then
 		proj = proj_parent:new({
-			x=start_x, y=start_y, damage=10,
+			x=start_x, y=start_y, damage=10, dir=0,
 			
 			update = function(self, parent_enemy)
 				-- Move in that direction
@@ -23,8 +23,8 @@ function create_proj(start_x, start_y, type, start_dir)
 
 				-- Destroy self if colliding with enemy
 				if collide_2(self, parent_enemy) then
-					parent_enemy:take_damage(self.damage)	-- Decrease enemy's health on hit
 					del(parent_enemy.projs, self)			-- Destroy self
+					parent_enemy:take_damage(self.damage)	-- Decrease enemy's health on hit
 				end
 			end,
 
@@ -34,13 +34,14 @@ function create_proj(start_x, start_y, type, start_dir)
 			end,
 
 			draw = function(_ENV)
-				spr(22, x-4, y-4)
+				spr(80, x-4, y-4, 1, 1, not (dir<0.25 or 0.75<dir))
 			end,
 		})
 	
-		if type==2 then
+		if type!=1 then
 			proj.dir = start_dir	-- Direction needs to change slowly over time
 			proj.alive_cnt = 0		-- New direction function only used for first 30 frames
+			proj.speed = type==2 and 1 or 3
 			proj.update_dir = function(self, tx, ty)
 				self.alive_cnt += 1
 				local d = atan2(tx-self.x, ty-self.y)
@@ -56,9 +57,8 @@ function create_proj(start_x, start_y, type, start_dir)
 					self.dir = d
 				end
 			end
-
 			proj.draw = function(_ENV)
-				spr(17, x, y)
+				spr(type==2 and 81 or 82, x-4, y-4, 1, 1, not (dir<0.25 or 0.75<dir))
 			end
 		end
 	end
@@ -79,7 +79,7 @@ screen_parent = class:new({
 function create_screen(id)
 	local screen = {}
 
-	-- ID 3: Forcefield
+	-- ID 3: Stench
 	if id==3 then
 		screen = screen_parent:new({
 			x=0,y=0,damage=1,rad=30,
@@ -119,6 +119,113 @@ function create_screen(id)
 				fillp()
 			end,
 		})
+	-- ID 4: Camera
+	elseif id==4 then
+		screen = screen_parent:new({
+			x=0,y=0,damage=1000,fired_cnt=-1,
+			dx1=1,dx2=1,dy1=1,dy2=1,
+			
+			update = function(_ENV)
+				x=global.plyr.x
+				y=global.plyr.y
+				local pd = global.plyr.dir
+
+				-- Fires every 20 seconds
+				if global.global_cnt % 600==0 then
+					fired_cnt = 20
+					fired_cnt-=1
+					x1,x2=1,1
+					y1,y2=1,1
+					if pd < 0.25 then
+						x1,x2=9,16
+						y1,y2=1,8
+					elseif pd < 0.5 then
+						x1,x2=1,8
+						y1,y2=1,8
+					elseif pd < 0.75 then
+						x1,x2=1,8
+						y1,y2=9,16
+					else
+						x1,x2=9,16
+						y1,y2=9,16
+					end
+
+					dx1=x1*8-8+4 dx2=x2*8-8-4
+					dy1=y1*8-8+4 dy2=y2*8-8-4
+				end
+
+				if fired_cnt != -1 then
+					fired_cnt -= 1
+				end
+
+				if fired_cnt == 0 then
+					for i=x1,x2 do
+						for j=y1,y2 do
+							global.screen_damage_mtrx[i][j] += damage
+						end
+					end
+				end
+			end,
+
+			draw = function(_ENV)
+				if fired_cnt!=-1 then
+					cx,cy=camera()
+					line(dx1,dy1,dx1+5,dy1)	-- TL right
+					line(dx1,dy1,dx1,dy1+5)	-- TL down
+
+					line(dx1,dy2,dx1,dy2-5)	-- BL up
+					line(dx1,dy2,dx1+5,dy2)	-- BL right
+
+					line(dx2,dy1,dx2-5,dy1)	-- TR left
+					line(dx2,dy1,dx2,dy1+5)	-- TR down
+
+					line(dx2,dy2,dx2,dy2-5)	-- BR up
+					line(dx2,dy2,dx2-5,dy2)	-- BR left
+					camera(cx,cy)
+
+					dx1 += 0.1
+					dy1 += 0.1
+					dx2 -= 0.1
+					dy2 -= 0.1
+				end
+			end,
+		})
+
+	-- ID 5: Cursor
+	elseif id==5 then
+		screen = screen_parent:new({
+			x=plyr.x,y=plyr.y,damage=10,
+			points={},dir=rnd(1),
+			
+			update = function(_ENV)
+				if (x>128) 	x=128 dir=0.25+rnd(0.5)
+				if (x<0) 	x=0   dir=0.75+rnd(0.5)
+				if (y>128) 	y=128 dir=rnd(0.5)
+				if (y<0) 	y=0   dir=0.5+rnd(0.5)
+
+				x+=cos(dir)
+				y+=sin(dir)
+
+				mtrx_x = flr(x/8)
+				mtrx_y = flr(y/8)
+
+				for i=-1,1 do
+					for j=-1,1 do
+						mx = mtrx_x+i
+						my = mtrx_y+j
+						if (1<=mx and mx<=16) and (1<=my and my<=16) then
+							global.screen_damage_mtrx[mx][my] += damage
+						end
+					end
+				end
+			end,
+
+			draw = function(_ENV)
+				cx,cy=camera()
+				sspr(16,48,8,8,x-8,y-8,16,16)
+				camera(cx,cy)
+			end,
+		})
 	end
 
 	return screen
@@ -142,6 +249,10 @@ proj_manager = class:new({
 				elseif self.id==2 then
 					for i=-1,1 do
 						add(proj_list, create_proj(px, py, 2, global.plyr.dir-0.5+i*0.45))
+					end
+				elseif self.id==6 then
+					for i=-1,0 do
+						add(proj_list, create_proj(px, py, 6, global.plyr.dir-0.5+i*0.45))
 					end
 				end
 
@@ -178,9 +289,10 @@ function create_item(type, id)
 
 	if type=="proj" then
 		local item = proj_manager:new({id=id, data=item_data[id]})
-		if (id == 1) item.n = 40
-		if (id == 2) item.n = 40
-		return item
+		if (id == 1) item.n = 50
+		if (id == 2) item.n = 170
+		if (id == 6) item.n = 120
+		return item 
 
 	elseif type=="screen" then
 		local item = screen_manager:new({id=id, data=item_data[id]})
@@ -188,8 +300,13 @@ function create_item(type, id)
 			i = create_screen(3)
 			i:set_radius(17)
 			add(screen_list, i)
+		elseif id==4 then
+			i = create_screen(4)
+			add(screen_list, i)
+		elseif id==5 then
+			i = create_screen(5)
+			add(screen_list, i)
 		end
 		return item
 	end
-
 end
