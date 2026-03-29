@@ -54,10 +54,10 @@ function _init()
 	end_screen = false
 
 	--[[
+	]]
 	-- DEBUG: Launch to game
 	menu = 3
 	init_game()
-	]]
 
 	--[[
 	-- DEBUG: Launch to intro cutscene

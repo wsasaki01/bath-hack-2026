@@ -167,10 +167,15 @@ function _draw()
 		rectfill(107,109,128,128)	-- Level background
 		print("LEVEL",108,109,1)
 		print("\^t\^w"..(plyr.level<10 and "0" or "")..plyr.level,111,116)
-		rectfill(1,121,106,126,7)	-- Collected XP
+		rectfill(1,121,106,126,7)					-- Full (empty) XP bar
 		rectfill(1,121,1+105*plyr.xp/100,126,12)	-- Collected XP
-		for i in all(items) do
-			spr(i.data.spr,0,100)
+
+		alc_height = 100-plyr.hp
+		rectfill(120,0,128,108,6)	-- Main right bar
+		rectfill(121,1,126,108,1)	-- Inner bar
+		rectfill(121,108-alc_height,126,108,12)	-- Filled alcohol
+		for i=121,126 do 
+			pset(i,108-alc_height+sin((i-122+global_cnt)/20),5)
 		end
 
 		if selecting_item then
@@ -212,16 +217,15 @@ function _draw()
 		]]
       
 		-- debug display player health
+		--[[
 		print("hp: "..plyr.hp, 7, 120, 4)
 		--print("f: "..plyr.anim_frame, 7, 110, 4)
 		--print("dir: "..plyr.anim_i.." .. "..plyr.dir, 7, 120, 4)
 		--print(plyr.tick, 80, 120, 12)
 		print(total_dmg, 90, 120, 8)
 		print("i "..plyr.iframe, 100, 120, 4)
-
+		]]
 	end
-
-	printh(menu)
 
 	-- Menu transition
 	if counters.trans != -1 then
