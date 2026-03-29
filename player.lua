@@ -49,9 +49,8 @@ function player_setup()
 				global.selecting_item = true
 				global.pause = true
 				global.control_menu = true
-				global.menu_idx_min = 1
-				global.menu_idx_max = 3
 				global.random_items = {}
+				global.menu_idx = 1
 				local picks={}
 				for i=1,#item_data do
 					if (not item_data[i].equipped) add(picks, i)
@@ -61,6 +60,8 @@ function player_setup()
 					add(global.random_items, item_data[picks[idx]])
 					del(picks, picks[idx])
 				end
+				global.menu_idx_min = 1
+				global.menu_idx_max = #global.random_items
 			end
 		end,
 

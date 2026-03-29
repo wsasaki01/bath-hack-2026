@@ -33,7 +33,7 @@ function _update()
 			-- Level up menu
 			if menu==3 then
 				local item_id=random_items[menu_idx].id
-				add(items, create_item(item_id))
+				add(items, create_item("proj", item_id))
 				item_data[item_id].equipped = true
 				selecting_item = false
 				pause = false

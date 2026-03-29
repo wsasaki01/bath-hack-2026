@@ -87,8 +87,8 @@ function init_game()
 
 	-- Add a new item to roster
 	items = {}
-	add(items, create_item("proj", 1))
-	item_data[1].equipped = true
+	add(items, create_item("proj", 2))
+	item_data[2].equipped = true
 
 	screen_list = {}	-- Screen effects
 	screen_damage_mtrx = {}

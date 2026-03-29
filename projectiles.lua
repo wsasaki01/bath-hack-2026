@@ -35,7 +35,6 @@ function create_proj(start_x, start_y, type, start_dir)
 
 			draw = function(_ENV)
 				spr(80, x-4, y-4, 1, 1, not (dir<0.25 or 0.75<dir))
-				print(dir,x,y+8,2)
 			end,
 		})
 	
@@ -59,7 +58,7 @@ function create_proj(start_x, start_y, type, start_dir)
 			end
 
 			proj.draw = function(_ENV)
-				spr(17, x, y)
+				spr(81, x-4, y-4)
 			end
 		end
 	end
@@ -131,6 +130,7 @@ proj_manager = class:new({
 	-- Spawn this item every N frames
 	type="proj", n = 60, id=0, data={},
 	cooldown = function(self)
+		printh(self.data.name)
 		-- If cooldown is up
 		if global_cnt % self.n == 0 then
 			local px,py = global.plyr.x, global.plyr.y
@@ -179,9 +179,9 @@ function create_item(type, id)
 
 	if type=="proj" then
 		local item = proj_manager:new({id=id, data=item_data[id]})
-		if (id == 1) item.n = 40
-		if (id == 2) item.n = 40
-		return item
+		if (id == 1) item.n = 50
+		if (id == 2) item.n = 170
+		return item 
 
 	elseif type=="screen" then
 		local item = screen_manager:new({id=id, data=item_data[id]})
@@ -192,5 +192,4 @@ function create_item(type, id)
 		end
 		return item
 	end
-
 end
