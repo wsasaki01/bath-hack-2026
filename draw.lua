@@ -80,6 +80,12 @@ function _draw()
 			end
 		end
 		]]
+      
+		-- debug display player health
+		print("player health: "..plyr.hp, 7, 120, 4)
+		print(total_dmg, 90, 120, 8)
+		print("i "..plyr.iframe, 100, 120, 4)
+
 	end
 
 	-- Menu transition

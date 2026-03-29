@@ -88,10 +88,15 @@ function _update()
 			end
 
 			-- Move all projectiles towards enemies
+			total_dmg = 0 -- keeps track of all the dmg added by enemies
 			for e in all(enemies) do
-				e:update()			-- Move enemy and destroy if dead
+				total_dmg += e:update()	-- Move enemy and destroy if dead
 				e:update_projs()	-- Move all projectiles honed on this enemy
 			end
+
+			-- Player movement
+			plyr:update()
+			plyr:update_hp(total_dmg)
 		end
 	end
 
@@ -109,4 +114,8 @@ end
 -- Pass in two objects with x, y, and collide_r
 function collide_2(a, b)
     return ((a.x - b.x)^2 + (a.y - b.y)^2) <= a.collide_r + b.collide_r
+end
+
+function collide_3(x1, y1, r1, x2, y2, r2)
+    return ((x1 - x2)^2 + (y1 - y2)^2) <= (r1 + r2)
 end

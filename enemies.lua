@@ -3,16 +3,21 @@ function enemies_setup()
 
     -- enemy base class object
     enemy = class:new({
+        name = "enemy",
+        clr = 12,   -- colour
+        sprt = 10,  -- sprite index
+
         x = -1,
         y = -1,
         spd = 20,       -- speed
         collide_r = 2,  -- circle radius
         clr = 12,       -- colour
         name = "enemy",
-        projs = {},
+        projs = {}, -- projectiles currently moving towards enemy
         reward = 10,
         health = 10,
         took_dmg = false,
+        dmg = 1,   -- strength of attack
 
         update_projs = function(self)
             for p in all(self.projs) do
@@ -65,6 +70,13 @@ function enemies_setup()
                 -- Decrement their health by whatever is in that bin
                 self:take_damage(screen_damage_mtrx[xidx][yidx])
             end
+          
+            -- TODO: integrate this stuff
+            -- check for player collision
+            --if global.collide_3(x, y, collide_r, px, py, collide_r) then
+            --    return dmg
+            --end
+            --return 0
         end,
 
         take_damage = function(self, dmg)
@@ -72,16 +84,14 @@ function enemies_setup()
                 self.health -= dmg
                 self.took_dmg = true
                 self:check_death()
-            end
         end,
 
-        -- TODO: different draw for different enemies
         draw = function(_ENV)
             if took_dmg then
                 rectfill(x-6,y-6,x+6,y+6,9)
                 took_dmg = false
             end
-            spr(2, x-4, y-4)
+            spr(sprt, x-4, y-4)
             line(x-4,y+6,x+4,y+6,8) line(x-4,y+6,x-4+health/10*8,y+6,9) -- Health bar
         end
     })
@@ -91,7 +101,6 @@ function enemies_setup()
     beer = enemy:new({
         spd = 0.5,
         clr = 10,
-        rad = 3,
         name = "beer"
     })
 
