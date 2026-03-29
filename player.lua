@@ -6,8 +6,8 @@ get_dir_from_tan = function(tan)
 end
 
 playerClass = class:new({
-	x = 64,
-	y = 64,
+	x = 127,
+	y = 127,
 	clrs = {},
 
 	collide_r = 8,
@@ -69,6 +69,12 @@ playerClass = class:new({
 			self.iframe = 3
 		end
 	end,
+
+	detect_sprite_collisions = function(x, y)
+		cx = x / 8
+		cy = y / 8
+		return fget(mget(cx, cy), 1)
+	end,
       
 	update = function(_ENV)
 		if iframe >= 0 then iframe -= 1 end
@@ -80,25 +86,49 @@ playerClass = class:new({
 		end
 
 		local hor,ver=0,0
-		if btn(0) then hor -= 1 end
-		if btn(1) then hor += 1 end
-		if btn(2) then ver -= 1 end
-		if btn(3) then ver += 1 end
+		local btns_pressed = 0
+		if btn(0) then 
+			hor -= 1 
+			btns_pressed += 1
+		end
+		if btn(1) then 
+			hor += 1 
+			btns_pressed += 1
+		end
+		if btn(2) then 
+			ver -= 1 
+			btns_pressed += 1
+		end
+		if btn(3) then 
+			ver += 1 
+			btns_pressed += 1
+		end
 		
 		dir=atan2(hor, ver)
 		if hor!=0 or ver!=0 then
-			x+= cos(dir) * spd
-			y+= sin(dir) * spd
+			-- detect colision
+			newx = x + cos(dir) * spd
+			newy = y + sin(dir) * spd
+			collided = detect_sprite_collisions(newx, newy)
 
-			idle = false
-			if anim_i != get_dir_from_tan(dir) then -- changed direction = restart animation
-				anim_i = get_dir_from_tan(dir)
+			-- sliding??
+			if not collided then 
+				x = newx
+				y = newy
+				idle = false
+				
+			-- handle collisions (stop)
+			else
+				
+				idle = true
 				anim_frame = 1
+				
 			end
-		else
-			idle = true
-			anim_frame = 1
 		end
+		if anim_i != get_dir_from_tan(dir) then -- changed direction = restart animation
+					anim_i = get_dir_from_tan(dir)
+					anim_frame = 1
+				end
 
 	end,
 

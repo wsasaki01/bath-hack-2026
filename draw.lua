@@ -14,6 +14,7 @@ function _draw()
 		camera(plyr.x-60,plyr.y-60)
 
 		-- Draw map
+		rectfill(-2000,-2000,2000,2000,11)	-- Background Darkness
 		map(0,0,0,0,128,128)
 
 		-- Screen item updates
