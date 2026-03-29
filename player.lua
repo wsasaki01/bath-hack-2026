@@ -23,6 +23,7 @@ playerClass = class:new({
 	anim_i = 1,
 	anim_frame = 1,
 	tick = -1, -- change to counter
+
 	xp = 0,
 	level = 1,
 	hp = 100,
@@ -59,6 +60,13 @@ playerClass = class:new({
 				add(global.random_items, item_data[picks[idx]])
 				del(picks, picks[idx])
 			end
+		end
+	end,
+
+	update_hp = function(self, dmg)
+		if self.iframe < 0 and dmg > 0 then
+			self.hp -= dmg * self.def
+			self.iframe = 3
 		end
 	end,
       
