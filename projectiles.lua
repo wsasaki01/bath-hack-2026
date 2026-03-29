@@ -9,7 +9,7 @@ function create_proj(start_x, start_y, type, start_dir)
 	local proj = {}
 
 	-- Types 1 and 2 are the same, but with slightly different direction management
-	if is_in(type, {1,2,6}) then
+	if is_in(type, {1,2,6,7,8}) then
 		proj = proj_parent:new({
 			x=start_x, y=start_y, damage=10, dir=0,
 			
@@ -37,8 +37,55 @@ function create_proj(start_x, start_y, type, start_dir)
 				spr(80, x-4, y-4, 1, 1, not (dir<0.25 or 0.75<dir))
 			end,
 		})
-	
-		if type!=1 then
+
+		if type==7 then
+			proj.count = 0
+			proj.update = function(self, parent_enemy)
+				-- Move in that direction
+				self.x += cos(self.dir) * self.speed
+				self.y += sin(self.dir) * self.speed
+
+				--printh("x+="..cos(self.dir) * self.speed)
+				--printh("y+="..sin(self.dir) * self.speed)
+
+				-- Destroy self if colliding with enemy
+				if collide_2(self, parent_enemy) then
+					self.count += 1
+					parent_enemy:take_damage(self.damage)	-- Decrease enemy's health on hit
+				end
+
+				if self.count >= 4 then
+					del(parent_enemy.projs, self)			-- Destroy self
+				end
+			end
+			proj.draw = function(_ENV)
+				spr(83, x-4, y-4, 1, 1, global.global_cnt%2==0,global.global_cnt%3==0)
+			end
+		
+		elseif type==8 then
+			proj.count = 0
+			proj.update = function(self, parent_enemy)
+				-- Move in that direction
+				self.x += cos(self.dir) * self.speed
+				self.y += sin(self.dir) * self.speed
+
+				--printh("x+="..cos(self.dir) * self.speed)
+				--printh("y+="..sin(self.dir) * self.speed)
+
+				-- Destroy self if colliding with enemy
+				if collide_2(self, parent_enemy) then
+					self.count += 1
+					parent_enemy:take_damage(self.damage)	-- Decrease enemy's health on hit
+				end
+
+				if self.count >= 10 then
+					del(parent_enemy.projs, self)			-- Destroy self
+				end
+			end
+			proj.draw = function(_ENV)
+				spr(85, x-4, y-4, 1, 1, global.global_cnt%2==0)
+			end
+		elseif type!=1 then
 			proj.dir = start_dir	-- Direction needs to change slowly over time
 			proj.alive_cnt = 0		-- New direction function only used for first 30 frames
 			proj.speed = type==2 and 1 or 3
@@ -226,6 +273,54 @@ function create_screen(id)
 				camera(cx,cy)
 			end,
 		})
+
+	-- ID 9: Wrench
+	elseif id==9 then
+		screen = screen_parent:new({
+			x=plyr.x,y=plyr.y,damage=20,
+			points={},dir=rnd(0.25)+0.125,a=5,
+			count=-1,
+			
+			update = function(_ENV)
+				x+=cos(dir)
+				y-=a
+				a-=0.25
+
+				mtrx_x = flr(x/8)
+				mtrx_y = flr(y/8)
+
+				for i=-1,1 do
+					for j=-1,1 do
+						mx = mtrx_x+i
+						my = mtrx_y+j
+						if (1<=mx and mx<=16) and (1<=my and my<=16) then
+							global.screen_damage_mtrx[mx][my] += damage
+						end
+					end
+				end
+
+				if y>global.plyr.y+80 and a<0 and count==-1 then
+					count = 20
+				end
+
+				if count!=-1 then
+					count -=1
+
+					if count==-1 then
+						x=global.plyr.x
+						y=global.plyr.y
+						a=5
+						dir=rnd(0.25)+0.125
+					end
+				end
+			end,
+
+			draw = function(_ENV)
+				cx,cy=camera()
+				sspr(48,40,8,8,x-8,y-8,16,16,global.global_cnt%2==0)
+				camera(cx,cy)
+			end,
+		})
 	end
 
 	return screen
@@ -254,6 +349,10 @@ proj_manager = class:new({
 					for i=-1,0 do
 						add(proj_list, create_proj(px, py, 6, global.plyr.dir-0.5+i*0.45))
 					end
+				elseif self.id==7 then
+					add(proj_list, create_proj(px, py, 7))
+				elseif self.id==8 then
+					add(proj_list, create_proj(px, py, 8))
 				end
 
 				-- Add a projectile to hone in on that enemy
@@ -292,6 +391,8 @@ function create_item(type, id)
 		if (id == 1) item.n = 50
 		if (id == 2) item.n = 170
 		if (id == 6) item.n = 120
+		if (id == 7) item.n = 150
+		if (id == 8) item.n = 300
 		return item 
 
 	elseif type=="screen" then
@@ -305,6 +406,9 @@ function create_item(type, id)
 			add(screen_list, i)
 		elseif id==5 then
 			i = create_screen(5)
+			add(screen_list, i)
+		elseif id==9 then
+			i = create_screen(9)
 			add(screen_list, i)
 		end
 		return item

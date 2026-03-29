@@ -87,8 +87,8 @@ function init_game()
 
 	-- Add a new item to roster
 	items = {}
-	--add(items, create_item("proj", 2))
-	--item_data[2].equipped = true
+	add(items, create_item("proj", 8))
+	item_data[8].equipped = true
 
 	screen_list = {}	-- Screen effects
 	screen_damage_mtrx = {}
@@ -99,7 +99,7 @@ function init_game()
 		end
 		add(screen_damage_mtrx, row)
 	end
-	add(items, create_item("screen", 5))
+	add(items, create_item("screen", 9))
 
 	-- Selecting an item on level up
 	selecting_item = false
@@ -139,5 +139,20 @@ item_data = {
 		name="pencil", id=6,equipped=false,
 		desc="yOUR TRUSTY EXAM\nPENCIL",
 		sprx=16, spry=32, spr=98
+	},
+	{
+		name="volleyball", id=7,equipped=false,
+		desc="bOUNCY BOUNCE\nBOUNCE",
+		sprx=24, spry=32, spr=67
+	},
+	{
+		name="frisbee", id=8,equipped=false,
+		desc="fEELING\nULTIMATE !!",
+		sprx=40, spry=32, spr=69
+	},
+	{
+		name="wrench", id=9,equipped=false,
+		desc="eNGINEERING\nNOW IS YOUR TIME",
+		sprx=48, spry=32, spr=86
 	},
 }
