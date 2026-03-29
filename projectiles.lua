@@ -273,6 +273,54 @@ function create_screen(id)
 				camera(cx,cy)
 			end,
 		})
+
+	-- ID 9: Wrench
+	elseif id==9 then
+		screen = screen_parent:new({
+			x=plyr.x,y=plyr.y,damage=20,
+			points={},dir=rnd(0.25)+0.125,a=5,
+			count=-1,
+			
+			update = function(_ENV)
+				x+=cos(dir)
+				y-=a
+				a-=0.25
+
+				mtrx_x = flr(x/8)
+				mtrx_y = flr(y/8)
+
+				for i=-1,1 do
+					for j=-1,1 do
+						mx = mtrx_x+i
+						my = mtrx_y+j
+						if (1<=mx and mx<=16) and (1<=my and my<=16) then
+							global.screen_damage_mtrx[mx][my] += damage
+						end
+					end
+				end
+
+				if y>global.plyr.y+80 and a<0 and count==-1 then
+					count = 20
+				end
+
+				if count!=-1 then
+					count -=1
+
+					if count==-1 then
+						x=global.plyr.x
+						y=global.plyr.y
+						a=5
+						dir=rnd(0.25)+0.125
+					end
+				end
+			end,
+
+			draw = function(_ENV)
+				cx,cy=camera()
+				sspr(48,40,8,8,x-8,y-8,16,16,global.global_cnt%2==0)
+				camera(cx,cy)
+			end,
+		})
 	end
 
 	return screen
@@ -358,6 +406,9 @@ function create_item(type, id)
 			add(screen_list, i)
 		elseif id==5 then
 			i = create_screen(5)
+			add(screen_list, i)
+		elseif id==9 then
+			i = create_screen(9)
 			add(screen_list, i)
 		end
 		return item

@@ -99,7 +99,7 @@ function init_game()
 		end
 		add(screen_damage_mtrx, row)
 	end
-	--add(items, create_item("screen", 5))
+	add(items, create_item("screen", 9))
 
 	-- Selecting an item on level up
 	selecting_item = false
@@ -149,5 +149,10 @@ item_data = {
 		name="frisbee", id=8,equipped=false,
 		desc="fEELING\nULTIMATE !!",
 		sprx=40, spry=32, spr=69
+	},
+	{
+		name="wrench", id=9,equipped=false,
+		desc="eNGINEERING\nNOW IS YOUR TIME",
+		sprx=48, spry=32, spr=86
 	},
 }
