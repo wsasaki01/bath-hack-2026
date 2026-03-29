@@ -39,13 +39,12 @@ function create_proj(start_x, start_y, type, start_dir)
 			end,
 		})
 	
-		--[[
 		if type==2 then
 			proj.dir = start_dir	-- Direction needs to change slowly over time
 			proj.alive_cnt = 0		-- New direction function only used for first 30 frames
-			proj.update_dir = function(self, parent_enemy)
+			proj.update_dir = function(self, tx, ty)
 				self.alive_cnt += 1
-				local d = atan2(parent_enemy.x-self.x, parent_enemy.y-self.y)
+				local d = atan2(tx-self.x, ty-self.y)
 				if self.alive_cnt < 30 then
 					-- SLOWLY change direction towards enemy,
 					-- so bullets kinda fan out of player
@@ -59,7 +58,6 @@ function create_proj(start_x, start_y, type, start_dir)
 				end
 			end
 		end
-		]]
 	end
 
 	-- All projectiles start from player character
@@ -73,26 +71,17 @@ end
 item_parent = class:new({
 	-- Spawn this item every N frames
 	n = 60, type=0, data={},
-	cooldown = function(_ENV)
+	cooldown = function(self)
 		-- If cooldown is up
-		if global.global_cnt % n == 0 then
+		if global_cnt % self.n == 0 then
 			local px,py = global.plyr.x, global.plyr.y
-			local near_e = 0
-			local near_d = 10000
-			for e in all(global.enemies) do
-				-- Find enemy which is closest
-				local dist = sqrt((px-e.x)^2 + (py-e.y)^2)
-				if dist < near_d then
-					near_e = e
-					near_d = dist
-				end
-			end
+			near_e = find_nearest_enemy(px,py)
 			if near_e != 0 then
 				local proj_list = {}
 
-				if type==1 then
+				if self.type==1 then
 					add(proj_list, create_proj(px, py, 1))
-				elseif type==2 then
+				elseif self.type==2 then
 					for i=-1,1 do
 						add(proj_list, create_proj(px, py, 2, global.plyr.dir-0.5+i*0.45))
 					end
@@ -104,13 +93,29 @@ item_parent = class:new({
 				end
 			end
 		end
-	end
+	end,
 })
+
+-- Find nearest enemy from centre x,y coords
+function find_nearest_enemy(cx,cy)
+	local near_e = 0
+	local near_d = 10000
+	for e in all(enemies) do
+		-- Find enemy which is closest
+		local dist = sqrt((cx-e.x)^2 + (cy-e.y)^2)
+		if dist < near_d then
+			near_e = e
+			near_d = dist
+		end
+	end
+
+	return near_e
+end
 
 -- Create an item, which spawns projectiles on a cooldown
 function create_item(type)
 	local item = item_parent:new({type=type, data=item_data[type]})
-	if (type == 1) item.n = 60
+	if (type == 1) item.n = 40
 
 	return item
 end

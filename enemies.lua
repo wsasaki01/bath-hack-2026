@@ -11,7 +11,7 @@ function enemies_setup()
         name = "enemy",
         projs = {},
         reward = 10,
-        health = 20,
+        health = 10,
 
         update_projs = function(self)
             for p in all(self.projs) do
@@ -30,8 +30,12 @@ function enemies_setup()
         check_death = function(self)
             if self.health <= 0 then
                 -- TODO: Death animation
-                plyr.xp += self.reward
                 del(enemies, self)
+                plyr.xp += self.reward
+                for p in all(self.projs) do 
+                    near_e = find_nearest_enemy(p.x,p.y)
+                    if (near_e!=0) printh("added!") add(near_e.projs, p)
+                end
             end
         end,
 

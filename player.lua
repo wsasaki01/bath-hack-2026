@@ -6,10 +6,15 @@ playerClass = class:new({
 	dir = 0,
 	xp = 0,
 	level = 1,
+	
+	-- Score is changed by enemies - check it on every frame
 	score_update = function(_ENV)
+		-- 100 XP to level up
 		if xp>100 then
 			level += 1
 			xp = level % 100
+
+			-- Select
 			global.selecting_item = true
 			global.pause = true
 			global.control_menu = true
