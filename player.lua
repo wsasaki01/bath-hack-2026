@@ -18,7 +18,7 @@ playerClass = class:new({
 			global.random_items = {}
 			local picks={}
 			for i=1,#item_data do
-				add(picks, i)
+				if (not item_data[i].equipped) add(picks, i)
 			end
 			for i=1,3 do
 				local idx = flr(rnd(#picks))+1

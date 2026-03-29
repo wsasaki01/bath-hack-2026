@@ -68,17 +68,17 @@ end
 
 item_data = {
 	{
-		name="dart", id=1,
+		name="dart", id=1, equipped=false,
 		desc="hOMES IN ON\nNEARBY ENEMIES.",
 		sprx=0, spry=32, spr=64
 	},
 	{
-		name="egg", id=2,
+		name="egg", id=2,equipped=false,
 		desc="eGG YOUR\nOPPONENTS!.",
 		sprx=8, spry=32, spr=65
 	},
 	{
-		name="camera flash", id=3,
+		name="camera flash", id=3,equipped=false,
 		desc="fLASHBANG WITH A\nSURPRISE SELFIE!",
 		sprx=16, spry=32, spr=66
 	},

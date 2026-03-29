@@ -24,7 +24,9 @@ function _update()
 		if btnp(4) then
 			-- Level up menu
 			if menu==2 then
-				add(items, create_item(random_items[menu_idx].id))
+				local item_id=random_items[menu_idx].id
+				add(items, create_item(item_id))
+				item_data[item_id].equipped = true
 				global.selecting_item = false
 				global.pause = false
 				global.control_menu = false
