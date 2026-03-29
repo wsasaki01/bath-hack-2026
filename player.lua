@@ -55,10 +55,12 @@ playerClass = class:new({
 			for i=1,#item_data do
 				if (not item_data[i].equipped) add(picks, i)
 			end
-			for i=1,3 do
-				local idx = flr(rnd(#picks))+1
-				add(global.random_items, item_data[picks[idx]])
-				del(picks, picks[idx])
+		end,
+
+		update_hp = function(self, dmg)
+			if self.iframe < 0 and dmg > 0 then
+				self.hp -= dmg * self.def
+				self.iframe = 3
 			end
 		end
 	end,
