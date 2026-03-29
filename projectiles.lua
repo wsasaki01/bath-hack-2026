@@ -70,7 +70,7 @@ end
 -- Items are power-ups added to the player's collection on every level up
 item_parent = class:new({
 	-- Spawn this item every N frames
-	n = 60, type=0,
+	n = 60, type=0, data={},
 	cooldown = function(_ENV)
 		-- If cooldown is up
 		if global.global_cnt % n == 0 then
@@ -85,9 +85,10 @@ item_parent = class:new({
 				end
 			end
 			if near_e != 0 then
+				printh("found enemy!")
 				local proj_list = {}
 
-				if type==0 then
+				if type==1 then
 					add(proj_list, create_proj(px, py, 0))
 				elseif type==1 then
 					for i=-1,1 do
@@ -106,8 +107,8 @@ item_parent = class:new({
 
 -- Create an item, which spawns projectiles on a cooldown
 function create_item(type)
-	local item = item_parent:new({type=type})
-	if (type == 0) item.n = 60
+	local item = item_parent:new({type=type, data=item_data[type]})
+	if (type == 1) item.n = 60
 
 	return item
 end

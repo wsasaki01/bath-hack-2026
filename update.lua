@@ -22,9 +22,16 @@ function _update()
 
 		-- Selecting options
 		if btnp(4) then
-			-- Begin transition
-			-- Needs to be more complex if there are any items added that don't transition
-			counters.trans_cnt = 30
+			-- Level up menu
+			if menu==2 then
+				add(items, create_item(random_items[menu_idx].id))
+				global.selecting_item = false
+				global.pause = false
+				global.control_menu = false
+			else
+				-- Begin transition
+				counters.trans_cnt = 30
+			end
 		end
 	end
 

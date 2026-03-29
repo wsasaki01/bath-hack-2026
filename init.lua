@@ -55,7 +55,7 @@ function init_game()
 	types = {wine, beer, ginger_beer}
 
 	-- Spawn (for now) 2 enemies
-	for i=1,1 do 
+	for i=1,1 do
 		e_type = 1 + flr(rnd(3))
 
 		-- enemies start close to any corner of the screen
@@ -71,11 +71,9 @@ function init_game()
 			y = eY,
 		})
 	end
-	enemies = {}
 
 	-- Add a new item to roster
 	items = {}
-	add(items, create_item(1))
 
 	-- Selecting an item on level up
 	selecting_item = false
@@ -87,18 +85,18 @@ end
 
 item_data = {
 	{
-		name="dart",
+		name="dart", id=1,
 		desc="hOMES IN ON\nNEARBY ENEMIES.",
-		sprx=0, spry=32,
+		sprx=0, spry=32, spr=64
 	},
 	{
-		name="egg",
+		name="egg", id=2,
 		desc="eGG YOUR\nOPPONENTS!.",
-		sprx=8, spry=32,
+		sprx=8, spry=32, spr=65
 	},
 	{
-		name="camera flash",
+		name="camera flash", id=3,
 		desc="fLASHBANG WITH A\nSURPRISE SELFIE!",
-		sprx=16, spry=32,
+		sprx=16, spry=32, spr=66
 	},
 }

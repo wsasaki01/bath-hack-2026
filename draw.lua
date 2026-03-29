@@ -34,6 +34,9 @@ function _draw()
 		print("\^t\^w"..(plyr.level<10 and "0" or "")..plyr.level,111,116)
 		rectfill(1,121,106,126,7)	-- Collected XP
 		rectfill(1,121,1+105*plyr.xp/100,126,12)	-- Collected XP
+		for i in all(items) do
+			spr(i.data.spr,0,100)
+		end
 
 		if selecting_item then
 			rrect(2,2,103,116,8,3)		-- Menu outline
