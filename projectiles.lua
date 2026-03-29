@@ -119,10 +119,10 @@ function create_screen(id)
 				fillp()
 			end,
 		})
+	-- ID 4: Camera
 	elseif id==4 then
 		screen = screen_parent:new({
-			x=0,y=0,damage=1000,
-			points={}, fired_cnt=-1,
+			x=0,y=0,damage=1000,fired_cnt=-1,
 			dx1=1,dx2=1,dy1=1,dy2=1,
 			
 			update = function(_ENV)
@@ -188,6 +188,42 @@ function create_screen(id)
 					dx2 -= 0.1
 					dy2 -= 0.1
 				end
+			end,
+		})
+
+	-- ID 5: Cursor
+	elseif id==5 then
+		screen = screen_parent:new({
+			x=plyr.x,y=plyr.y,damage=10,
+			points={},dir=rnd(1),
+			
+			update = function(_ENV)
+				if (x>128) 	x=128 dir=0.25+rnd(0.5)
+				if (x<0) 	x=0   dir=0.75+rnd(0.5)
+				if (y>128) 	y=128 dir=rnd(0.5)
+				if (y<0) 	y=0   dir=0.5+rnd(0.5)
+
+				x+=cos(dir)
+				y+=sin(dir)
+
+				mtrx_x = flr(x/8)
+				mtrx_y = flr(y/8)
+
+				for i=-1,1 do
+					for j=-1,1 do
+						mx = mtrx_x+i
+						my = mtrx_y+j
+						if (1<=mx and mx<=16) and (1<=my and my<=16) then
+							global.screen_damage_mtrx[mx][my] += damage
+						end
+					end
+				end
+			end,
+
+			draw = function(_ENV)
+				cx,cy=camera()
+				sspr(16,48,8,8,x-8,y-8,16,16)
+				camera(cx,cy)
 			end,
 		})
 	end
@@ -262,6 +298,9 @@ function create_item(type, id)
 			add(screen_list, i)
 		elseif id==4 then
 			i = create_screen(4)
+			add(screen_list, i)
+		elseif id==5 then
+			i = create_screen(5)
 			add(screen_list, i)
 		end
 		return item
