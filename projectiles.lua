@@ -23,7 +23,7 @@ function create_proj(start_x, start_y, type, start_dir)
 				-- Destroy self if colliding with enemy
 				-- TODO: decrease parent's health
 				if collide_2(self, parent_enemy) then
-					enemy.health -= self.damage
+					parent_enemy.health -= self.damage
 					del(parent_enemy.projs, self)
 				end
 			end,

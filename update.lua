@@ -9,7 +9,7 @@ function _update()
     end
 
 	-- If in transition, block all player input
-	block = counters.trans_cnt != -1
+	block = counters.trans != -1
 
 	-- If menu is active and not blocked,
 	if control_menu and not block then
@@ -30,7 +30,7 @@ function _update()
 				global.control_menu = false
 			else
 				-- Begin transition
-				counters.trans_cnt = 30
+				counters.trans = 30
 			end
 		end
 	end
@@ -45,8 +45,29 @@ function _update()
 			q=1
 		-- Normal gameplay
 		elseif not pause then
+			-- DEBUG: Increase XP
 			if btnp(5) then
 				plyr.xp += 10
+			end
+
+			if #enemies != enemy_limit and counters.enemy_respawn == -1 then
+				counters.enemy_respawn = enemy_respawn_gap
+
+				-- Choose random enemy type
+				e_type = 1 + flr(rnd(3))
+
+				-- enemies start close to any corner of the screen
+				-- maximum distance = how far from corners of screen
+				maxD = 20
+				eX = maxD + flr(rnd(128))
+				eY = maxD + flr(rnd(128))
+				printh("eX: "..eX)
+				printh("eY: "..eY)
+
+				add(enemies, enemy_types[e_type]:new{
+					x = eX,
+					y = eY,
+				})
 			end
 
 			-- Record current time
@@ -79,7 +100,7 @@ function _update()
 
 	-- Change to different menu modes in the middle of transitions (15th frame out of 30)
 	-- (when screen is fully covered by transition)
-	if counters.trans_cnt == 15 then
+	if counters.trans == 15 then
 		-- Main menu -> gameplay
 		if (menu==1) menu=2 init_game()
 		-- Gameplay -> main menu

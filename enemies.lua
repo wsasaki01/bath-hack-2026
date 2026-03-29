@@ -1,4 +1,6 @@
 function enemies_setup()
+	enemies = {}
+
     -- enemy base class object
     enemy = class:new({
         x = -1,
@@ -26,6 +28,7 @@ function enemies_setup()
         check_death = function(self)
             if self.health <= 0 then
                 -- TODO: Death animation
+                plyr.xp += self.reward
                 del(enemies, self)
             end
         end,
@@ -46,21 +49,13 @@ function enemies_setup()
             -- if enemy at player position, health decreases
             -- replace w goated collisions later
             if x == px or y == py then global.plyr.h -= 10 end
-            
-            -- if offscreen, reset positions
-            if x > 127 or x < 0 then
-                x = global.maxD + flr(rnd(128))
-            end
-            if y > 127 or y < 0 then
-                y = global.maxD + flr(rnd(128))
-            end
         end,
 
         -- TODO: different draw for different enemies
         draw = function(_ENV)
             spr(2, x-4, y-4)
-            line(x-4,y+6,x+4,y+6,8)
-            line(x-4,y+6,x-4+health/20*8,y+6,9)
+            --line(x-4,y+6,x+4,y+6,8)   -- Health bar
+            --line(x-4,y+6,x-4+health/20*8,y+6,9)
         end
     })
 
@@ -83,4 +78,6 @@ function enemies_setup()
         clr = 2,
         name = "wine"
     })
+
+	enemy_types = {wine, beer, ginger_beer}
 end

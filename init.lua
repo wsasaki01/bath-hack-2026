@@ -12,7 +12,7 @@ function _init()
 
 	-- See README for counter info
     counters = {}
-    cname = split"trans_cnt"
+    cname = split"trans,enemy_respawn"
     for c in all(cname) do
         counters[c] = -1
     end
@@ -52,27 +52,8 @@ function init_game()
 
 	-- Setup enemies
 	enemies_setup()
-	enemies = {}
-
-	types = {wine, beer, ginger_beer}
-
-	-- Spawn (for now) 2 enemies
-	for i=1,1 do
-		e_type = 1 + flr(rnd(3))
-
-		-- enemies start close to any corner of the screen
-		-- maximum distance = how far from corners of screen
-		maxD = 20 
-		eX = maxD + flr(rnd(128))
-		eY = maxD + flr(rnd(128))
-		printh("eX: "..eX)
-		printh("eY: "..eY)
-
-		add(enemies, types[e_type]:new{
-			x = eX,
-			y = eY,
-		})
-	end
+	enemy_limit = 5
+	enemy_respawn_gap = 20
 
 	-- Add a new item to roster
 	items = {}
