@@ -9,7 +9,7 @@ function create_proj(start_x, start_y, type, start_dir)
 	local proj = {}
 
 	-- Types 1 and 2 are the same, but with slightly different direction management
-	if type<=2 then
+	if is_in(type, {1,2,6}) then
 		proj = proj_parent:new({
 			x=start_x, y=start_y, damage=10, dir=0,
 			
@@ -38,9 +38,10 @@ function create_proj(start_x, start_y, type, start_dir)
 			end,
 		})
 	
-		if type==2 then
+		if type!=1 then
 			proj.dir = start_dir	-- Direction needs to change slowly over time
 			proj.alive_cnt = 0		-- New direction function only used for first 30 frames
+			proj.speed = type==2 and 1 or 3
 			proj.update_dir = function(self, tx, ty)
 				self.alive_cnt += 1
 				local d = atan2(tx-self.x, ty-self.y)
@@ -56,9 +57,8 @@ function create_proj(start_x, start_y, type, start_dir)
 					self.dir = d
 				end
 			end
-
 			proj.draw = function(_ENV)
-				spr(81, x-4, y-4)
+				spr(type==2 and 81 or 82, x-4, y-4, 1, 1, not (dir<0.25 or 0.75<dir))
 			end
 		end
 	end
@@ -237,7 +237,6 @@ proj_manager = class:new({
 	-- Spawn this item every N frames
 	type="proj", n = 60, id=0, data={},
 	cooldown = function(self)
-		printh(self.data.name)
 		-- If cooldown is up
 		if global_cnt % self.n == 0 then
 			local px,py = global.plyr.x, global.plyr.y
@@ -250,6 +249,10 @@ proj_manager = class:new({
 				elseif self.id==2 then
 					for i=-1,1 do
 						add(proj_list, create_proj(px, py, 2, global.plyr.dir-0.5+i*0.45))
+					end
+				elseif self.id==6 then
+					for i=-1,0 do
+						add(proj_list, create_proj(px, py, 6, global.plyr.dir-0.5+i*0.45))
 					end
 				end
 
@@ -288,6 +291,7 @@ function create_item(type, id)
 		local item = proj_manager:new({id=id, data=item_data[id]})
 		if (id == 1) item.n = 50
 		if (id == 2) item.n = 170
+		if (id == 6) item.n = 120
 		return item 
 
 	elseif type=="screen" then

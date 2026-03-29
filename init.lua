@@ -130,4 +130,14 @@ item_data = {
 		desc="fLASHBANG WITH\nPHOTOGRAPHY!",
 		sprx=8, spry=48, spr=97
 	},
+	{
+		name="cursor", id=5,equipped=false,
+		desc="cs STUDENTS RISE\nUP!!!!!!",
+		sprx=16, spry=48, spr=98
+	},
+	{
+		name="pencil", id=6,equipped=false,
+		desc="yOUR TRUSTY EXAM\nPENCIL",
+		sprx=16, spry=32, spr=98
+	},
 }
