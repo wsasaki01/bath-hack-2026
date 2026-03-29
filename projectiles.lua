@@ -14,20 +14,17 @@ function create_proj(start_x, start_y, type, start_dir)
 			x=start_x, y=start_y, damage=10,
 			
 			update = function(self, parent_enemy)
-				self:update_dir(parent_enemy.x, parent_enemy.y)
-
 				-- Move in that direction
 				self.x += cos(self.dir) * self.speed
 				self.y += sin(self.dir) * self.speed
 
-				printh("x+="..cos(self.dir) * self.speed)
-				printh("y+="..sin(self.dir) * self.speed)
+				--printh("x+="..cos(self.dir) * self.speed)
+				--printh("y+="..sin(self.dir) * self.speed)
 
 				-- Destroy self if colliding with enemy
-				-- TODO: decrease parent's health
 				if collide_2(self, parent_enemy) then
-					--parent_enemy.health -= self.damage
-					del(parent_enemy.projs, self)
+					parent_enemy.health -= self.damage	-- Decrease enemy's health on hit
+					del(parent_enemy.projs, self)		-- Destroy self
 				end
 			end,
 
@@ -38,7 +35,7 @@ function create_proj(start_x, start_y, type, start_dir)
 
 			draw = function(_ENV)
 				spr(32, x-4, y-4)
-				line(x,y,x+cos(dir)*15,y+sin(dir)*15)
+				--line(x,y,x+cos(dir)*15,y+sin(dir)*15)
 			end,
 		})
 	

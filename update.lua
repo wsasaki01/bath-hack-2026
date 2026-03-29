@@ -52,26 +52,7 @@ function _update()
 				plyr.xp += 10
 			end
 
-			if #enemies != enemy_limit and counters.enemy_respawn == -1 then
-				counters.enemy_respawn = enemy_respawn_gap
-
-				-- Choose random enemy type
-				e_type = 1 + flr(rnd(3))
-
-				-- enemies start close to any corner of the screen
-				-- maximum distance = how far from corners of screen
-				maxD = 20
-				eX = maxD + flr(rnd(128))
-				eY = maxD + flr(rnd(128))
-				printh("eX: "..eX)
-				printh("eY: "..eY)
-
-				add(enemies, enemy_types[e_type]:new{
-					x = eX,
-					y = eY,
-        			projs = {},	-- Redeclare so all enemies have unique projectile lists
-				})
-			end
+			if (#enemies != enemy_limit and counters.enemy_respawn == -1) spawn_enemy()
 
 			-- Record current time
 			time = flr(t())

@@ -15,6 +15,7 @@ function enemies_setup()
 
         update_projs = function(self)
             for p in all(self.projs) do
+                -- Make projectile move towards enemy
                 p:update_dir(self.x, self.y)
                 p:update(self)
             end
@@ -81,4 +82,23 @@ function enemies_setup()
     })
 
 	enemy_types = {wine, beer, ginger_beer}
+end
+
+function spawn_enemy()
+    counters.enemy_respawn = enemy_respawn_gap
+
+    -- Choose random enemy type
+    e_type = 1 + flr(rnd(3))
+    
+    -- Pick a random direction
+    local dir = rnd(1)
+
+    -- Spawn enemy in the direction (relative to player), off-screen
+    local eX,eY=plyr.x+cos(dir)*100,plyr.y+sin(dir)*100
+
+    add(enemies, enemy_types[e_type]:new{
+        x = eX,
+        y = eY,
+        projs = {},	-- Redeclare so all enemies have unique projectile lists
+    })
 end
