@@ -2,18 +2,37 @@ function _draw()
 	-- Draw background
 	cls(7)
 	
-	-- Title Screen
-	if menu==1 then
-		cls(11)
+	-- Title Screen and character selection
+	if menu==0 or menu==1 then
+		cls(11)	-- Sky
+
+		function star(x,y,r)
+			line(x-r,y,x+r,y,0)
+			line(x,y-r,x,y+y,0)
+		end
+		star(30,4,4)	-- Stars
+		star(60,7,5)
+		star(95,2,3)
+		star(110,3,2)
+
+		rectfill(0,31,128,128,0) -- Inside
+		fillp(▒)
+		for p in all(pub_lights) do
+			circfill(p.x,p.y+sin((global_cnt+p.r)/100)*5,p.r+10,12,p.c)
+		end
+		fillp()
 
 		rectfill(0,10,128,30,4)						-- Title banner
+		fillp(▒)
+		rrectfill(6,9,20,10,3,3)					-- Neon lighting
+		rrectfill(6,17,78,15,3,3)
+		fillp()
 		print("\^o3ffuni", 10, 12, 11)				-- Uni
 		print("\^t\^w\^o3ffsurvivors", 10, 19)		-- Survivors
 
-		rectfill(0,31,128,128,0) -- Inside
 
-		rectfill(0,31,128,34,2)	-- Top bezel
-		rectfill(0,45,128,48,2)	-- Middle bezel
+		rectfill(0,black_tly,128,black_tly+black_tlh,2)	-- Top bezel
+		rectfill(0,45,128,48,2)		-- Middle bezel
 		rectfill(80,31,83,128,2)	-- Left door bezel
 		rectfill(110,31,113,128,2)	-- Right door bezel
 
@@ -46,6 +65,7 @@ function _draw()
 			circfill(p.x+sin((global_cnt+p.r*43)/100),p.y+cos((global_cnt+p.r*120)/130),p.r)
 		end
 
+		-- Wetherfork bannisters
 		-- Draw twice (55 pixels apart)
 		for i=0,55,55 do
 			pset(i-1,89,3)						-- Top left dot
@@ -56,10 +76,15 @@ function _draw()
 			print("\^uWETHERFORK",i+3,102,8)	-- Text
 			circfill(i+50,88,2,2)				-- Post Top
 			fillp(▒)
-			ovalfill(i+46,120,i+54,124)		-- Post Shadow
+			ovalfill(i+46,120,i+54,124)			-- Post Shadow
 			fillp()
 			rectfill(i+48,88,i+52,122,2)		-- Post
 		end
+
+		-- Press O to start
+		rrectfill(87,start_tly,38,17,2,0)
+		print("🅾️/z",97,start_tly+3,2)
+		print("TO START!",89,start_tly+8,2)
 
 		--print(menu_pre(1).."start game", 20, 60)
 		--print(menu_pre(2).."second thing idk", 20, 70)

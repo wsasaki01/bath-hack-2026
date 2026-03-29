@@ -11,33 +11,56 @@ function _update()
 	-- If in transition, block all player input
 	block = counters.trans_cnt != -1
 
+	black_tly = tend(black_tly,black_tlyt,0.30)
+	black_tlh = tend(black_tlh,black_tlht,0.30)
+	start_tly = tend(start_tly,start_tlyt,0.15)
+
 	-- If menu is active and not blocked,
 	if control_menu and not block then
+		local inc_btn = vertical and 3 or 1
+		local dec_btn = vertical and 2 or 0
+
 		-- Moving "cursor"
-		if btnp(2) and menu_idx != menu_idx_min then
+		if btnp(dec_btn) and menu_idx != menu_idx_min then
 			menu_idx -= 1
-		elseif btnp(3) and menu_idx != menu_idx_max then
+		elseif btnp(inc_btn) and menu_idx != menu_idx_max then
 			menu_idx += 1
 		end
 
 		-- Selecting options
 		if btnp(4) then
-			-- Begin transition
-			-- Needs to be more complex if there are any items added that don't transition
-			counters.trans_cnt = 30
+			if menu==2 then
+				-- Begin transition
+				counters.trans_cnt = 30
+			end
 		end
 	end
 
 	-- Title Screen
-	if menu==1 then
-		-- Generate vape clouds at intervals
-		if global_cnt % 150 == 0 then
-			local main_x=rnd(75)
-			for i=1,4 do
-				add(vape, {
-					x=main_x+rnd(10), y=100+rnd(10), a=10+rnd(2),
-					r=5+rnd(5), cnt=0
-				})
+	if menu==0 or menu==1 then
+		if menu==0 and btnp(4) then
+			printh("yes!")
+			menu=1
+			black_tlyt=9
+			black_tlht=39
+			start_tlyt=20
+			control_menu = true
+			vertical = false
+			-- TODO: Change to number of playable characters
+			menu_idx_min = 1	-- Minimum and maximum indices
+			menu_idx_max = 2	-- Changes depending on which menu is being used
+		end
+
+		if menu==0 then
+			-- Generate vape clouds at intervals
+			if (global_cnt+120) % 190 == 0 then
+				local main_x=rnd(75)
+				for i=1,4 do
+					add(vape, {
+						x=main_x+rnd(10), y=100+rnd(10), a=10+rnd(2),
+						r=5+rnd(5), cnt=0
+					})
+				end
 			end
 		end
 
@@ -97,4 +120,9 @@ end
 -- Pass in two objects with x, y, and collide_r
 function collide_2(a, b)
     return ((a.x - b.x)^2 + (a.y - b.y)^2) <= a.collide_r + b.collide_r
+end
+
+function tend(x,t,r)
+    local o = x+(t-x)*r
+    return abs(t-o)<1 and t or o
 end

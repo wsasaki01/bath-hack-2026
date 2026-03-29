@@ -18,19 +18,26 @@ function _init()
     end
 
 	-- Which part of the game are you in?
-	-- 1(main menu) 2(game)
-	menu = 1
+	-- 0(title) 1(character select) 2(game)
+	menu = 0
 
 	-- Is the player currently controlling the menu?
-	control_menu = true
+	control_menu = false
+	vertical = true
 
-	-- Random people data for title screen
+	-- Data for title screen
 	people = {}
 	for i=1,30 do
 		add(people, {x=rnd(100)-15,y=70+rnd(15),r=8+rnd(6)})
 	end
-
 	vape = {}
+	pub_lights = {}
+	for i=1,10 do
+		add(pub_lights, {x=rnd(110)+10, y=rnd(30)+40, r=rnd(10), c=rnd(1)<0.5 and 12 or 13})
+	end
+	black_tly=31 black_tlyt=31
+	black_tlh=3 black_tlht=3
+	start_tly=12 start_tlyt=12
 
 	-- Main menu selected option index
 	menu_idx = 1
