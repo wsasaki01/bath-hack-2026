@@ -45,6 +45,9 @@ function player_setup()
 				level += 1
 				xp = level % 100
 
+				enemy_limit *= 50
+				enemy_respawn_gap *=0.9
+
 				-- Select
 				global.selecting_item = true
 				global.pause = true
@@ -72,6 +75,12 @@ function player_setup()
 				self.iframe = 3
 			end
 		end,
+
+		detect_sprite_collisions = function(x, y)
+			cx = x / 8
+			cy = y / 8
+			return fget(mget(cx, cy), 1)
+		end,
 		
 		update = function(_ENV)
 			if iframe >= 0 then iframe -= 1 end
@@ -90,10 +99,18 @@ function player_setup()
 			
 			dir=atan2(hor, ver)
 			if hor!=0 or ver!=0 then
-				x+= cos(dir) * spd
-				y+= sin(dir) * spd
+				_x= x+ cos(dir) * spd
+				_y= y+ sin(dir) * spd
 
-				idle = false
+				if not detect_sprite_collisions(_x,_y) then
+					x = _x
+					y = _y
+					idle=false
+				else
+					idle=true
+				end
+
+			
 				if anim_i != get_dir_from_tan(dir) then -- changed direction = restart animation
 					anim_i = get_dir_from_tan(dir)
 					anim_frame = 1

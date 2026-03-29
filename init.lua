@@ -54,10 +54,10 @@ function _init()
 	end_screen = false
 
 	--[[
-	]]
 	-- DEBUG: Launch to game
 	menu = 3
 	init_game()
+	]]
 
 	--[[
 	-- DEBUG: Launch to intro cutscene
@@ -82,6 +82,8 @@ function init_game()
 	-- Create player
 	player_setup()
 	plyr = plyr2:new()
+	plyr.x=127
+	plyr.y=127
 
 	-- Setup enemies
 	enemies_setup()

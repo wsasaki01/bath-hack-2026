@@ -123,7 +123,7 @@ function _update()
 			time = flr(t())
 
 			-- Stop game after time is up
-			if time > 1 then
+			if time > 9000 then
 				end_screen = true		-- Enable the end screen
 				control_menu = true		-- Enable control of menus
 				menu_idx = 1			-- Set the first item to be selected

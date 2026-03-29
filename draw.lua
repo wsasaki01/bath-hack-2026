@@ -102,7 +102,7 @@ function _draw()
 				rectfill(i-3,41,i+13,71,1)
 			end
 			if j<=3 then
-				sspr(0,24,8,8,i-3,56,16,16)
+				sspr(24,48,8,8,i-3,56,16,16)
 			end
 			print(days[j], i, 44,2)
 		end
@@ -114,7 +114,7 @@ function _draw()
 		print(sub(top_line1,0,max(360-ic,0)),12,13,2)
 		if (ic<335) print(sub(top_line2,0,335-ic),13,20,2)
 
-		if (ic<295) sspr(8,8,8,8,65,54,16,16)
+		if (ic<295) sspr(32,48,8,8,65,54,16,16)
 		if (ic==260) sh_str=0.5 sfx(6) 
 		if (ic<260) shake(0,0) print("exam",83,60,9)
 
@@ -143,8 +143,9 @@ function _draw()
 		-- Centre camera on player
 		camera(plyr.x-60,plyr.y-60)
 
-		-- Draw map
-		map(0,0,0,0,8,8)
+		rectfill(-2000,-2000,2000,2000,11)    -- Background Darkness
+		map(0,0,0,0,128,128)
+
 
 		-- Screen item updates
 		for screen in all(screen_list) do

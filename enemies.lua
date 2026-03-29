@@ -41,7 +41,7 @@ function enemies_setup()
                 plyr.xp += self.reward
                 for p in all(self.projs) do 
                     near_e = find_nearest_enemy(p.x,p.y)
-                    if (near_e!=0) printh("added!") add(near_e.projs, p)
+                    if (near_e!=0) add(near_e.projs, p)
                 end
             end
         end,
