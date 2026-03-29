@@ -168,7 +168,7 @@ function _draw()
 		print("LEVEL",108,109,1)
 		print("\^t\^w"..(plyr.level<10 and "0" or "")..plyr.level,111,116)
 		rectfill(1,121,106,126,7)					-- Full (empty) XP bar
-		rectfill(1,121,1+105*plyr.xp/100,126,12)	-- Collected XP
+		rectfill(1,121,1+105*plyr.xp/100,126,3)	-- Collected XP
 
 		alc_height = 100-plyr.hp
 		rectfill(120,0,128,108,6)	-- Main right bar

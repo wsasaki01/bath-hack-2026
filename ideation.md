@@ -1,14 +1,15 @@
 Weapon ideas
 
-- Vape cloud
-- Stationery
-- Computer science stench (garlic)
-- Something that fires at the nearest enemy
-- Darts (axe)
-- Pool stick (whip)
-- Ultimate frisbee (boomerang)
-- Egg (projectile)
-- CS Cursor
+St~~ationery~~
+- ~~Computer science stench (garlic)~~
+- ~~~~
+- ~~Darts (axe)~~
+- ~~Pool stick (whip)~~res at the nearest enemy
+- ~~Ultimate frisbee (boomerang)~~
+- ~~Egg (projectile)~~)
+- ~~CS Cursor~~frisbee (boomerang)
+- ~~Wrench (boomerang)~~
+- ~~Camera flash~~
 - Wrench (boomerang)
 - Camera flash
 - Abacus beads
@@ -36,8 +37,5 @@ Ultimate attacks
 - Maths: equations flying?
 - Physics: forcefield
 - Business: stonks arrows?
-
-
-
 - Resits
 - enjoying pub after exam is over

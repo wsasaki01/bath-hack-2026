@@ -11,7 +11,7 @@ function create_proj(start_x, start_y, type, start_dir)
 	-- Types 1 and 2 are the same, but with slightly different direction management
 	if type<=2 then
 		proj = proj_parent:new({
-			x=start_x, y=start_y, damage=10,
+			x=start_x, y=start_y, damage=10, dir=0,
 			
 			update = function(self, parent_enemy)
 				-- Move in that direction
@@ -23,8 +23,8 @@ function create_proj(start_x, start_y, type, start_dir)
 
 				-- Destroy self if colliding with enemy
 				if collide_2(self, parent_enemy) then
-					parent_enemy:take_damage(self.damage)	-- Decrease enemy's health on hit
 					del(parent_enemy.projs, self)			-- Destroy self
+					parent_enemy:take_damage(self.damage)	-- Decrease enemy's health on hit
 				end
 			end,
 
@@ -34,7 +34,8 @@ function create_proj(start_x, start_y, type, start_dir)
 			end,
 
 			draw = function(_ENV)
-				spr(22, x-4, y-4)
+				spr(80, x-4, y-4, 1, 1, not (dir<0.25 or 0.75<dir))
+				print(dir,x,y+8,2)
 			end,
 		})
 	

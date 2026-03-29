@@ -82,11 +82,12 @@ function init_game()
 
 	-- Setup enemies
 	enemies_setup()
-	enemy_limit = 1
+	enemy_limit = 10
 	enemy_respawn_gap = 20
 
 	-- Add a new item to roster
 	items = {}
+	add(items, create_item("proj", 1))
 	item_data[1].equipped = true
 
 	screen_list = {}	-- Screen effects
@@ -98,7 +99,7 @@ function init_game()
 		end
 		add(screen_damage_mtrx, row)
 	end
-	add(items, create_item("screen", 3))
+	--add(items, create_item("screen", 3))
 
 	-- Selecting an item on level up
 	selecting_item = false
@@ -116,12 +117,17 @@ item_data = {
 	},
 	{
 		name="egg", id=2,equipped=false,
-		desc="eGG YOUR\nOPPONENTS!.",
+		desc="eGG YOUR\nOPPONENTS!",
 		sprx=8, spry=32, spr=65
 	},
 	{
 		name="cs stench", id=3,equipped=false,
 		desc="eVER HEARD OF\nDEODORANT??",
-		sprx=16, spry=32, spr=66
+		sprx=0, spry=48, spr=96
+	},
+	{
+		name="camera flash", id=3,equipped=false,
+		desc="fLASHBANG WITH\nPHOTOGRAPHY!",
+		sprx=8, spry=48, spr=97
 	},
 }
