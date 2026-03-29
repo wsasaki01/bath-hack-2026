@@ -8,8 +8,8 @@ proj_parent = class:new({
 function create_proj(start_x, start_y, type, start_dir)
 	local proj = {}
 
-	-- Types 0 and 1 are the same, but with slightly different direction management
-	if type<=1 then
+	-- Types 1 and 2 are the same, but with slightly different direction management
+	if type<=2 then
 		proj = proj_parent:new({
 			x=start_x, y=start_y,
 			
@@ -31,11 +31,11 @@ function create_proj(start_x, start_y, type, start_dir)
 			end,
 
 			draw = function(_ENV)
-				spr(17, x, y)
+				spr(32, x, y)
 			end,
 		})
 	
-		if type==1 then
+		if type==2 then
 			proj.dir = start_dir	-- Direction needs to change slowly over time
 			proj.alive_cnt = 0		-- New direction function only used for first 30 frames
 			proj.update_dir = function(self, parent_enemy)
@@ -52,10 +52,6 @@ function create_proj(start_x, start_y, type, start_dir)
 					-- After 30 secs, change back to normal direction management
 					self.dir = d
 				end
-			end
-
-			proj.draw = function(_ENV)
-				spr(17, x, y)
 			end
 		end
 	end
@@ -85,14 +81,13 @@ item_parent = class:new({
 				end
 			end
 			if near_e != 0 then
-				printh("found enemy!")
 				local proj_list = {}
 
 				if type==1 then
 					add(proj_list, create_proj(px, py, 0))
-				elseif type==1 then
+				elseif type==2 then
 					for i=-1,1 do
-						add(proj_list, create_proj(px, py, 1, global.plyr.dir-0.5+i*0.45))
+						add(proj_list, create_proj(px, py, 2, global.plyr.dir-0.5+i*0.45))
 					end
 				end
 

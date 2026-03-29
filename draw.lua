@@ -20,7 +20,7 @@ function _draw()
 		plyr:draw()
 
 		-- Drawing enemies
-		for enemy in all(enemies) do 
+		for enemy in all(enemies) do
 			enemy:draw()		-- Draw enemies
 			enemy:draw_projs()	-- Draw projectiles honing in on that enemy
 		end
