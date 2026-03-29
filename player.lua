@@ -29,7 +29,7 @@ playerClass = class:new({
 	hp = 100,
 	iframe = -1, -- frames invincible from dmg
 
-	spd = 1, -- player movement speed (should be > enemy speed)
+	spd = 1.6, -- player movement speed (should be > enemy speed)
 	def = 1, -- how fast hp decreases
 	str = 1, -- raw dmg multiplier
 	luck = 1, -- i would love luck mechanics

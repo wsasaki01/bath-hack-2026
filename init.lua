@@ -28,14 +28,7 @@ function _init()
 	control_menu = true
 
 	-- Main menu selected option index
-	menu_idx = 1
-	menu_idx_min = 1	-- Minimum and maximum indices
-	menu_idx_max = 2	-- Changes depending on which menu is being used
-
-	-- Is the "end" screen being shown on top of gameplay?
-	end_screen = false
-
-	--[[]]
+	
 	-- DEBUG: Launch to game
 	menu = 2
 	init_game()
