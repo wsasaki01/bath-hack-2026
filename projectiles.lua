@@ -126,14 +126,14 @@ function create_screen(id)
 			dx1=1,dx2=1,dy1=1,dy2=1,
 			
 			update = function(_ENV)
-				if (fired_cnt!=-1) fired_cnt-=1
 				x=global.plyr.x
 				y=global.plyr.y
 				local pd = global.plyr.dir
 
 				-- Fires every 20 seconds
-				if global.global_cnt % 20==0 then
-					fired_cnt = 10
+				if global.global_cnt % 600==0 then
+					fired_cnt = 20
+					fired_cnt-=1
 					x1,x2=1,1
 					y1,y2=1,1
 					if pd < 0.25 then
@@ -150,14 +150,20 @@ function create_screen(id)
 						y1,y2=9,16
 					end
 
+					dx1=x1*8-8+4 dx2=x2*8-8-4
+					dy1=y1*8-8+4 dy2=y2*8-8-4
+				end
+
+				if fired_cnt != -1 then
+					fired_cnt -= 1
+				end
+
+				if fired_cnt == 0 then
 					for i=x1,x2 do
 						for j=y1,y2 do
 							global.screen_damage_mtrx[i][j] += damage
 						end
 					end
-
-					dx1=x1*8-8+4 dx2=x2*8-8-4
-					dy1=y1*8-8+4 dy2=y2*8-8-4
 				end
 			end,
 
@@ -176,6 +182,11 @@ function create_screen(id)
 					line(dx2,dy2,dx2,dy2-5)	-- BR up
 					line(dx2,dy2,dx2-5,dy2)	-- BR left
 					camera(cx,cy)
+
+					dx1 += 0.1
+					dy1 += 0.1
+					dx2 -= 0.1
+					dy2 -= 0.1
 				end
 			end,
 		})
