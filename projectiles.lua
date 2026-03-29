@@ -1,10 +1,10 @@
--- Projectiles are weapons which hone in on enemies
+-- What each screen instance needs
 proj_parent = class:new({
 	collide_r=6, speed=1,
 	dir=0, size=4,
 })
 
--- Create a projectile which moves towards a parent enemy
+-- Create a single projectile which moves towards a parent enemy
 function create_proj(start_x, start_y, type, start_dir)
 	local proj = {}
 
@@ -67,10 +67,39 @@ function create_proj(start_x, start_y, type, start_dir)
 	return proj
 end
 
+-- What each screen instance needs
+screen_parent = class:new({
+	n = 60, id=0, data={}
+})
+
+-- Create a single area effect
+function create_screen(id)
+	local screen = {}
+
+	-- ID 3: Forcefield
+	if id==3 then
+		screen = screen_parent:new({
+			damage=1,
+			
+			update = function(self, parent_enemy)
+				x=plyr.x
+				y=plyr.y
+			end,
+
+			draw = function(_ENV)
+				circfill(x,y,15,3)
+			end,
+		})
+	end
+
+	return screen
+end
+
 -- Items are power-ups added to the player's collection on every level up
-item_parent = class:new({
+-- This object manages the spawning of a certain kind of projectile
+proj_manager = class:new({
 	-- Spawn this item every N frames
-	n = 60, type=0, data={},
+	type="proj", n = 60, id=0, data={},
 	cooldown = function(self)
 		-- If cooldown is up
 		if global_cnt % self.n == 0 then
@@ -79,9 +108,9 @@ item_parent = class:new({
 			if near_e != 0 then
 				local proj_list = {}
 
-				if self.type==1 then
+				if self.id==1 then
 					add(proj_list, create_proj(px, py, 1))
-				elseif self.type==2 then
+				elseif self.id==2 then
 					for i=-1,1 do
 						add(proj_list, create_proj(px, py, 2, global.plyr.dir-0.5+i*0.45))
 					end
@@ -95,6 +124,9 @@ item_parent = class:new({
 		end
 	end,
 })
+
+-- This object manages the spawning of a certain kind of screen effect
+screen_manager = class:new({type="screen", })
 
 -- Find nearest enemy from centre x,y coords
 function find_nearest_enemy(cx,cy)
@@ -112,10 +144,19 @@ function find_nearest_enemy(cx,cy)
 	return near_e
 end
 
--- Create an item, which spawns projectiles on a cooldown
-function create_item(type)
-	local item = item_parent:new({type=type, data=item_data[type]})
-	if (type == 1) item.n = 40
+-- Create an item (either projectile or screen type)
+function create_item(type, id)
 
-	return item
+	if type=="proj" then
+		local item = proj_manager:new({id=id, data=item_data[id]})
+		if (id == 1) item.n = 40
+		if (id == 2) item.n = 40
+		return item
+
+	elseif type=="screen" then
+		local item = screen_manager:new({id=id, data=item_data[id]})
+		if (id == 3) add(screen_list, create_screen(3))
+		return item
+	end
+
 end

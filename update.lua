@@ -66,7 +66,9 @@ function _update()
 
 			-- Cooldown all items, and shoot if cooldown is up
 			for i in all(items) do
-				i:cooldown()
+				if i.type=="proj" then
+					i:cooldown()
+				end
 			end
 
 			-- Move all projectiles towards enemies
@@ -79,6 +81,11 @@ function _update()
 			-- Player movement
 			plyr:move()
 			plyr:score_update()
+
+			-- Screen item updates
+			for screen in all(screen_list) do
+				screen:update()
+			end
 		end
 	end
 

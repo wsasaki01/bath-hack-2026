@@ -16,6 +16,11 @@ function _draw()
 		-- Draw map
 		map(0,0,0,0,8,8)
 
+		-- Screen item updates
+		for screen in all(screen_list) do
+			screen:draw()
+		end
+
 		-- Draw player
 		plyr:draw()
 

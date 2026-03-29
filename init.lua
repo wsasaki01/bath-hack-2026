@@ -57,8 +57,10 @@ function init_game()
 
 	-- Add a new item to roster
 	items = {}
-	add(items, create_item(1))
 	item_data[1].equipped = true
+
+	screen_list = {}	-- Screen effects
+	add(items, create_item("screen", 3))
 
 	-- Selecting an item on level up
 	selecting_item = false
@@ -80,8 +82,8 @@ item_data = {
 		sprx=8, spry=32, spr=65
 	},
 	{
-		name="camera flash", id=3,equipped=false,
-		desc="fLASHBANG WITH A\nSURPRISE SELFIE!",
+		name="cs stench", id=3,equipped=false,
+		desc="eVER HEARD OF\nDEODORANT??",
 		sprx=16, spry=32, spr=66
 	},
 }
