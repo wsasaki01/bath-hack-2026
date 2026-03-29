@@ -43,7 +43,9 @@ function _draw()
 		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,0,7)
 
 		-- debug display player health
-		print("player health: "..plyr.hp, 7, 120, 4)
+		--print("hp: "..plyr.hp, 7, 120, 4)
+		print("dir: "..plyr.anim_i.." .. "..plyr.dir, 7, 120, 4)
+		print(plyr.tick, 80, 120, 12)
 		print(total_dmg, 90, 120, 8)
 		print("i "..plyr.iframe, 100, 120, 4)
 

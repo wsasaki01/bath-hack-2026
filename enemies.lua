@@ -4,12 +4,12 @@ function enemies_setup()
     -- enemy base class object
     enemy = class:new({
         name = "enemy",
-        clr = 12,   -- colour
-        sprt = 10,  -- sprite index
+        clr = -1,   -- colour
+        sprt = 6,  -- sprite index
 
         x = -1,
         y = -1,
-        collide_r = 2,  -- circle radius for projectiles
+        collide_r = 4,  -- circle radius for projectiles
 
         dmg = 1,   -- strength of attack
         spd = 20,    -- speed
@@ -57,19 +57,19 @@ function enemies_setup()
     -- enemy class entities
     -- more subclasses can be added if needed e.g. drinks, evil old men, etc
     beer = enemy:new({
+        name = "beer",
         spd = 0.5,
-        clr = 10,
-        name = "beer"
+        sprt = 23,
     })
 
     ginger_beer = beer:new({
-        clr = 4,
-        name = "ginger beer"
+        name = "ginger beer",
+        clr = 4, -- TODO: try and recolour beer sprite?
     })
 
     wine = enemy:new({
+        name = "wine",
         spd = 0.25,
-        clr = 2,
-        name = "wine"
+        sprt = 7
     })
 end

@@ -1,7 +1,12 @@
 function _init()
 	printh("**********************")
+	-- colour pallete swapping
 	poke(0x5f2e,1)
 	pal({[0]=7,6,0,-4,15,4,-12,-16,14,8,-8,-15,-9,-6,-5,-13},1)
+	-- transparency swapping
+	palt(0, false)
+	palt(3, true) -- bright blue as transparent (for now)
+
 	-- Global counter, increments every frame
 	global_cnt = 0
 
@@ -9,7 +14,9 @@ function _init()
 	block = false
 
 	-- See README for counter info
-    counters = {}
+    counters = {
+		"anim_timer"
+	}
     cname = split"trans_cnt"
     for c in all(cname) do
         counters[c] = -1
