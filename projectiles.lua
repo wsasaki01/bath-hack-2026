@@ -1,46 +1,97 @@
--- Projectiles are weapons which hone in on enemies
+-- What each screen instance needs
 proj_parent = class:new({
 	collide_r=6, speed=1,
 	dir=0, size=4,
 })
 
--- Create a projectile which moves towards a parent enemy
+-- Create a single projectile which moves towards a parent enemy
 function create_proj(start_x, start_y, type, start_dir)
 	local proj = {}
 
-	-- Types 0 and 1 are the same, but with slightly different direction management
-	if type<=1 then
+	-- Types 1 and 2 are the same, but with slightly different direction management
+	if is_in(type, {1,2,6,7,8}) then
 		proj = proj_parent:new({
-			x=start_x, y=start_y,
+			x=start_x, y=start_y, damage=10, dir=0,
 			
 			update = function(self, parent_enemy)
-				self:update_dir(parent_enemy)
-
 				-- Move in that direction
 				self.x += cos(self.dir) * self.speed
 				self.y += sin(self.dir) * self.speed
 
+				--printh("x+="..cos(self.dir) * self.speed)
+				--printh("y+="..sin(self.dir) * self.speed)
+
 				-- Destroy self if colliding with enemy
-				-- TODO: decrease parent's health
-				if (collide_2(self, parent_enemy)) del(parent_enemy.projs, self)
+				if collide_2(self, parent_enemy) then
+					del(parent_enemy.projs, self)			-- Destroy self
+					parent_enemy:take_damage(self.damage)	-- Decrease enemy's health on hit
+				end
 			end,
 
 			-- Get direction to parent
-			update_dir = function(self, parent_enemy)
-				self.dir = atan2(parent_enemy.x-self.x, parent_enemy.y-self.y)
+			update_dir = function(self, tx, ty)
+				self.dir = atan2(tx-self.x, ty-self.y)
 			end,
 
 			draw = function(_ENV)
-				spr(17, x, y)
+				spr(80, x-4, y-4, 1, 1, not (dir<0.25 or 0.75<dir))
 			end,
 		})
-	
-		if type==1 then
+
+		if type==7 then
+			proj.count = 0
+			proj.update = function(self, parent_enemy)
+				-- Move in that direction
+				self.x += cos(self.dir) * self.speed
+				self.y += sin(self.dir) * self.speed
+
+				--printh("x+="..cos(self.dir) * self.speed)
+				--printh("y+="..sin(self.dir) * self.speed)
+
+				-- Destroy self if colliding with enemy
+				if collide_2(self, parent_enemy) then
+					self.count += 1
+					parent_enemy:take_damage(self.damage)	-- Decrease enemy's health on hit
+				end
+
+				if self.count >= 4 then
+					del(parent_enemy.projs, self)			-- Destroy self
+				end
+			end
+			proj.draw = function(_ENV)
+				spr(83, x-4, y-4, 1, 1, global.global_cnt%2==0,global.global_cnt%3==0)
+			end
+		
+		elseif type==8 then
+			proj.count = 0
+			proj.update = function(self, parent_enemy)
+				-- Move in that direction
+				self.x += cos(self.dir) * self.speed
+				self.y += sin(self.dir) * self.speed
+
+				--printh("x+="..cos(self.dir) * self.speed)
+				--printh("y+="..sin(self.dir) * self.speed)
+
+				-- Destroy self if colliding with enemy
+				if collide_2(self, parent_enemy) then
+					self.count += 1
+					parent_enemy:take_damage(self.damage)	-- Decrease enemy's health on hit
+				end
+
+				if self.count >= 10 then
+					del(parent_enemy.projs, self)			-- Destroy self
+				end
+			end
+			proj.draw = function(_ENV)
+				spr(85, x-4, y-4, 1, 1, global.global_cnt%2==0)
+			end
+		elseif type!=1 then
 			proj.dir = start_dir	-- Direction needs to change slowly over time
 			proj.alive_cnt = 0		-- New direction function only used for first 30 frames
-			proj.update_dir = function(self, parent_enemy)
+			proj.speed = type==2 and 1 or 3
+			proj.update_dir = function(self, tx, ty)
 				self.alive_cnt += 1
-				local d = atan2(parent_enemy.x-self.x, parent_enemy.y-self.y)
+				local d = atan2(tx-self.x, ty-self.y)
 				if self.alive_cnt < 30 then
 					-- SLOWLY change direction towards enemy,
 					-- so bullets kinda fan out of player
@@ -53,9 +104,8 @@ function create_proj(start_x, start_y, type, start_dir)
 					self.dir = d
 				end
 			end
-
 			proj.draw = function(_ENV)
-				spr(17, x, y)
+				spr(type==2 and 81 or 82, x-4, y-4, 1, 1, not (dir<0.25 or 0.75<dir))
 			end
 		end
 	end
@@ -67,32 +117,242 @@ function create_proj(start_x, start_y, type, start_dir)
 	return proj
 end
 
--- Items are power-ups added to the player's collection on every level up
-item_parent = class:new({
-	-- Spawn this item every N frames
-	n = 60, type=0,
-	cooldown = function(_ENV)
-		-- If cooldown is up
-		if global.global_cnt % n == 0 then
-			local px,py = global.plyr.x, global.plyr.y
-			local near_e = 0
-			local near_d = 10000
-			for e in all(global.enemies) do
-				-- Find enemy which is closest
-				local dist = sqrt((px-e.x)^2, (py-e.y)^2)
-				if dist < near_d then
-					near_e = e
+-- What each screen instance needs
+screen_parent = class:new({
+	n = 60, id=0, data={}
+})
+
+-- Create a single area effect
+function create_screen(id)
+	local screen = {}
+
+	-- ID 3: Stench
+	if id==3 then
+		screen = screen_parent:new({
+			x=0,y=0,damage=1,rad=30,
+			points={},
+			
+			update = function(_ENV)
+				x=plyr.x
+				y=plyr.y
+
+				-- Do damage only every 10 frames
+				if global.global_cnt % 10==0 then
+					for p in all(points) do
+						global.screen_damage_mtrx[p[1]][p[2]] += damage
+					end
 				end
-			end
+			end,
+
+			-- Use this to calculate the bins which need to be filled in the screen matrix
+			-- ONLY needs to be run when setting a new radius
+			-- Otherwise, during update(), it just uses the saved bins
+			set_radius = function(_ENV, new_r)
+				rad = new_r
+
+				local cx,cy=8,8
+				local sr=flr(rad/8)
+				points = {}
+				for i=-sr,sr do
+					for j=-sr,sr do
+						add(points, {cx+i,cy+j})
+					end
+				end
+			end,
+
+			draw = function(_ENV)
+				fillp(▒)
+				circfill(x,y,rad,12)
+				fillp()
+			end,
+		})
+	-- ID 4: Camera
+	elseif id==4 then
+		screen = screen_parent:new({
+			x=0,y=0,damage=1000,fired_cnt=-1,
+			dx1=1,dx2=1,dy1=1,dy2=1,
+			
+			update = function(_ENV)
+				x=global.plyr.x
+				y=global.plyr.y
+				local pd = global.plyr.dir
+
+				-- Fires every 20 seconds
+				if global.global_cnt % 600==0 then
+					fired_cnt = 20
+					fired_cnt-=1
+					x1,x2=1,1
+					y1,y2=1,1
+					if pd < 0.25 then
+						x1,x2=9,16
+						y1,y2=1,8
+					elseif pd < 0.5 then
+						x1,x2=1,8
+						y1,y2=1,8
+					elseif pd < 0.75 then
+						x1,x2=1,8
+						y1,y2=9,16
+					else
+						x1,x2=9,16
+						y1,y2=9,16
+					end
+
+					dx1=x1*8-8+4 dx2=x2*8-8-4
+					dy1=y1*8-8+4 dy2=y2*8-8-4
+				end
+
+				if fired_cnt != -1 then
+					fired_cnt -= 1
+				end
+
+				if fired_cnt == 0 then
+					for i=x1,x2 do
+						for j=y1,y2 do
+							global.screen_damage_mtrx[i][j] += damage
+						end
+					end
+				end
+			end,
+
+			draw = function(_ENV)
+				if fired_cnt!=-1 then
+					cx,cy=camera()
+					line(dx1,dy1,dx1+5,dy1)	-- TL right
+					line(dx1,dy1,dx1,dy1+5)	-- TL down
+
+					line(dx1,dy2,dx1,dy2-5)	-- BL up
+					line(dx1,dy2,dx1+5,dy2)	-- BL right
+
+					line(dx2,dy1,dx2-5,dy1)	-- TR left
+					line(dx2,dy1,dx2,dy1+5)	-- TR down
+
+					line(dx2,dy2,dx2,dy2-5)	-- BR up
+					line(dx2,dy2,dx2-5,dy2)	-- BR left
+					camera(cx,cy)
+
+					dx1 += 0.1
+					dy1 += 0.1
+					dx2 -= 0.1
+					dy2 -= 0.1
+				end
+			end,
+		})
+
+	-- ID 5: Cursor
+	elseif id==5 then
+		screen = screen_parent:new({
+			x=plyr.x,y=plyr.y,damage=10,
+			points={},dir=rnd(1),
+			
+			update = function(_ENV)
+				if (x>128) 	x=128 dir=0.25+rnd(0.5)
+				if (x<0) 	x=0   dir=0.75+rnd(0.5)
+				if (y>128) 	y=128 dir=rnd(0.5)
+				if (y<0) 	y=0   dir=0.5+rnd(0.5)
+
+				x+=cos(dir)
+				y+=sin(dir)
+
+				mtrx_x = flr(x/8)
+				mtrx_y = flr(y/8)
+
+				for i=-1,1 do
+					for j=-1,1 do
+						mx = mtrx_x+i
+						my = mtrx_y+j
+						if (1<=mx and mx<=16) and (1<=my and my<=16) then
+							global.screen_damage_mtrx[mx][my] += damage
+						end
+					end
+				end
+			end,
+
+			draw = function(_ENV)
+				cx,cy=camera()
+				sspr(16,48,8,8,x-8,y-8,16,16)
+				camera(cx,cy)
+			end,
+		})
+
+	-- ID 9: Wrench
+	elseif id==9 then
+		screen = screen_parent:new({
+			x=plyr.x,y=plyr.y,damage=20,
+			points={},dir=rnd(0.25)+0.125,a=5,
+			count=-1,
+			
+			update = function(_ENV)
+				x+=cos(dir)
+				y-=a
+				a-=0.25
+
+				mtrx_x = flr(x/8)
+				mtrx_y = flr(y/8)
+
+				for i=-1,1 do
+					for j=-1,1 do
+						mx = mtrx_x+i
+						my = mtrx_y+j
+						if (1<=mx and mx<=16) and (1<=my and my<=16) then
+							global.screen_damage_mtrx[mx][my] += damage
+						end
+					end
+				end
+
+				if y>global.plyr.y+80 and a<0 and count==-1 then
+					count = 20
+				end
+
+				if count!=-1 then
+					count -=1
+
+					if count==-1 then
+						x=global.plyr.x
+						y=global.plyr.y
+						a=5
+						dir=rnd(0.25)+0.125
+					end
+				end
+			end,
+
+			draw = function(_ENV)
+				cx,cy=camera()
+				sspr(48,40,8,8,x-8,y-8,16,16,global.global_cnt%2==0)
+				camera(cx,cy)
+			end,
+		})
+	end
+
+	return screen
+end
+
+-- Items are power-ups added to the player's collection on every level up
+-- This object manages the spawning of a certain kind of projectile
+proj_manager = class:new({
+	-- Spawn this item every N frames
+	type="proj", n = 60, id=0, data={},
+	cooldown = function(self)
+		-- If cooldown is up
+		if global_cnt % self.n == 0 then
+			local px,py = global.plyr.x, global.plyr.y
+			near_e = find_nearest_enemy(px,py)
 			if near_e != 0 then
 				local proj_list = {}
 
-				if type==0 then
-					add(proj_list, create_proj(px, py, 0))
-				elseif type==1 then
+				if self.id==1 then
+					add(proj_list, create_proj(px, py, 1))
+				elseif self.id==2 then
 					for i=-1,1 do
-						add(proj_list, create_proj(px, py, 1, global.plyr.dir-0.5+i*0.45))
+						add(proj_list, create_proj(px, py, 2, global.plyr.dir-0.5+i*0.45))
 					end
+				elseif self.id==6 then
+					for i=-1,0 do
+						add(proj_list, create_proj(px, py, 6, global.plyr.dir-0.5+i*0.45))
+					end
+				elseif self.id==7 then
+					add(proj_list, create_proj(px, py, 7))
+				elseif self.id==8 then
+					add(proj_list, create_proj(px, py, 8))
 				end
 
 				-- Add a projectile to hone in on that enemy
@@ -101,13 +361,56 @@ item_parent = class:new({
 				end
 			end
 		end
-	end
+	end,
 })
 
--- Create an item, which spawns projectiles on a cooldown
-function create_item(type)
-	local item = item_parent:new({type=type})
-	if (type == 0) item.n = 60
+-- This object manages the spawning of a certain kind of screen effect
+screen_manager = class:new({type="screen", })
 
-	return item
+-- Find nearest enemy from centre x,y coords
+function find_nearest_enemy(cx,cy)
+	local near_e = 0
+	local near_d = 10000
+	for e in all(enemies) do
+		-- Find enemy which is closest
+		local dist = sqrt((cx-e.x)^2 + (cy-e.y)^2)
+		if dist < near_d then
+			near_e = e
+			near_d = dist
+		end
+	end
+
+	return near_e
+end
+
+-- Create an item (either projectile or screen type)
+function create_item(type, id)
+
+	if type=="proj" then
+		local item = proj_manager:new({id=id, data=item_data[id]})
+		if (id == 1) item.n = 50
+		if (id == 2) item.n = 170
+		if (id == 6) item.n = 120
+		if (id == 7) item.n = 150
+		if (id == 8) item.n = 300
+		return item 
+
+	elseif type=="screen" then
+		local item = screen_manager:new({id=id, data=item_data[id]})
+		if id == 3 then
+			i = create_screen(3)
+			i:set_radius(17)
+			add(screen_list, i)
+		elseif id==4 then
+			i = create_screen(4)
+			add(screen_list, i)
+		elseif id==5 then
+			i = create_screen(5)
+			add(screen_list, i)
+		elseif id==9 then
+			i = create_screen(9)
+			add(screen_list, i)
+		end
+		return item
+	end
 end
