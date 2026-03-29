@@ -79,7 +79,26 @@ function init_game()
 
 	-- Selecting an item on level up
 	selecting_item = false
+	random_items = {}
 
 	-- Pause while selecting item
 	pause = false
 end
+
+item_data = {
+	{
+		name="dart",
+		desc="hOMES IN ON\nNEARBY ENEMIES.",
+		sprx=0, spry=32,
+	},
+	{
+		name="egg",
+		desc="eGG YOUR\nOPPONENTS!.",
+		sprx=8, spry=32,
+	},
+	{
+		name="camera flash",
+		desc="fLASHBANG WITH A\nSURPRISE SELFIE!",
+		sprx=16, spry=32,
+	},
+}

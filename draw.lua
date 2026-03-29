@@ -36,7 +36,20 @@ function _draw()
 		rectfill(1,121,1+105*plyr.xp/100,126,12)	-- Collected XP
 
 		if selecting_item then
-			rectfill(10,10,118,118)
+			rrect(2,2,103,116,8,3)		-- Menu outline
+			rrectfill(4,4,99,112,8,3)	-- Menu background
+			print("level up!",37+flr(sin(global_cnt/100)*5),7,0)
+			local y=15
+			local j=0
+			for i in all(random_items) do
+				j+=1
+				rrectfill(6,y,95,30,2,15)
+				if (j==menu_idx) rrect(6,y,95,30,2,0)
+				sspr(i.sprx,i.spry,8,8,12,y+6,16,16)
+				print(i.name,32,y+6,0)
+				print(i.desc,32,y+12,1)
+				y+=32
+			end
 		-- End screen
 		elseif end_screen then
 			rectfill(40,40,100,100,5)
@@ -50,7 +63,6 @@ function _draw()
 		local mins = flr(time / 60)
 		local nice_secs = time % 60
 		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,0,7)
-		print("player health: "..plyr.h)
 
 		
 	end
@@ -62,10 +74,10 @@ function _draw()
 	end
 
 	-- DEBUG: CPU and Mem usage
+	--[[
 	debugs = {
 		"cpu "..tostr(flr(stat(1)*100)).."%",
 		"mem "..tostr(stat(0)/1024).."MB",
-		tostr(pause)
 	}
 
 	local i=0
@@ -73,6 +85,7 @@ function _draw()
 		print("\#0"..d,1,1+i*6,7)
 		i+=1
 	end
+	]]
 end
 
 -- Control code prefix for selected menu item

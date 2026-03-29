@@ -15,6 +15,16 @@ playerClass = class:new({
 			global.control_menu = true
 			global.menu_idx_min = 1
 			global.menu_idx_max = 3
+			global.random_items = {}
+			local picks={}
+			for i=1,#item_data do
+				add(picks, i)
+			end
+			for i=1,3 do
+				local idx = flr(rnd(#picks))+1
+				add(global.random_items, item_data[picks[idx]])
+				del(picks, picks[idx])
+			end
 		end
 	end,
 	move = function(_ENV)
