@@ -33,7 +33,11 @@ function _update()
 			-- Level up menu
 			if menu==3 then
 				local item_id=random_items[menu_idx].id
-				add(items, create_item(item_id))
+				if is_in(item_id, {3,4,5}) then
+					add(items, create_item("screen", item_id))
+				else
+					add(items, create_item("proj", item_id))
+				end
 				item_data[item_id].equipped = true
 				selecting_item = false
 				pause = false
@@ -178,4 +182,11 @@ function shake(cx,cy)
  camera((cx+20-rnd(40))*sh_str, (cy+20-rnd(40))*sh_str)
  sh_str *= 0.75
  if (sh_str < 0.05) sh_str = 0
+end
+
+function is_in(a,t)
+	for i=1,#t do
+		if (a==t[i]) return true
+	end
+	return false
 end
