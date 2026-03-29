@@ -52,6 +52,8 @@ function init_game()
 
 	-- Setup enemies
 	enemies_setup()
+	enemies = {}
+
 	types = {wine, beer, ginger_beer}
 
 	-- Spawn (for now) 2 enemies

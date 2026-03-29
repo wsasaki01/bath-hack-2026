@@ -1,6 +1,4 @@
 function enemies_setup()
-	enemies = {}
-
     -- enemy base class object
     enemy = class:new({
         x = -1,
@@ -11,6 +9,7 @@ function enemies_setup()
         name = "enemy",
         projs = {},
         reward = 10,
+        health = 20,
 
         update_projs = function(self)
             for p in all(self.projs) do
@@ -21,6 +20,13 @@ function enemies_setup()
         draw_projs = function(_ENV)
             for p in all(projs) do
                 p:draw()
+            end
+        end,
+
+        check_death = function(self)
+            if self.health <= 0 then
+                -- TODO: Death animation
+                del(enemies, self)
             end
         end,
 
@@ -53,6 +59,8 @@ function enemies_setup()
         -- TODO: different draw for different enemies
         draw = function(_ENV)
             spr(2, x-4, y-4)
+            line(x-4,y+6,x+4,y+6,8)
+            line(x-4,y+6,x-4+health/20*8,y+6,9)
         end
     })
 
