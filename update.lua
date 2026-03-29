@@ -89,7 +89,6 @@ function _update()
 
 			-- Move all projectiles towards enemies
 			for e in all(enemies) do
-				e:check_death()
 				e:update()			-- Move enemy and destroy if dead
 				e:update_projs()	-- Move all projectiles honed on this enemy
 			end

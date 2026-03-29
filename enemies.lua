@@ -5,13 +5,14 @@ function enemies_setup()
     enemy = class:new({
         x = -1,
         y = -1,
-        spd = 20,        -- speed
+        spd = 20,       -- speed
         collide_r = 2,  -- circle radius
         clr = 12,       -- colour
         name = "enemy",
         projs = {},
         reward = 10,
         health = 10,
+        took_dmg = false,
 
         update_projs = function(self)
             for p in all(self.projs) do
@@ -40,34 +41,46 @@ function enemies_setup()
         end,
 
         -- move towards player x, y
-        update = function (_ENV)
+        update = function(self)
             -- comparing enemy position to current player position
             local px = global.plyr.x
             local py = global.plyr.y
 
             -- find direction to player
-            local d = atan2(px - x , py - y)
+            local d = atan2(px - self.x , py - self.y)
             
             -- move by 1 unit
-            x += cos(d) * spd
-            y += sin(d) * spd
+            self.x += cos(d) * self.spd
+            self.y += sin(d) * self.spd
             
             -- if enemy at player position, health decreases
             -- replace w goated collisions later
-            if x == px or y == py then global.plyr.h -= 10 end
+            if self.x == px or self.y == py then global.plyr.h -= 10 end
 
             -- Transform enemy coords to screen space
             -- Then div by 8 to place into one of 256 "bins" in screen_damage_matrix
-            local xidx,yidx=flr((x-px+64)/8),flr((y-py+64)/8)
+            local xidx,yidx=flr((self.x-px+64)/8),flr((self.y-py+64)/8)
             -- If the enemy is on screen...
             if (1<=xidx and xidx<=16) and (1<=yidx and yidx<=16) then
                 -- Decrement their health by whatever is in that bin
-                health -= screen_damage_mtrx[xidx][yidx]
+                self:take_damage(screen_damage_mtrx[xidx][yidx])
+            end
+        end,
+
+        take_damage = function(self, dmg)
+            if dmg!=0 then
+                self.health -= dmg
+                self.took_dmg = true
+                self:check_death()
             end
         end,
 
         -- TODO: different draw for different enemies
         draw = function(_ENV)
+            if took_dmg then
+                rectfill(x-6,y-6,x+6,y+6,9)
+                took_dmg = false
+            end
             spr(2, x-4, y-4)
             line(x-4,y+6,x+4,y+6,8) line(x-4,y+6,x-4+health/10*8,y+6,9) -- Health bar
         end

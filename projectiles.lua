@@ -23,8 +23,8 @@ function create_proj(start_x, start_y, type, start_dir)
 
 				-- Destroy self if colliding with enemy
 				if collide_2(self, parent_enemy) then
-					parent_enemy.health -= self.damage	-- Decrease enemy's health on hit
-					del(parent_enemy.projs, self)		-- Destroy self
+					parent_enemy:take_damage(self.damage)	-- Decrease enemy's health on hit
+					del(parent_enemy.projs, self)			-- Destroy self
 				end
 			end,
 
@@ -94,6 +94,9 @@ function create_screen(id)
 				end
 			end,
 
+			-- Use this to calculate the bins which need to be filled in the screen matrix
+			-- ONLY needs to be run when setting a new radius
+			-- Otherwise, during update(), it just uses the saved bins
 			set_radius = function(_ENV, new_r)
 				rad = new_r
 
@@ -108,7 +111,9 @@ function create_screen(id)
 			end,
 
 			draw = function(_ENV)
-				circfill(x,y,rad,3)
+				fillp(▒)
+				circfill(x,y,rad,12)
+				fillp()
 			end,
 		})
 	end
