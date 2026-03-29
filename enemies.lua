@@ -55,13 +55,21 @@ function enemies_setup()
             -- if enemy at player position, health decreases
             -- replace w goated collisions later
             if x == px or y == py then global.plyr.h -= 10 end
+
+            -- Transform enemy coords to screen space
+            -- Then div by 8 to place into one of 256 "bins" in screen_damage_matrix
+            local xidx,yidx=flr((x-px+64)/8),flr((y-py+64)/8)
+            -- If the enemy is on screen...
+            if (1<=xidx and xidx<=16) and (1<=yidx and yidx<=16) then
+                -- Decrement their health by whatever is in that bin
+                health -= screen_damage_mtrx[xidx][yidx]
+            end
         end,
 
         -- TODO: different draw for different enemies
         draw = function(_ENV)
             spr(2, x-4, y-4)
-            --line(x-4,y+6,x+4,y+6,8)   -- Health bar
-            --line(x-4,y+6,x-4+health/20*8,y+6,9)
+            line(x-4,y+6,x+4,y+6,8) line(x-4,y+6,x-4+health/10*8,y+6,9) -- Health bar
         end
     })
 

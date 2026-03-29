@@ -52,7 +52,7 @@ function init_game()
 
 	-- Setup enemies
 	enemies_setup()
-	enemy_limit = 15
+	enemy_limit = 1
 	enemy_respawn_gap = 20
 
 	-- Add a new item to roster

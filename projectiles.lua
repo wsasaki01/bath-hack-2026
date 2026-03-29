@@ -85,8 +85,12 @@ function create_screen(id)
 			update = function(_ENV)
 				x=plyr.x
 				y=plyr.y
-				for p in all(points) do
-					global.screen_damage_mtrx[p[1]][p[2]] += damage
+
+				-- Do damage only every 10 frames
+				if global.global_cnt % 10==0 then
+					for p in all(points) do
+						global.screen_damage_mtrx[p[1]][p[2]] += damage
+					end
 				end
 			end,
 

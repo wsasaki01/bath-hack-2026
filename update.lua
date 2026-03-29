@@ -78,13 +78,6 @@ function _update()
 				end
 			end
 
-			-- Move all projectiles towards enemies
-			for e in all(enemies) do
-				e:check_death()
-				e:update()			-- Move enemy and destroy if dead
-				e:update_projs()	-- Move all projectiles honed on this enemy
-			end
-
 			-- Player movement
 			plyr:move()
 			plyr:score_update()
@@ -92,6 +85,13 @@ function _update()
 			-- Screen item updates
 			for screen in all(screen_list) do
 				screen:update()
+			end
+
+			-- Move all projectiles towards enemies
+			for e in all(enemies) do
+				e:check_death()
+				e:update()			-- Move enemy and destroy if dead
+				e:update_projs()	-- Move all projectiles honed on this enemy
 			end
 		end
 	end
