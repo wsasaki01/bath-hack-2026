@@ -79,6 +79,7 @@ function init_game()
 	time = 0
 
 	-- Create player
+	player_setup()
 	plyr = plyr2:new()
 
 	-- Setup enemies

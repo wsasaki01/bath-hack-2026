@@ -63,7 +63,7 @@ function player_setup()
 				global.menu_idx_min = 1
 				global.menu_idx_max = #global.random_items
 			end
-		end
+		end,
 
 		update_hp = function(self, dmg)
 			if self.iframe < 0 and dmg > 0 then
