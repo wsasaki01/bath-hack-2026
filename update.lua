@@ -1,4 +1,5 @@
 function _update()	
+	
 	-- Increment and reset global counter at limit
 	global_cnt += 1
 	if (global_cnt > 30000) global_cnt = 0

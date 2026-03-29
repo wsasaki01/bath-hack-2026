@@ -4,15 +4,16 @@ function enemies_setup()
     -- enemy base class object
     enemy = class:new({
         name = "enemy",
-        clr = 12,   -- colour
-        sprt = 2,  -- sprite index
+        clr = -1,   -- colour
+        sprt = 6,  -- sprite index
 
         x = -1,
         y = -1,
-        spd = 20,       -- speed
-        collide_r = 2,  -- circle radius
-        clr = 12,       -- colour
-        name = "enemy",
+        collide_r = 4,  -- circle radius for projectiles
+
+        dmg = 1,   -- strength of attack
+        spd = 20,    -- speed
+
         projs = {}, -- projectiles currently moving towards enemy
         reward = 10,
         health = 10,
@@ -100,20 +101,41 @@ function enemies_setup()
     -- enemy class entities
     -- more subclasses can be added if needed e.g. drinks, evil old men, etc
     beer = enemy:new({
+        name = "beer",
         spd = 0.5,
-        clr = 10,
-        name = "beer"
+        sprt = 23,
     })
 
     ginger_beer = beer:new({
-        clr = 4,
-        name = "ginger beer"
+        name = "ginger beer",
+        clr = 4, -- TODO: try and recolour beer sprite?
     })
 
     wine = enemy:new({
+        name = "wine",
         spd = 0.25,
-        clr = 2,
-        name = "wine"
+        sprt = 7
+    })
+    
+	enemy_types = {wine, beer, ginger_beer}
+end
+
+function spawn_enemy()
+    counters.enemy_respawn = enemy_respawn_gap
+
+    -- Choose random enemy type
+    e_type = 1 + flr(rnd(3))
+    
+    -- Pick a random direction
+    local dir = rnd(1)
+
+    -- Spawn enemy in the direction (relative to player), off-screen
+    local eX,eY=plyr.x+cos(dir)*100,plyr.y+sin(dir)*100
+
+    add(enemies, enemy_types[e_type]:new{
+        x = eX,
+        y = eY,
+        projs = {},	-- Redeclare so all enemies have unique projectile lists
     })
 
 	enemy_types = {wine, beer, ginger_beer}

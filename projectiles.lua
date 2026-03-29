@@ -34,8 +34,7 @@ function create_proj(start_x, start_y, type, start_dir)
 			end,
 
 			draw = function(_ENV)
-				spr(32, x-4, y-4)
-				--line(x,y,x+cos(dir)*15,y+sin(dir)*15)
+				spr(22, x-4, y-4)
 			end,
 		})
 	
@@ -56,6 +55,10 @@ function create_proj(start_x, start_y, type, start_dir)
 					-- After 30 secs, change back to normal direction management
 					self.dir = d
 				end
+			end
+
+			proj.draw = function(_ENV)
+				spr(17, x, y)
 			end
 		end
 	end
