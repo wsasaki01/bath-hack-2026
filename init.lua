@@ -56,11 +56,11 @@ function _init()
 	init_game()
 	]]
 
-	--[[]]
+	--[[
 	-- DEBUG: Launch to intro cutscene
 	menu = 2
 	counters.intro_cnt = 5
-	
+	]]
 
 end
 

@@ -111,7 +111,7 @@ function _draw()
 		top_line1 = "my friends are celebrating"
 		top_line2 = "the end of exam season..."
 
-		print(sub(top_line1,0,360-ic),12,13,2)
+		print(sub(top_line1,0,max(360-ic,0)),12,13,2)
 		if (ic<335) print(sub(top_line2,0,335-ic),13,20,2)
 
 		if (ic<295) sspr(8,8,8,8,65,54,16,16)
@@ -178,7 +178,7 @@ function _draw()
 
 	-- Menu transition
 	if counters.trans_cnt != -1 then
-		if menu==1 then
+		if menu==1 or (menu==2 and counters.trans_cnt<=15) then
 			circfill(97,60,(30-counters.trans_cnt)/27*200,0)
 		else
 			printh("drawing")
@@ -188,7 +188,7 @@ function _draw()
 	end
 
 	-- DEBUG: CPU and Mem usage
-	--[[]]
+	--[[
 	debugs = {
 		"cpu "..tostr(flr(stat(1)*100)).."%",
 		"mem "..tostr(stat(0)/1024).."MB",
@@ -200,7 +200,7 @@ function _draw()
 		print("\#0"..d,1,1+i*6,7)
 		i+=1
 	end
-	
+	]]
 end
 
 -- Control code prefix for selected menu item

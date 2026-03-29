@@ -114,7 +114,7 @@ function _update()
 	if counters.trans_cnt == 15 then
 		-- Character select -> intro cutscene
 		if menu==1 then
-			menu=2 counters.intro_cnt = 360
+			menu=2 counters.intro_cnt = 385
 		-- Intro cutscene -> gameplay
 		elseif menu==2 then
 			printh("yes!")
