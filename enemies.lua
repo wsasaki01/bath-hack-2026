@@ -5,7 +5,7 @@ function enemies_setup()
     enemy = class:new({
         name = "enemy",
         clr = 12,   -- colour
-        sprt = 10,  -- sprite index
+        sprt = 2,  -- sprite index
 
         x = -1,
         y = -1,
@@ -46,6 +46,7 @@ function enemies_setup()
         end,
 
         -- move towards player x, y
+        -- Returns total damage inflicted on player
         update = function(self)
             -- comparing enemy position to current player position
             local px = global.plyr.x
@@ -70,13 +71,12 @@ function enemies_setup()
                 -- Decrement their health by whatever is in that bin
                 self:take_damage(screen_damage_mtrx[xidx][yidx])
             end
-          
-            -- TODO: integrate this stuff
+        
             -- check for player collision
-            --if global.collide_3(x, y, collide_r, px, py, collide_r) then
-            --    return dmg
-            --end
-            --return 0
+            if collide_3(self.x, self.y, self.collide_r, px, py, self.collide_r) then
+                return self.dmg
+            end
+            return 0
         end,
 
         take_damage = function(self, dmg)
@@ -84,6 +84,7 @@ function enemies_setup()
                 self.health -= dmg
                 self.took_dmg = true
                 self:check_death()
+            end
         end,
 
         draw = function(_ENV)

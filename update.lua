@@ -79,7 +79,7 @@ function _update()
 			end
 
 			-- Player movement
-			plyr:move()
+			plyr:update()
 			plyr:score_update()
 
 			-- Screen item updates
@@ -94,8 +94,6 @@ function _update()
 				e:update_projs()	-- Move all projectiles honed on this enemy
 			end
 
-			-- Player movement
-			plyr:update()
 			plyr:update_hp(total_dmg)
 		end
 	end
