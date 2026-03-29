@@ -52,6 +52,13 @@ function _update()
 				plyr.xp += 10
 			end
 
+			-- Empty screen damage matrix
+			for i=1,16 do
+				for j=1,16 do
+					screen_damage_mtrx[i][j] = 0
+				end
+			end
+
 			if (#enemies != enemy_limit and counters.enemy_respawn == -1) spawn_enemy()
 
 			-- Record current time

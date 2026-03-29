@@ -60,6 +60,14 @@ function init_game()
 	item_data[1].equipped = true
 
 	screen_list = {}	-- Screen effects
+	screen_damage_mtrx = {}
+	for i=1,16 do
+		local row={}
+		for j=1,16 do
+			add(row, 0)
+		end
+		add(screen_damage_mtrx, row)
+	end
 	add(items, create_item("screen", 3))
 
 	-- Selecting an item on level up

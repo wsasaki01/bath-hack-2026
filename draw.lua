@@ -72,7 +72,11 @@ function _draw()
 		local nice_secs = time % 60
 		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,0,7)
 
-		
+		for i=1,16 do
+			for j=1,16 do
+				print(screen_damage_mtrx[i][j],i*8-5,j*8-6,4,2)
+			end
+		end
 	end
 
 	-- Menu transition

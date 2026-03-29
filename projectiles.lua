@@ -79,15 +79,32 @@ function create_screen(id)
 	-- ID 3: Forcefield
 	if id==3 then
 		screen = screen_parent:new({
-			damage=1,
+			x=0,y=0,damage=1,rad=30,
+			points={},
 			
-			update = function(self, parent_enemy)
+			update = function(_ENV)
 				x=plyr.x
 				y=plyr.y
+				for p in all(points) do
+					global.screen_damage_mtrx[p[1]][p[2]] += damage
+				end
+			end,
+
+			set_radius = function(_ENV, new_r)
+				rad = new_r
+
+				local cx,cy=8,8
+				local sr=flr(rad/8)
+				points = {}
+				for i=-sr,sr do
+					for j=-sr,sr do
+						add(points, {cx+i,cy+j})
+					end
+				end
 			end,
 
 			draw = function(_ENV)
-				circfill(x,y,15,3)
+				circfill(x,y,rad,3)
 			end,
 		})
 	end
@@ -155,7 +172,11 @@ function create_item(type, id)
 
 	elseif type=="screen" then
 		local item = screen_manager:new({id=id, data=item_data[id]})
-		if (id == 3) add(screen_list, create_screen(3))
+		if id == 3 then
+			i = create_screen(3)
+			i:set_radius(17)
+			add(screen_list, i)
+		end
 		return item
 	end
 
