@@ -8,6 +8,7 @@ end
 playerClass = class:new({
 	x = 64,
 	y = 64,
+	clrs = {},
 
 	collide_r = 8,
 	dir = 0,
@@ -75,6 +76,10 @@ playerClass = class:new({
 	end,
 
 	draw = function (_ENV)
+		for c in all(clrs) do
+			pal(c[1], c[2])
+		end
+
 		if anim_i == 4 then 
 			a = anims[3]
 			spr(a[anim_frame], x-8, y-8, 2, 2, true) -- flip x if facing right (check if adjusted coords still work)
@@ -82,7 +87,39 @@ playerClass = class:new({
 			a = anims[anim_i]
         	spr(a[anim_frame], x-8, y-8, 2, 2) -- drawing so bounding box is centred
 		end
+		for c in all(clrs) do
+			pal(c[1], c[1])
+		end
+
     end,
 })
 
-plyr = playerClass:new({})
+-- base player
+plyr1 = playerClass:new({
+})
+
+-- alt player
+plyr2 = playerClass:new({
+	-- palette swaps
+	clrs = {
+		{13, 9},
+		{10, 7},
+		{14, 10},
+		{6, 7}, -- LOOOL 67 67 67 67 
+		{5, 7}, 
+		{4, 5},
+		{8, 6}
+	}
+})
+
+-- blond player (super ugly lowk)
+plyr3 = playerClass:new({
+	clrs = {
+		{6, 5},
+		{14, 5},
+		{13, 12},
+		{15, 6},
+		{11, 6},
+		{7, 11}
+	}
+})

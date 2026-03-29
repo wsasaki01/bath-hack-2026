@@ -50,7 +50,7 @@ function enemies_setup()
 
         draw = function(_ENV)
             spr(sprt, x-4, y-4)
-            circ(x, y, collide_r, 14)
+            circ(x, y, collide_r, 13)
         end
     })
 

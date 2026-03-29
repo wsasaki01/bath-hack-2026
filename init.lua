@@ -53,7 +53,7 @@ function init_game()
 	menu_idx_max = 2
 
 	-- Create player
-	plyr = playerClass:new()
+	plyr = plyr3:new()
 
 	-- Setup enemies
 	enemies_setup()

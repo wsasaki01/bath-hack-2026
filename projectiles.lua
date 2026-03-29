@@ -31,7 +31,7 @@ function create_proj(start_x, start_y, type, start_dir)
 			end,
 
 			draw = function(_ENV)
-				spr(17, x, y)
+				spr(22, x, y)
 			end,
 		})
 	
@@ -55,7 +55,7 @@ function create_proj(start_x, start_y, type, start_dir)
 			end
 
 			proj.draw = function(_ENV)
-				spr(4, x, y)
+				spr(22, x, y)
 			end
 		end
 	end
