@@ -104,7 +104,7 @@ function init_game()
 		end
 		add(screen_damage_mtrx, row)
 	end
-	--add(items, create_item("screen", 9))
+	add(items, create_item("screen", 9))
 
 	-- Selecting an item on level up
 	selecting_item = false

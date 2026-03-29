@@ -27,6 +27,7 @@ function player_setup()
 
 		xp = 0,
 		level = 1,
+		xp_required=100,
 		hp = 100,
 		iframe = -1, -- frames invincible from dmg
 
@@ -41,12 +42,13 @@ function player_setup()
 		-- Score is changed by enemies - check it on every frame
 		score_update = function(_ENV)
 			-- 100 XP to level up
-			if xp>100 then
+			if xp>xp_required then
 				level += 1
 				xp = level % 100
+				xp_required *= 1.3
 
-				enemy_limit *= 50
-				enemy_respawn_gap *=0.9
+				global.enemy_limit *= 2
+				global.enemy_respawn_gap *= 0.8
 
 				-- Select
 				global.selecting_item = true
@@ -58,13 +60,19 @@ function player_setup()
 				for i=1,#item_data do
 					if (not item_data[i].equipped) add(picks, i)
 				end
-				for i=1,3 do
-					local idx = flr(rnd(#picks))+1
-					add(global.random_items, item_data[picks[idx]])
-					del(picks, picks[idx])
+				if #picks!=0 then
+					for i=1,3 do
+						local idx = flr(rnd(#picks))+1
+						add(global.random_items, item_data[picks[idx]])
+						del(picks, picks[idx])
+					end
+					global.menu_idx_min = 1
+					global.menu_idx_max = #global.random_items
+				else
+					global.selecting_item = false
+					global.pause = false
+					global.control_menu = false
 				end
-				global.menu_idx_min = 1
-				global.menu_idx_max = #global.random_items
 			end
 		end,
 
@@ -73,6 +81,9 @@ function player_setup()
 				sfx(6)
 				self.hp -= dmg * self.def
 				self.iframe = 3
+				if self.hp<=0 then
+					end_screen = true
+				end
 			end
 		end,
 

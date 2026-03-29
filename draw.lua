@@ -169,7 +169,7 @@ function _draw()
 		print("LEVEL",108,109,1)
 		print("\^t\^w"..(plyr.level<10 and "0" or "")..plyr.level,111,116)
 		rectfill(1,121,106,126,7)					-- Full (empty) XP bar
-		rectfill(1,121,1+105*plyr.xp/100,126,3)	-- Collected XP
+		rectfill(1,121,1+105*plyr.xp/plyr.xp_required,126,3)	-- Collected XP
 
 		alc_height = 100-plyr.hp
 		rectfill(120,0,128,108,6)	-- Main right bar
@@ -197,16 +197,16 @@ function _draw()
 		-- End screen
 		elseif end_screen then
 			rectfill(40,40,100,100,5)
-			print("yOU SURVIVED!", 42, 45, 0)
+			print(plyr.hp>0 and "yOU SURVIVED!" or "you failed...", 42, 45, 0)
 			print(""..plyr.xp.."XP")
-			print("🅾️back to\ntitle",45,70)
+			print("refresh to\nretry",45,70)
 		end
 
 		-- Timer
 		local secs = time
-		local mins = flr(time / 60)
-		local nice_secs = time % 60
-		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..secs, 100,3,7)
+		local mins = flr(secs / 60)
+		local nice_secs = flr(time % 60)
+		print("\#0"..mins..":"..(nice_secs<10 and "0" or "")..nice_secs, 100,3,7)
 
 		-- DEBUG: screen damage matrix
 		--[[
@@ -244,7 +244,9 @@ function _draw()
 	debugs = {
 		"cpu "..tostr(flr(stat(1)*100)).."%",
 		"mem "..tostr(stat(0)/1024).."MB",
-		plyr.dir
+		#enemies,
+		enemy_limit,
+		enemy_respawn_gap
 	}
 
 	local i=0

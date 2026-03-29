@@ -33,8 +33,6 @@ function _update()
 			-- Level up menu
 			if menu==3 then
 				if end_screen then
-					menu=1
-					music(-1, 300)
 				else
 					local item_id=random_items[menu_idx].id
 					if is_in(item_id, {3,4,5}) then
@@ -42,7 +40,7 @@ function _update()
 					else
 						add(items, create_item("proj", item_id))
 					end
-					item_data[item_id].equipped = true
+					--item_data[item_id].equipped = true
 					selecting_item = false
 					pause = false
 					control_menu = false
@@ -123,13 +121,12 @@ function _update()
 			time = flr(t())
 
 			-- Stop game after time is up
-			if time > 9000 then
+			if time > 3600 then
 				end_screen = true		-- Enable the end screen
 				control_menu = true		-- Enable control of menus
 				menu_idx = 1			-- Set the first item to be selected
 				menu_idx_max = 1
 				menu_idx_min = 1
-
 			end
 
 			-- Cooldown all items, and shoot if cooldown is up

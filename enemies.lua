@@ -12,13 +12,13 @@ function enemies_setup()
         collide_r = 4,  -- circle radius for projectiles
 
         dmg = 1,   -- strength of attack
-        spd = 20,    -- speed
+        spd = 25,    -- speed
 
         projs = {}, -- projectiles currently moving towards enemy
         reward = 10,
         health = 10,
         took_dmg = false,
-        dmg = 1,   -- strength of attack
+        dmg = 5,   -- strength of attack
 
         update_projs = function(self)
             for p in all(self.projs) do
@@ -137,13 +137,14 @@ function spawn_enemy()
         x = eX,
         y = eY,
         projs = {},	-- Redeclare so all enemies have unique projectile lists
+        health=10+plyr.level*5
     })
 
 	enemy_types = {wine, beer, ginger_beer}
 end
 
 function spawn_enemy()
-    counters.enemy_respawn = enemy_respawn_gap
+    counters.enemy_respawn = flr(enemy_respawn_gap)
 
     -- Choose random enemy type
     e_type = 1 + flr(rnd(3))
