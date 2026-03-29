@@ -15,6 +15,7 @@ function enemies_setup()
 
         update_projs = function(self)
             for p in all(self.projs) do
+                p:update_dir(self.x, self.y)
                 p:update(self)
             end
         end,

@@ -14,14 +14,14 @@ function create_proj(start_x, start_y, type, start_dir)
 			x=start_x, y=start_y, damage=10,
 			
 			update = function(self, parent_enemy)
-				self:update_dir(parent_enemy)
+				self:update_dir(parent_enemy.x, parent_enemy.y)
 
 				-- Move in that direction
 				self.x += cos(self.dir) * self.speed
 				self.y += sin(self.dir) * self.speed
 
-				printh(cos(self.dir) * self.speed)
-				printh(sin(self.dir) * self.speed)
+				printh("x+="..cos(self.dir) * self.speed)
+				printh("y+="..sin(self.dir) * self.speed)
 
 				-- Destroy self if colliding with enemy
 				-- TODO: decrease parent's health
@@ -32,16 +32,17 @@ function create_proj(start_x, start_y, type, start_dir)
 			end,
 
 			-- Get direction to parent
-			update_dir = function(self, parent_enemy)
-				self.dir = atan2(parent_enemy.x-self.x, parent_enemy.y-self.y)
+			update_dir = function(self, tx, ty)
+				self.dir = atan2(tx-self.x, ty-self.y)
 			end,
 
 			draw = function(_ENV)
 				spr(32, x-4, y-4)
+				line(x,y,x+cos(dir)*15,y+sin(dir)*15)
 			end,
 		})
 	
-		-- TODO: figure out why type 1 projectile is so broken
+		--[[
 		if type==2 then
 			proj.dir = start_dir	-- Direction needs to change slowly over time
 			proj.alive_cnt = 0		-- New direction function only used for first 30 frames
@@ -61,6 +62,7 @@ function create_proj(start_x, start_y, type, start_dir)
 				end
 			end
 		end
+		]]
 	end
 
 	-- All projectiles start from player character

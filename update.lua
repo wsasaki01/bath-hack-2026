@@ -69,6 +69,7 @@ function _update()
 				add(enemies, enemy_types[e_type]:new{
 					x = eX,
 					y = eY,
+        			projs = {},	-- Redeclare so all enemies have unique projectile lists
 				})
 			end
 
