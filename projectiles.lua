@@ -9,7 +9,7 @@ function create_proj(start_x, start_y, type, start_dir)
 	local proj = {}
 
 	-- Types 1 and 2 are the same, but with slightly different direction management
-	if is_in(type, {1,2,6,7}) then
+	if is_in(type, {1,2,6,7,8}) then
 		proj = proj_parent:new({
 			x=start_x, y=start_y, damage=10, dir=0,
 			
@@ -60,6 +60,30 @@ function create_proj(start_x, start_y, type, start_dir)
 			end
 			proj.draw = function(_ENV)
 				spr(83, x-4, y-4, 1, 1, global.global_cnt%2==0,global.global_cnt%3==0)
+			end
+		
+		elseif type==8 then
+			proj.count = 0
+			proj.update = function(self, parent_enemy)
+				-- Move in that direction
+				self.x += cos(self.dir) * self.speed
+				self.y += sin(self.dir) * self.speed
+
+				--printh("x+="..cos(self.dir) * self.speed)
+				--printh("y+="..sin(self.dir) * self.speed)
+
+				-- Destroy self if colliding with enemy
+				if collide_2(self, parent_enemy) then
+					self.count += 1
+					parent_enemy:take_damage(self.damage)	-- Decrease enemy's health on hit
+				end
+
+				if self.count >= 10 then
+					del(parent_enemy.projs, self)			-- Destroy self
+				end
+			end
+			proj.draw = function(_ENV)
+				spr(85, x-4, y-4, 1, 1, global.global_cnt%2==0)
 			end
 		elseif type!=1 then
 			proj.dir = start_dir	-- Direction needs to change slowly over time
@@ -279,6 +303,8 @@ proj_manager = class:new({
 					end
 				elseif self.id==7 then
 					add(proj_list, create_proj(px, py, 7))
+				elseif self.id==8 then
+					add(proj_list, create_proj(px, py, 8))
 				end
 
 				-- Add a projectile to hone in on that enemy
@@ -318,6 +344,7 @@ function create_item(type, id)
 		if (id == 2) item.n = 170
 		if (id == 6) item.n = 120
 		if (id == 7) item.n = 150
+		if (id == 8) item.n = 300
 		return item 
 
 	elseif type=="screen" then

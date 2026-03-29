@@ -87,8 +87,8 @@ function init_game()
 
 	-- Add a new item to roster
 	items = {}
-	add(items, create_item("proj", 7))
-	item_data[7].equipped = true
+	add(items, create_item("proj", 8))
+	item_data[8].equipped = true
 
 	screen_list = {}	-- Screen effects
 	screen_damage_mtrx = {}
@@ -144,5 +144,10 @@ item_data = {
 		name="volleyball", id=7,equipped=false,
 		desc="bOUNCY BOUNCE\nBOUNCE",
 		sprx=24, spry=32, spr=67
+	},
+	{
+		name="frisbee", id=8,equipped=false,
+		desc="fEELING\nULTIMATE !!",
+		sprx=40, spry=32, spr=69
 	},
 }
